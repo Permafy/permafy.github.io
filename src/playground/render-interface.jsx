@@ -156,7 +156,7 @@ const Footer = () => (
                             id="tw.footer.credits"
                         />
                     </a>
-                    <a href="https://permafy.github.io/donate">
+                    <a href="https://permafy.github.io/coffee">
                         <FormattedMessage
                             defaultMessage="Donate"
                             description="Donation link in footer"
