@@ -344,7 +344,7 @@ class MenuBar extends React.Component {
         switch (deletedItem) {
             case 'Sprite':
                 return (<FormattedMessage
-                    defaultMessage="Restore Sprite"
+                    defaultMessage="Restore Sprite/Frame"
                     description="Menu bar item for restoring the last deleted sprite."
                     id="gui.menuBar.restoreSprite"
                 />);
@@ -441,8 +441,8 @@ class MenuBar extends React.Component {
         );
         const remixMessage = (
             <FormattedMessage
-                defaultMessage="Remix"
-                description="Menu bar item for remixing"
+                defaultMessage="Fork"
+                description="Menu bar item for forking"
                 id="gui.menuBar.remix"
             />
         );
@@ -548,14 +548,14 @@ class MenuBar extends React.Component {
                                     onRequestClose={this.props.onRequestCloseErrors}
                                 >
                                     <MenuSection>
-                                        <MenuItemLink href="https://discord.gg/NZ9MBMYTZh">
+                                        <MenuItemLink href="https://discord.gg/5aD33ZT6Jq">
                                             <FormattedMessage
                                                 defaultMessage="Some scripts could not be compiled."
                                                 description="Link in error menu"
                                                 id="tw.menuBar.reportError1"
                                             />
                                         </MenuItemLink>
-                                        <MenuItemLink href="https://discord.gg/NZ9MBMYTZh">
+                                        <MenuItemLink href="https://discord.gg/5aD33ZT6Jq">
                                             <FormattedMessage
                                                 defaultMessage="This is a bug. Please report it."
                                                 description="Link in error menu"
@@ -661,7 +661,7 @@ class MenuBar extends React.Component {
                                                         {/* eslint-disable-next-line max-len */}
                                                         <MenuItem onClick={this.getSaveToComputerHandler(extended.saveAsNew)}>
                                                             <FormattedMessage
-                                                                defaultMessage="Save as..."
+                                                                defaultMessage="Save to device as..."
                                                                 // eslint-disable-next-line max-len
                                                                 description="Menu bar item to select a new file to save the project as"
                                                                 id="tw.saveAs"
