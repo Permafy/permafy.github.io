@@ -1,7 +1,7 @@
 ## Permafy
 
 <p align="center">
-	<img src="/favicon.png" />
+	<img src="/title.png" />
 	<h3 align="center">
 		<a href="https://permafy.github.io">website :D</a>
 	</h3>
