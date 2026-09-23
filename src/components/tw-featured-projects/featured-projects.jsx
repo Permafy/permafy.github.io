@@ -13,11 +13,13 @@ class FeaturedProjects extends React.Component {
         super(props);
         bindAll(this, [
             'handleSelect',
-            'handleOpenProjects'
+            'handleOpenProjects',
+            'handleToggleSource'
         ]);
         this.state = {
             opened: false,
-            transition: true
+            transition: true,
+            source: 'penguinmod'
         };
     }
     componentDidUpdate(prevProps) {
@@ -30,10 +32,17 @@ class FeaturedProjects extends React.Component {
         }
     }
     handleSelect(id) {
+        window.history.replaceState(null, null, `${process.env.ROOT}penguinmod/`);
         this.props.setProjectId(id);
     }
     handleOpenProjects() {
         this.setState({
+            opened: true
+        });
+    }
+    handleToggleSource() {
+        this.setState({
+            source: this.state.source === 'penguinmod' ? 'scratch' : 'penguinmod',
             opened: true
         });
     }
@@ -51,9 +60,10 @@ class FeaturedProjects extends React.Component {
                     )}
                 >
                     <StudioView
-                        id={this.props.studio}
+                        key={this.state.source}
                         onSelect={this.handleSelect}
                         placeholder={!opened}
+                        source={this.state.source}
                     />
                     {opened ? null : (
                         <div
@@ -62,14 +72,26 @@ class FeaturedProjects extends React.Component {
                         >
                             <div className={styles.openerContent}>
                                 <FormattedMessage
-                                    defaultMessage="Click to view uploaded projects."
-                                    description="Text to view featured projects"
-                                    id="tw.viewFeaturedProjects"
+                                    defaultMessage="Click to view PenguinMod projects."
+                                    description="Text to view featured PenguinMod projects"
+                                    id="tw.PMviewFeaturedProjects"
                                 />
                             </div>
                         </div>
                     )}
                 </div>
+                <button
+                    className={styles.sourceButton}
+                    onClick={this.handleToggleSource}
+                    type="button"
+                >
+                    <FormattedMessage
+                        defaultMessage={this.state.source === 'penguinmod' ?
+                            'View Scratch projects instead' : 'View PenguinMod projects instead'}
+                        description="Button to switch the featured project source"
+                        id="tw.switchFeaturedProjects"
+                    />
+                </button>
             </div>
         );
     }

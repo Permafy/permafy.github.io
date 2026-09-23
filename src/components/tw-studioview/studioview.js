@@ -11,7 +11,18 @@ import classNames from 'classnames';
 /**
  * @class
  */
-var StudioView = function () {
+var StudioView = function (options) {
+    options = options || {};
+    this.source = options.source || 'penguinmod';
+    this.studioApi = this.source === 'scratch' ?
+        'https://api.scratch.mit.edu/proxy/featured?limit=40' :
+        'https://projects.penguinmod.com/api/v1/projects/getprojects';
+    this.thumbnailSource = this.source === 'scratch' ?
+        'https://uploads.scratch.mit.edu/projects/thumbnails/$id.png' :
+        'https://projects.penguinmod.com/api/v1/projects/getproject?projectID=$id&requestType=thumbnail';
+    this.projectPage = this.source === 'scratch' ?
+        'https://scratch.mit.edu/projects/$id/' :
+        'https://studio.penguinmod.com/#$id';
     this.offset = 0;
     this.ended = false;
     this.loadingPage = false;
@@ -55,7 +66,14 @@ StudioView.prototype.addProject = function (details) {
         el = this.createPlaceholder();
         this.projectList.appendChild(el);
     }
-    this.placeholderToProject(el, details.id, details.title, details.author, details.featured);
+    this.placeholderToProject(
+        el,
+        details.id,
+        details.title,
+        details.author,
+        details.featured,
+        details.thumbnail
+    );
 };
 
 /**
@@ -103,7 +121,7 @@ StudioView.prototype.createPlaceholder = function () {
 /**
  * Convert a placeholder element made by createPlaceholder to a project element.
  */
-StudioView.prototype.placeholderToProject = function (el, id, title, author, featured) {
+StudioView.prototype.placeholderToProject = function (el, id, title, author, featured, thumbnail) {
     el.className = classNames(styles.studioviewProject, styles.studioviewLoaded);
     if (featured == true) {
         el.className = classNames(styles.studioviewProject, styles.studioviewLoaded, styles.featuredStudioviewProject);
@@ -112,9 +130,9 @@ StudioView.prototype.placeholderToProject = function (el, id, title, author, fea
     el.dataset.title = title;
     el.dataset.author = author;
     el.title = this.messages.PROJECT_HOVER_TEXT.replace('$author', author).replace('$title', title);
-    el.href = StudioView.PROJECT_PAGE.replace('$id', id);
+    el.href = this.projectPage.replace('$id', id);
 
-    var thumbnailSrc = StudioView.THUMBNAIL_SRC.replace('$id', id);
+    var thumbnailSrc = (thumbnail || this.thumbnailSource).replace('$id', id);
     var thumbnailImg = this.createLazyImage(thumbnailSrc);
     el.thumbnailEl.appendChild(thumbnailImg);
 
@@ -242,7 +260,7 @@ StudioView.prototype.loadNextPage = function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.onload = function () {
-        var rawProjects = xhr.response;
+        var rawProjects = this.source === 'scratch' ? xhr.response.scratch_design_studio : xhr.response;
         if (!Array.isArray(rawProjects)) {
             xhr.onerror();
             return;
@@ -253,8 +271,9 @@ StudioView.prototype.loadNextPage = function () {
             projects.push({
                 id: p.id,
                 title: p.title,
-                author: p.author.username,
+                author: this.source === 'scratch' ? p.creator : p.author.username,
                 featured: p.featured,
+                thumbnail: p.thumbnail_url ? `https:${p.thumbnail_url}` : null,
             });
         }
         projects = this.shuffler(projects);
@@ -286,7 +305,7 @@ StudioView.prototype.loadNextPage = function () {
         this.ended = true;
     }.bind(this);
 
-    var url = StudioView.STUDIO_API + "/projects/getprojects"
+    var url = this.studioApi;
     xhr.open('GET', url);
     xhr.send();
 };
@@ -307,8 +326,6 @@ StudioView.THUMBNAIL_SRC = 'https://projects.penguinmod.com/api/v1/projects/getp
 
 // The URL for project pages.
 // $id is replaced with the project ID.
-StudioView.PROJECT_PAGE = 'https://studio.penguinmod.com/#$id';
-
 // The amount of "placeholders" to insert before the next page loads.
 StudioView.PLACEHOLDER_COUNT = 9;
 
