@@ -45,6 +45,7 @@ import TWFontsModal from '../../containers/tw-fonts-modal.jsx';
 import PMExtensionModals from '../../containers/pm-extension-modals.jsx';
 
 import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
+import {normalizeBasePath} from '../../lib/normalize-base-path';
 import {resolveStageSize} from '../../lib/screen-utils';
 
 import {isRendererSupported, isBrowserSupported} from '../../lib/tw-environment-support-prober';
@@ -181,6 +182,7 @@ const GUIComponent = props => {
         vm,
         ...componentProps
     } = omit(props, 'dispatch');
+    const resolvedBasePath = normalizeBasePath(basePath);
     if (children) {
         return <Box {...componentProps}>{children}</Box>;
     }
@@ -605,7 +607,7 @@ const GUIComponent = props => {
                                             grow={1}
                                             isVisible={blocksTabVisible}
                                             options={{
-                                                media: `${basePath}static/blocks-media/`
+                                                media: `${resolvedBasePath}static/blocks-media/`
                                             }}
                                             stageSize={stageSize}
                                             vm={vm}
@@ -755,7 +757,7 @@ GUIComponent.propTypes = {
 GUIComponent.defaultProps = {
     backpackHost: null,
     backpackVisible: false,
-    basePath: './',
+    basePath: normalizeBasePath(process.env.ROOT),
     canChangeLanguage: true,
     canCreateNew: false,
     canEditTitle: false,

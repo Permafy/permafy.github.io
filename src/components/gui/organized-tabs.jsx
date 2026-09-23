@@ -21,6 +21,7 @@ import CostumeTab from "../../containers/costume-tab.jsx";
 import SoundTab from "../../containers/sound-tab.jsx";
 import FilesTab from "../../containers/files-tab.jsx";
 import Watermark from "../../containers/watermark.jsx";
+import { normalizeBasePath } from "../../lib/normalize-base-path";
 
 const safeJSONParse = (json, defaul, mustBeArray) => {
     try {
@@ -70,6 +71,7 @@ class OrganizedTabs extends React.Component {
             costumesTabVisible,
             soundsTabVisible,
         } = this.props;
+        const resolvedBasePath = normalizeBasePath(basePath);
 
         const tabClassNames = {
             tabs: styles.tabs,
@@ -170,7 +172,7 @@ class OrganizedTabs extends React.Component {
                             grow={1}
                             isVisible={blocksTabVisible}
                             options={{
-                                media: `${basePath}static/blocks-media/`,
+                                media: `${resolvedBasePath}static/blocks-media/`,
                             }}
                             stageSize={stageSize}
                             vm={vm}
