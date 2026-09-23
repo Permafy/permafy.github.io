@@ -204,7 +204,8 @@
     background-color: $ui-secondary;
 }
 
-.permafy-paint-editor [class*="button"] {
+.permafy-paint-editor [class*="button"] img,
+.permafy-paint-editor [class*="button"] svg {
     filter: brightness(0) saturate(100%) invert(36%) sepia(100%) saturate(6) hue-rotate(200deg) brightness(0.9);
 }
 
@@ -214,9 +215,15 @@
     filter: none;
 }
 
-.permafy-paint-editor .bitmap-button *,
-.permafy-paint-editor .mod-tool-select.is-selected * {
+.permafy-paint-editor .bitmap-button img,
+.permafy-paint-editor .bitmap-button svg,
+.permafy-paint-editor .mod-tool-select.is-selected img,
+.permafy-paint-editor .mod-tool-select.is-selected svg {
     filter: brightness(0) invert(1);
+}
+
+.permafy-paint-editor .bitmap-button .button-text {
+    color: #ffffff;
 }
 
 .permafy-paint-editor {
