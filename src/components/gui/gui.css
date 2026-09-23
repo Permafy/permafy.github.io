@@ -178,7 +178,7 @@
 .tab.tab-code,
 .tab.tab-costumes,
 .tab.tab-sounds {
-    background-color: $sound-primary;
+    background-color: #4067ff;
     color: $ui-white;
 }
 .tab.tab-code:hover,
@@ -187,7 +187,7 @@
 .tab.tab-code.is-selected,
 .tab.tab-costumes.is-selected,
 .tab.tab-sounds.is-selected {
-    background-color: $sound-tertiary;
+    background-color: #274de6;
     color: $ui-white;
 }
 [theme="dark"] .tab:hover {

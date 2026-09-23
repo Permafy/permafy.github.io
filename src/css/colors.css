@@ -31,8 +31,8 @@ $text-primary-light: hsla(225, 15%, 40%, 1);
 $red-primary: #ff6b6b;
 $red-tertiary: #d95454;
 
-$sound-primary: hsla(300, 53%, 60%, 1); /* #CF63CF */
-$sound-tertiary: hsla(300, 48%, 50%, 1); /* #BD42BD */
+$sound-primary: #4067ff; /* Azul solicitado para audio/costumes */
+$sound-tertiary: #274de6; /* Variante más oscura del mismo azul */
 
 $control-primary: hsla(38, 100%, 55%, 1); /* #FFAB19 */
 
