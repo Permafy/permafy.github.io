@@ -40,7 +40,7 @@ describe('Menu bar settings', () => {
             '//div[contains(@class, "menu-bar_menu-bar-item") and ' +
             'contains(@class, "menu-bar_hoverable")][span[text()="File"]]'
         );
-        await findByXpath('//*[li[text()="Load from your computer"] and not(@data-tip="tooltip")]');
+        await findByXpath('//*[li[text()="Load from your device"] and not(@data-tip="tooltip")]');
     });
 
     test('File->Save should be enabled', async () => {
@@ -49,7 +49,7 @@ describe('Menu bar settings', () => {
             '//div[contains(@class, "menu-bar_menu-bar-item") and ' +
             'contains(@class, "menu-bar_hoverable")][span[text()="File"]]'
         );
-        await findByXpath('//*[li[span[text()="Save to your computer"]] and not(@data-tip="tooltip")]');
+        await findByXpath('//*[li[span[text()="Save to your device"]] and not(@data-tip="tooltip")]');
     });
 
     test('Share button should NOT be enabled', async () => {
@@ -75,7 +75,7 @@ describe('Menu bar settings', () => {
     test('User is not warned before uploading project file over a fresh project', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/project1.sb3'));
         // No replace alert since no changes were made
@@ -90,7 +90,7 @@ describe('Menu bar settings', () => {
         await clickText('delete', scope.spriteTile);
 
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/project1.sb3'));
         await driver.switchTo().alert()

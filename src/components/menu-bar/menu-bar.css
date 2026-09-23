@@ -52,6 +52,21 @@
     cursor: pointer;
 }
 
+.title-image-wrapper {
+    display: flex;
+    align-items: center;
+    height: $menu-bar-height;
+    padding: 0 .5rem;
+}
+
+.title-image {
+    display: block;
+    width: auto;
+    height: 1.75rem;
+    max-width: 10rem;
+    object-fit: contain;
+}
+
 .language-icon {
     height:  1.5rem;
     vertical-align: middle;

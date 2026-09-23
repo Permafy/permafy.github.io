@@ -26,7 +26,7 @@ describe('Loading scratch gui', () => {
     test('Loading project file from computer succeeds, without opening failure alert', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/project1.sb3'));
         await findByText('project1-sprite');
@@ -36,7 +36,7 @@ describe('Loading scratch gui', () => {
     test('Loading project file from computer gives project the filename from file', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/project1.sb3'));
         await findByText('project1-sprite');
@@ -46,7 +46,7 @@ describe('Loading scratch gui', () => {
     test('Load sb3 project with a missing svg costume', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/missing-sprite-svg.sb3'));
         const spriteTile = await findByText('Blue Square Guy');
@@ -57,7 +57,7 @@ describe('Loading scratch gui', () => {
     test('Load sb3 project with an invalid svg costume', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/corrupt-svg.sb3'));
         const spriteTile = await findByText('Blue Square Guy');
@@ -68,7 +68,7 @@ describe('Loading scratch gui', () => {
     test('Load sb2 project with a missing svg costume', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/missing-svg.sb2'));
         const spriteTile = await findByText('Blue Guy');
@@ -79,7 +79,7 @@ describe('Loading scratch gui', () => {
     test('Load sb2 project with an invalid svg costume', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/corrupt-svg.sb2'));
         const spriteTile = await findByText('Blue Guy');
@@ -90,7 +90,7 @@ describe('Loading scratch gui', () => {
     test('Load sb3 project with a missing bmp costume', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/missing-bmp.sb3'));
         const spriteTile = await findByText('green-bmp-guy');
@@ -101,7 +101,7 @@ describe('Loading scratch gui', () => {
     test('Load sb3 project with an invalid bmp costume', async () => {
         await loadUri(uri);
         await clickText('File');
-        await clickText('Load from your computer');
+        await clickText('Load from your device');
         const input = await findByXpath('//input[@accept=".sb,.sb2,.sb3,.pm,.pmf,.pmp"]');
         await input.sendKeys(path.resolve(__dirname, '../fixtures/corrupt-bmp.sb3'));
         const spriteTile = await findByText('green-bmp-guy');

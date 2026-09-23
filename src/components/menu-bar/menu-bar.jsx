@@ -79,6 +79,7 @@ import errorIcon from './tw-error.svg';
 import themeIcon from './tw-moon.svg';
 
 import scratchLogo from './scratch-logo.svg';
+import titleImage from '../../../title.png';
 
 import sharedMessages from '../../lib/shared-messages';
 
@@ -448,7 +449,7 @@ class MenuBar extends React.Component {
         );
         const newProjectMessage = (
             <FormattedMessage
-                defaultMessage="New"
+                defaultMessage="New..."
                 description="Menu bar item for creating a new project"
                 id="gui.menuBar.new"
             />
@@ -477,6 +478,14 @@ class MenuBar extends React.Component {
             >
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
+                        <div className={styles.titleImageWrapper}>
+                            <img
+                                alt="Permafy"
+                                className={styles.titleImage}
+                                draggable={false}
+                                src={titleImage}
+                            />
+                        </div>
                         {this.props.onClickLogo ? (
                             <div className={classNames(styles.menuBarItem)}>
                                 <img
@@ -680,7 +689,7 @@ class MenuBar extends React.Component {
                                                             />
                                                         ) : (
                                                             <FormattedMessage
-                                                                defaultMessage="Save to your computer"
+                                                                defaultMessage="Save to your device"
                                                                 description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
                                                                 id="gui.menuBar.downloadToComputer"
                                                             />
@@ -722,9 +731,9 @@ class MenuBar extends React.Component {
                                                 onClick={this.handleClickPackager}
                                             >
                                                 <FormattedMessage
-                                                    defaultMessage="Package project"
+                                                    defaultMessage="Compile project"
                                                     // eslint-disable-next-line max-len
-                                                    description="Menu bar item to open the current project in the packager"
+                                                    description="Menu bar item to open the current project in the packager/compiler"
                                                     id="tw.menuBar.package"
                                                 />
                                             </MenuItem>
@@ -733,7 +742,7 @@ class MenuBar extends React.Component {
                                     <MenuSection>
                                         <MenuItem onClick={this.handleClickRestorePoints}>
                                             <FormattedMessage
-                                                defaultMessage="Restore points"
+                                                defaultMessage="Restore to a point"
                                                 description="Menu bar item to manage restore points"
                                                 id="tw.menuBar.restorePoints"
                                             />
@@ -839,7 +848,7 @@ class MenuBar extends React.Component {
                                                 )
                                             ) : (
                                                 <FormattedMessage
-                                                    defaultMessage="Cloud Variables are not Available"
+                                                    defaultMessage="Cloud Variables are not available"
                                                     description="Menu bar item for when cloud variables are not available"
                                                     id="tw.menuBar.cloudUnavailable"
                                                 />
@@ -857,7 +866,7 @@ class MenuBar extends React.Component {
                                     </MenuItem>
                                     <MenuItem onClick={this.handleClickDownloadLogs}>
                                         <FormattedMessage
-                                            defaultMessage="Download Logs"
+                                            defaultMessage="Download Logs stored by the browser"
                                             description="Menu bar button to download all logs stored by the browser."
                                             id="pm.menuBar.downloadLogs"
                                         />
@@ -959,7 +968,7 @@ class MenuBar extends React.Component {
                     <div className={styles.menuBarItem}>
                         <a
                             className={styles.feedbackLink}
-                            href="https://penguinmod.com"
+                            href="https://permafy.github.io/"
                             rel="noopener noreferrer"
                             target="_blank"
                         >

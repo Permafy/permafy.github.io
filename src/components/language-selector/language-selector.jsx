@@ -4,8 +4,7 @@ import React from 'react';
 import locales from '@turbowarp/scratch-l10n';
 import styles from './language-selector.css';
 
-// supported languages to exclude from the menu, but allow as a URL option
-const ignore = [];
+const supportedLanguages = ['en', 'es'];
 
 const LanguageSelector = ({currentLocale, label, onChange}) => (
     <select
@@ -16,7 +15,7 @@ const LanguageSelector = ({currentLocale, label, onChange}) => (
     >
         {
             Object.keys(locales)
-                .filter(l => !ignore.includes(l))
+                .filter(l => supportedLanguages.includes(l))
                 .map(locale => (
                     <option
                         key={locale}
