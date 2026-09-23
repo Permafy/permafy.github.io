@@ -170,8 +170,17 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                 })
                 .then((projectAsset) => {
                     if (projectAsset) {
+                        let projectData = projectAsset.data;
+                        if (projectId !== "0" && !projectUrl) {
+                            const projectText = new TextDecoder().decode(projectAsset.data);
+                            try {
+                                projectData = JSON.parse(projectText);
+                            } catch (error) {
+                                projectData = protobufToJson(projectAsset.data);
+                            }
+                        }
                         this.props.onFetchedProjectData(
-                            projectAsset.data,
+                            projectData,
                             loadingState,
                         );
                     } else {
