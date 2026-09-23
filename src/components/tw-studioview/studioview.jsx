@@ -30,7 +30,8 @@ class StudioViewComponent extends React.Component {
         super(props);
         bindAll(this, [
             'handleSelect',
-            'ref'
+            'ref',
+            'handleLoadMore'
         ]);
     }
     componentDidMount () {
@@ -54,6 +55,12 @@ class StudioViewComponent extends React.Component {
         }
         this.studioView.onselect = this.handleSelect;
         this.el.appendChild(this.studioView.root);
+        if (this.props.onReady) this.props.onReady(this.studioView);
+    }
+    handleLoadMore () {
+        if (this.studioView && this.studioView.canLoadNext()) {
+            this.studioView.loadNextPage();
+        }
     }
     componentDidUpdate (prevProps) {
         if (prevProps.placeholder && !this.props.placeholder) {
@@ -87,6 +94,7 @@ StudioViewComponent.propTypes = {
     intl: intlShape.isRequired,
     placeholder: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
+    onReady: PropTypes.func,
     source: PropTypes.oneOf(['penguinmod', 'scratch'])
 };
 

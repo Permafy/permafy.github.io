@@ -86,7 +86,7 @@ const Credits = () => (
                 You do not need to support Permafy if you do not want to, but it will help us run the services that power
                 our project sharing and other online features.
             </p>
-            <a href="https://penguinmod.com/support">
+            <a href="https://permafy.github.io/coffee">
                 Support Permafy
             </a>
             <br></br>
@@ -124,11 +124,11 @@ const Credits = () => (
             </a>
             <h2>Domain Provider</h2>
             <p>
-                <a href="https://penguinmod.com">penguinmod.com</a> (and any
+                <a href="https://permafy.github.io/coffee">permafy.github.io</a> (and any
                 subdomains) are currently provided by{" "}
-                <a href="https://github.com/jeremygamer13">JeremyGamer13</a>.
+                <a href="https://github.com/aynonyaz">aynonyaz</a>.
                 <br></br>
-                <a href="https://github.com/jeremygamer13">
+                <a href="https://github.com/AynoLOL">
                     <img
                         src="https://avatars.githubusercontent.com/u/69337718?v=4"
                         style={{ width: "128px" }}

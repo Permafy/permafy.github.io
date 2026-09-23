@@ -23,6 +23,8 @@ var StudioView = function (options) {
     this.projectPage = this.source === 'scratch' ?
         'https://scratch.mit.edu/projects/$id/' :
         'https://studio.penguinmod.com/#$id';
+    this.page = 0;
+    this.seenProjectIds = {};
     this.offset = 0;
     this.ended = false;
     this.loadingPage = false;
@@ -260,7 +262,8 @@ StudioView.prototype.loadNextPage = function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.onload = function () {
-        var rawProjects = this.source === 'scratch' ? xhr.response.scratch_design_studio : xhr.response;
+        var rawProjects = this.source === 'scratch' ?
+            (xhr.response[this.scratchSections[this.page]] || []) : xhr.response;
         if (!Array.isArray(rawProjects)) {
             xhr.onerror();
             return;
@@ -268,6 +271,8 @@ StudioView.prototype.loadNextPage = function () {
         var projects = [];
         for (var i = 0; i < rawProjects.length; i++) {
             var p = rawProjects[i];
+            if (this.seenProjectIds[p.id]) continue;
+            this.seenProjectIds[p.id] = true;
             projects.push({
                 id: p.id,
                 title: p.title,
@@ -282,7 +287,13 @@ StudioView.prototype.loadNextPage = function () {
         }
         this.cleanupPlaceholders();
 
-        if (rawProjects.length === 40) {
+        this.page += 1;
+        if (this.source === 'scratch' && projects.length === 0 && this.page < this.scratchSections.length) {
+            this.loadingPage = false;
+            this.loadNextPage();
+            return;
+        }
+        if (this.source === 'scratch' && this.page < this.scratchSections.length) {
             if (this.loadNextPageObserver) {
                 this.loadNextPageObserver.observe(this.projectList.lastChild);
             }
@@ -305,7 +316,9 @@ StudioView.prototype.loadNextPage = function () {
         this.ended = true;
     }.bind(this);
 
-    var url = this.studioApi;
+    var url = this.source === 'scratch' ?
+        `https://cors.eu.org/${this.studioApi}` :
+        `${this.studioApi}?offset=${this.offset}`;
     xhr.open('GET', url);
     xhr.send();
 };
@@ -319,6 +332,13 @@ StudioView.prototype.onpageload = function () { };
 StudioView.prototype.onend = function () { };
 
 StudioView.STUDIO_API = 'https://projects.penguinmod.com/api/v1';
+StudioView.prototype.scratchSections = [
+    'scratch_design_studio',
+    'community_featured_projects',
+    'community_most_loved_projects',
+    'community_most_remixed_projects',
+    'community_newest_projects'
+];
 
 // The URL to download thumbnails from.
 // $id is replaced with the project's ID.

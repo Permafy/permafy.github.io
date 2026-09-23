@@ -512,13 +512,6 @@ class Interface extends React.Component {
                             <div className={styles.section}>
                                 <FeaturedProjects />
                             </div>
-                            <a
-                                target="_blank"
-                                href="https://penguinmod.com/search?q=newest:"
-                                rel="noreferrer"
-                            >
-                                See more projects
-                            </a>
                         </React.Fragment>
                     ) : null}
                 </div>

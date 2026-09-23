@@ -14,7 +14,9 @@ class FeaturedProjects extends React.Component {
         bindAll(this, [
             'handleSelect',
             'handleOpenProjects',
-            'handleToggleSource'
+            'handleToggleSource',
+            'handleLoadMore',
+            'handleStudioReady'
         ]);
         this.state = {
             opened: false,
@@ -32,8 +34,7 @@ class FeaturedProjects extends React.Component {
         }
     }
     handleSelect(id) {
-        window.history.replaceState(null, null, `${process.env.ROOT}penguinmod/`);
-        this.props.setProjectId(id);
+        window.location.href = `${process.env.ROOT}${this.state.source}/#${id}`;
     }
     handleOpenProjects() {
         this.setState({
@@ -45,6 +46,14 @@ class FeaturedProjects extends React.Component {
             source: this.state.source === 'penguinmod' ? 'scratch' : 'penguinmod',
             opened: true
         });
+    }
+    handleStudioReady(studioView) {
+        this.studioView = studioView;
+    }
+    handleLoadMore() {
+        if (this.studioView && this.studioView.canLoadNext()) {
+            this.studioView.loadNextPage();
+        }
     }
     render() {
         const opened = this.state.opened;
@@ -62,6 +71,7 @@ class FeaturedProjects extends React.Component {
                     <StudioView
                         key={this.state.source}
                         onSelect={this.handleSelect}
+                        onReady={this.handleStudioReady}
                         placeholder={!opened}
                         source={this.state.source}
                     />
@@ -98,6 +108,13 @@ class FeaturedProjects extends React.Component {
                             id="tw.PMviewPenguinModFeaturedProjects"
                         />
                     )}
+                </button>
+                <button
+                    className={styles.sourceButton}
+                    onClick={this.handleLoadMore}
+                    type="button"
+                >
+                    See more projects
                 </button>
             </div>
         );

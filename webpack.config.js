@@ -179,6 +179,10 @@ module.exports = [
                 title: 'Permafy - Editor', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
+                chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'scratch/index.html',
+                title: 'Permafy - Editor', ...htmlWebpackPluginCommon
+            }),
+            new HtmlWebpackPlugin({
                 chunks: ['playground'], template: 'src/playground/index.ejs', filename: 'playground.html',
                 title: 'Permafy - Playground', ...htmlWebpackPluginCommon
             }),
