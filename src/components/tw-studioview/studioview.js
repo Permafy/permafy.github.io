@@ -28,6 +28,7 @@ var StudioView = function (options) {
     this.offset = 0;
     this.ended = false;
     this.loadingPage = false;
+    this.retryCount = 0;
     this.unusedPlaceholders = [];
 
     this.root = document.createElement('div');
@@ -262,6 +263,11 @@ StudioView.prototype.loadNextPage = function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.onload = function () {
+        if (xhr.status < 200 || xhr.status >= 300 || !xhr.response) {
+            xhr.onerror();
+            return;
+        }
+        this.retryCount = 0;
         var rawProjects = this.source === 'scratch' ?
             (xhr.response[this.scratchSections[this.page]] || []) : xhr.response;
         if (!Array.isArray(rawProjects)) {
@@ -310,6 +316,12 @@ StudioView.prototype.loadNextPage = function () {
     }.bind(this);
 
     xhr.onerror = function () {
+        if (this.source === 'scratch' && this.retryCount < 2) {
+            this.retryCount += 1;
+            this.loadingPage = false;
+            setTimeout(this.loadNextPage.bind(this), 1000);
+            return;
+        }
         this.root.setAttribute('error', '');
         this.cleanupPlaceholders();
         this.addErrorElement();

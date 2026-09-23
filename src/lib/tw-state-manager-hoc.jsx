@@ -428,6 +428,7 @@ const TWStateManager = function (WrappedComponent) {
                 onSetIsFullScreen: this.onSetIsFullScreen
             };
             this.router = createRouter(this.props.routingStyle, routerCallbacks);
+            this.router.onpathchange();
             this.router.onhashchange();
             window.addEventListener('hashchange', this.handleHashChange);
             window.addEventListener('popstate', this.handlePopState);
