@@ -57,23 +57,18 @@ class StudioViewComponent extends React.Component {
         this.el.appendChild(this.studioView.root);
         if (this.props.onReady) this.props.onReady(this.studioView);
     }
-    handleLoadMore () {
-        if (this.studioView && this.studioView.canLoadNext()) {
-            this.studioView.loadNextPage();
-        }
-    }
     componentDidUpdate (prevProps) {
         if (prevProps.placeholder && !this.props.placeholder) {
             this.studioView.loadNextPage();
         }
     }
+    handleLoadMore () {
+        if (this.studioView && this.studioView.canLoadNext()) {
+            this.studioView.loadNextPage();
+        }
+    }
     handleSelect (id) {
         this.props.onSelect(id);
-        /**
-         * fuck this bullshity ass design paradigm, i cant find where the FUCK this event chain actually ends
-         * implicitly assume that what ever the fuck happens above will synchronously put the id into the url to be used later
-         */
-        window.location.reload();
     }
     ref (el) {
         this.el = el;
