@@ -205,7 +205,18 @@
 }
 
 .permafy-paint-editor [class*="button"] {
-    filter: hue-rotate(106deg) saturate(0.8);
+    filter: brightness(0) saturate(100%) invert(36%) sepia(100%) saturate(6) hue-rotate(200deg) brightness(0.9);
+}
+
+.permafy-paint-editor .bitmap-button,
+.permafy-paint-editor .mod-tool-select.is-selected {
+    background-color: #4067ff;
+    filter: none;
+}
+
+.permafy-paint-editor .bitmap-button *,
+.permafy-paint-editor .mod-tool-select.is-selected * {
+    filter: brightness(0) invert(1);
 }
 
 .permafy-paint-editor {
