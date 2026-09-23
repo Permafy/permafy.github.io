@@ -73,7 +73,7 @@ class FeaturedProjects extends React.Component {
                             <div className={styles.openerContent}>
                                 <FormattedMessage
                                     defaultMessage="Click to view PenguinMod projects."
-                                    description="Text to view featured PenguinMod projects"
+                                    description="View featured PenguinMod projects"
                                     id="tw.PMviewFeaturedProjects"
                                 />
                             </div>
@@ -85,12 +85,19 @@ class FeaturedProjects extends React.Component {
                     onClick={this.handleToggleSource}
                     type="button"
                 >
-                    <FormattedMessage
-                        defaultMessage={this.state.source === 'penguinmod' ?
-                            'View Scratch projects instead' : 'View PenguinMod projects instead'}
-                        description="Button to switch the featured project source"
-                        id="tw.switchFeaturedProjects"
-                    />
+                    {this.state.source === 'penguinmod' ? (
+                        <FormattedMessage
+                            defaultMessage="View Scratch projects instead"
+                            description="Button to switch to Scratch featured projects"
+                            id="tw.PMviewScratchFeaturedProjects"
+                        />
+                    ) : (
+                        <FormattedMessage
+                            defaultMessage="View PenguinMod projects instead"
+                            description="Button to switch to PenguinMod featured projects"
+                            id="tw.PMviewPenguinModFeaturedProjects"
+                        />
+                    )}
                 </button>
             </div>
         );
