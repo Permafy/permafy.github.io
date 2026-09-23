@@ -46,6 +46,7 @@
     border: 1px solid black;
     border-radius: 3px;
     background: white;
+    color: black;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
     cursor: pointer;
     font: inherit;

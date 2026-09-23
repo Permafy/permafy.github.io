@@ -34,7 +34,9 @@ class FeaturedProjects extends React.Component {
         }
     }
     handleSelect(id) {
-        window.location.href = `${process.env.ROOT}${this.state.source}/#${id}`;
+        const root = process.env.ROOT || '/';
+        const siteRoot = root.endsWith('/') ? root : `${root}/`;
+        window.location.href = `${siteRoot}${this.state.source}/#${id}`;
     }
     handleOpenProjects() {
         this.setState({

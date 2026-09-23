@@ -105,7 +105,9 @@ class FileHashRouter extends HashRouter {
     constructor (callbacks) {
         super(callbacks);
         this.playerPath = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
-        this.editorPath = `${this.playerPath}editor.html`;
+        const isFolderEditor = /\/(penguinmod|scratch|editor)\/?$/.test(location.pathname);
+        this.sourceEditorPath = isFolderEditor ? this.playerPath : null;
+        this.editorPath = isFolderEditor ? this.playerPath : `${this.playerPath}editor.html`;
         this.playgroundPath = `${this.playerPath}playground.html`;
         this.fullscreenPath = `${this.playerPath}fullscreen.html`;
     }
@@ -113,11 +115,11 @@ class FileHashRouter extends HashRouter {
     onpathchange () {
         const pathName = location.pathname;
 
-        if (pathName === this.playerPath) {
-            this.onSetIsPlayerOnly(true);
-            this.onSetIsFullScreen(false);
-        } else if (pathName === this.editorPath) {
+        if (pathName === this.editorPath) {
             this.onSetIsPlayerOnly(false);
+            this.onSetIsFullScreen(false);
+        } else if (pathName === this.playerPath) {
+            this.onSetIsPlayerOnly(true);
             this.onSetIsFullScreen(false);
         } else if (pathName === this.playgroundPath) {
             isPlayground = true;
@@ -142,6 +144,8 @@ class FileHashRouter extends HashRouter {
 
         if (isFullScreen) {
             newPathname = this.fullscreenPath;
+        } else if (this.sourceEditorPath) {
+            newPathname = this.sourceEditorPath;
         } else if (isPlayerOnly) {
             newPathname = this.playerPath;
         } else if (isPlayground) {
