@@ -15,7 +15,7 @@ var StudioView = function (options) {
     options = options || {};
     this.source = options.source || 'penguinmod';
     this.studioApi = this.source === 'scratch' ?
-        'https://api.scratch.mit.edu/proxy/featured?limit=40' :
+        'https://trampoline.turbowarp.org/proxy/studios/51930360/projects' :
         'https://projects.penguinmod.com/api/v1/projects/getprojects';
     this.thumbnailSource = this.source === 'scratch' ?
         'https://uploads.scratch.mit.edu/projects/thumbnails/$id.png' :
@@ -268,8 +268,7 @@ StudioView.prototype.loadNextPage = function () {
             return;
         }
         this.retryCount = 0;
-        var rawProjects = this.source === 'scratch' ?
-            (xhr.response[this.scratchSections[this.page]] || []) : xhr.response;
+        var rawProjects = xhr.response;
         if (!Array.isArray(rawProjects)) {
             xhr.onerror();
             return;
@@ -282,9 +281,10 @@ StudioView.prototype.loadNextPage = function () {
             projects.push({
                 id: p.id,
                 title: p.title,
-                author: this.source === 'scratch' ? p.creator : p.author.username,
+                author: this.source === 'scratch' ? p.username : p.author.username,
                 featured: p.featured,
-                thumbnail: p.thumbnail_url ? `https:${p.thumbnail_url}` : null,
+                thumbnail: this.source === 'scratch' ? p.image :
+                    (p.thumbnail_url ? `https:${p.thumbnail_url}` : null),
             });
         }
         projects = this.shuffler(projects);
@@ -294,12 +294,7 @@ StudioView.prototype.loadNextPage = function () {
         this.cleanupPlaceholders();
 
         this.page += 1;
-        if (this.source === 'scratch' && projects.length === 0 && this.page < this.scratchSections.length) {
-            this.loadingPage = false;
-            this.loadNextPage();
-            return;
-        }
-        if (this.source === 'scratch' && this.page < this.scratchSections.length) {
+        if (this.source === 'scratch' && rawProjects.length === 40) {
             if (this.loadNextPageObserver) {
                 this.loadNextPageObserver.observe(this.projectList.lastChild);
             }
@@ -328,9 +323,7 @@ StudioView.prototype.loadNextPage = function () {
         this.ended = true;
     }.bind(this);
 
-    var url = this.source === 'scratch' ?
-        `https://cors.eu.org/${this.studioApi}` :
-        `${this.studioApi}?offset=${this.offset}`;
+    var url = `${this.studioApi}?offset=${this.offset}`;
     xhr.open('GET', url);
     xhr.send();
 };
