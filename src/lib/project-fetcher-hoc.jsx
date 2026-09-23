@@ -102,6 +102,7 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                 });
             }
             let assetPromise;
+            const isScratchProject = /\/scratch\/?$/.test(location.pathname);
             // In case running in node...
             let projectUrl =
                 typeof URLSearchParams === "undefined"
@@ -132,6 +133,16 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                         return r.arrayBuffer();
                     })
                     .then((buffer) => ({ data: buffer }));
+            } else if (isScratchProject && projectId !== "0") {
+                storage.setProjectID(null);
+                assetPromise = fetch(`https://trampoline.turbowarp.org/proxy/projects/${projectId}`)
+                    .then(response => response.json())
+                    .then(metadata => fetch(`https://projects.scratch.mit.edu/${projectId}?token=${metadata.project_token}`))
+                    .then(response => {
+                        if (!response.ok) throw new Error(`Request returned status ${response.status}`);
+                        return response.json();
+                    })
+                    .then(data => ({data}));
             } else {
                 // patch for default project
                 if (projectId === "0") {
@@ -171,12 +182,15 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                 .then((projectAsset) => {
                     if (projectAsset) {
                         let projectData = projectAsset.data;
-                        if (projectId !== "0" && !projectUrl) {
-                            const projectText = new TextDecoder().decode(projectAsset.data);
+                        const dataIsBinary = projectData instanceof ArrayBuffer ||
+                            ArrayBuffer.isView(projectData);
+                        if (dataIsBinary && projectId !== "0" && !projectUrl) {
+                            const projectBytes = projectData;
+                            const projectText = new TextDecoder().decode(projectBytes);
                             try {
                                 projectData = JSON.parse(projectText);
                             } catch (error) {
-                                projectData = protobufToJson(projectAsset.data);
+                                projectData = protobufToJson(projectBytes);
                             }
                         }
                         this.props.onFetchedProjectData(

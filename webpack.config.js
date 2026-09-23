@@ -48,7 +48,7 @@ const base = {
         library: 'GUI',
         filename: process.env.NODE_ENV === 'production' ? 'js/[name].[contenthash].js' : 'js/[name].js',
         chunkFilename: process.env.NODE_ENV === 'production' ? 'js/[name].[contenthash].js' : 'js/[name].js',
-        publicPath: root
+        publicPath: '/'
     },
     resolve: {
         symlinks: false,
