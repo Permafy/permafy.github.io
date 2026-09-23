@@ -165,9 +165,9 @@ const Footer = () => (
                     </a>
                 </div>
                 <div className={styles.footerSection}>
-                    <a href="https://permafy.github.io/packager">
+                    <a href="https://permafy.github.io/compiler">
                         {/* Do not translate */}
-                        {'Permafy Packager'}
+                        {'Permafy Compiler/Packager'}
                     </a>
                     <a href="https://desktop.turbowarp.org/">
                         {/* Do not translate */}

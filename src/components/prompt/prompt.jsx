@@ -203,12 +203,12 @@ const PromptComponent = props => props.isCustom ? (
                         values={{
                             packager: (
                                 <a
-                                    href="https://studio.penguinmod.com/PenguinMod-Packager"
+                                    href="https://permafy.github.io/compiler/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
                                     {/* Should not be translated */}
-                                    {'Permafy Packager'}
+                                    {'Permafy Compiler/Packager'}
                                 </a>
                             )
                         }}
