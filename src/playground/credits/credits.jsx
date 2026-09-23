@@ -130,7 +130,7 @@ const Credits = () => (
                 <br></br>
                 <a href="https://github.com/AynoLOL">
                     <img
-                        src="https://avatars.githubusercontent.com/u/69337718?v=4"
+                        src="https://avatars.githubusercontent.com/u/216462140"
                         style={{ width: "128px" }}
                     ></img>
                 </a>
