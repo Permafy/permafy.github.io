@@ -170,12 +170,15 @@ StudioView.prototype.handleLoadNextPageIntersection = function (e) {
 
 // Click a project element or a child of a project element
 StudioView.prototype.clickProject = function (el) {
-    while (!el.classList.contains(styles.studioviewProject)) {
+    while (el && !el.classList.contains(styles.studioviewProject)) {
         el = el.parentNode;
+    }
+    if (!el || !el.dataset || !el.dataset.id) {
+        return;
     }
     var id = el.dataset.id;
     this.onselect(id, el);
-}
+};
 
 // Called when click is fired on a project element
 StudioView.prototype.handleClick = function (e) {
@@ -263,7 +266,7 @@ StudioView.prototype.loadCustomProjectIds = function () {
 
     var projectIds = this.customProjectIds.filter(function (id) {
         return id && !this.seenProjectIds[id];
-    }, this).slice(0, 9);
+    }, this);
 
     if (projectIds.length === 0) {
         this.root.removeAttribute('loading');
