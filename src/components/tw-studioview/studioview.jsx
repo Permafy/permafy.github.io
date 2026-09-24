@@ -36,7 +36,8 @@ class StudioViewComponent extends React.Component {
     }
     componentDidMount () {
         this.studioView = new StudioView({
-            source: this.props.source
+            source: this.props.source,
+            customProjectIds: this.props.customProjectIds
         });
         this.studioView.messages.AUTHOR_ATTRIBUTION = this.props.intl.formatMessage(messages.authorAttribution, {
             // studioview uses $-based variables
@@ -90,7 +91,8 @@ StudioViewComponent.propTypes = {
     placeholder: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
     onReady: PropTypes.func,
-    source: PropTypes.oneOf(['penguinmod', 'scratch'])
+    source: PropTypes.oneOf(['penguinmod', 'scratch']),
+    customProjectIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
 };
 
 export default injectIntl(StudioViewComponent);

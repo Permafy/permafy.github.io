@@ -40,6 +40,7 @@ const base = {
                 { from: /^\/\d+\/editor\/?$/, to: '/editor.html' },
                 { from: /^\/\d+\/playground\/?$/, to: '/playground.html' },
                 { from: /^\/\d+\/embed\/?$/, to: '/embed.html' },
+                { from: /^\/featured\/?$/, to: '/featured/index.html' },
                 { from: /^\/addons\/?$/, to: '/addons.html' }
             ]
         }
@@ -177,6 +178,10 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'penguinmod/index.html',
                 title: 'Permafy - Editor', ...htmlWebpackPluginCommon
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'featured/index.html',
+                title: 'Permafy - Featured Projects', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'scratch/index.html',

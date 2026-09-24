@@ -8,6 +8,32 @@ import styles from './featured-projects.css';
 import { setProjectId } from '../../lib/tw-navigation-utils.js';
 import classNames from 'classnames';
 
+// i probably should change/add IDs
+// the final url will be /featured/#<ID> and that points to the project in PenguinMod
+// a
+// a
+// featuring: 3854350626 as beXureOS Alpha4 by itzshowkun
+// featuring: 6299879522 as cubicles by powertrip777
+// featuring: 3376226334 as Spin Penguin by yourncraftmc
+// a
+// a
+// adding more later!
+const FEATURED_PROJECT_IDS = [
+    '3854350626',
+    '6299879522',
+    '3376226334'
+];
+
+const isFeaturedPage = () => {
+    const path = window.location.pathname.replace(/\/+$/, '');
+    return path === '/featured' || path.endsWith('/featured');
+};
+
+const getSiteRoot = () => {
+    const root = process.env.ROOT || '/';
+    return root.endsWith('/') ? root : `${root}/`;
+};
+
 class FeaturedProjects extends React.Component {
     constructor(props) {
         super(props);
@@ -34,9 +60,10 @@ class FeaturedProjects extends React.Component {
         }
     }
     handleSelect(id) {
-        const root = process.env.ROOT || '/';
-        const siteRoot = root.endsWith('/') ? root : `${root}/`;
-        window.location.href = `${siteRoot}${this.state.source}/#${id}`;
+        const siteRoot = getSiteRoot();
+        const page = isFeaturedPage() ? 'featured' : this.state.source;
+        const targetPage = isFeaturedPage() ? 'featured' : page;
+        window.location.href = `${siteRoot}${targetPage}/#${id}`;
     }
     handleOpenProjects() {
         this.setState({
@@ -44,6 +71,7 @@ class FeaturedProjects extends React.Component {
         });
     }
     handleToggleSource() {
+        if (isFeaturedPage()) return;
         this.setState({
             source: this.state.source === 'penguinmod' ? 'scratch' : 'penguinmod',
             opened: true
@@ -59,6 +87,9 @@ class FeaturedProjects extends React.Component {
     }
     render() {
         const opened = this.state.opened;
+        const featuredPage = isFeaturedPage();
+        const featuredProjectIds = featuredPage && FEATURED_PROJECT_IDS.length > 0 ? FEATURED_PROJECT_IDS : null;
+
         return (
             <div className={styles.container}>
                 <div
@@ -71,11 +102,12 @@ class FeaturedProjects extends React.Component {
                     )}
                 >
                     <StudioView
-                        key={this.state.source}
+                        key={featuredPage ? 'featured' : this.state.source}
                         onSelect={this.handleSelect}
                         onReady={this.handleStudioReady}
                         placeholder={!opened}
-                        source={this.state.source}
+                        source={featuredPage ? 'penguinmod' : this.state.source}
+                        customProjectIds={featuredProjectIds}
                     />
                     {opened ? null : (
                         <div
@@ -92,32 +124,18 @@ class FeaturedProjects extends React.Component {
                         </div>
                     )}
                 </div>
-                <button
-                    className={styles.sourceButton}
-                    onClick={this.handleToggleSource}
-                    type="button"
-                >
-                    {this.state.source === 'penguinmod' ? (
-                        <FormattedMessage
-                            defaultMessage="View Scratch projects instead"
-                            description="Button to switch to Scratch featured projects"
-                            id="tw.PMviewScratchFeaturedProjects"
-                        />
-                    ) : (
-                        <FormattedMessage
-                            defaultMessage="View PenguinMod projects instead"
-                            description="Button to switch to PenguinMod featured projects"
-                            id="tw.PMviewPenguinModFeaturedProjects"
-                        />
-                    )}
-                </button>
-                <button
-                    className={styles.sourceButton}
-                    onClick={this.handleLoadMore}
-                    type="button"
-                >
-                    See more projects
-                </button>
+                {!featuredPage && (
+                    <button
+                        className={styles.sourceButton}
+                        onClick={() => {
+                            const siteRoot = getSiteRoot();
+                            window.location.href = `${siteRoot}featured`;
+                        }}
+                        type="button"
+                    >
+                        See Rated Projects...
+                    </button>
+                )}
             </div>
         );
     }

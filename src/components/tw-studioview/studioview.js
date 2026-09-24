@@ -14,6 +14,7 @@ import classNames from 'classnames';
 var StudioView = function (options) {
     options = options || {};
     this.source = options.source || 'penguinmod';
+    this.customProjectIds = Array.isArray(options.customProjectIds) ? options.customProjectIds.slice() : null;
     this.studioApi = this.source === 'scratch' ?
         'https://trampoline.turbowarp.org/proxy/studios/51930360/projects' :
         'https://projects.penguinmod.com/api/v1/projects/getprojects';
@@ -243,7 +244,94 @@ StudioView.prototype.shuffler = function (projects) {
 /**
  * Begins loading the next page.
  */
+StudioView.prototype.loadCustomProjectIds = function () {
+    if (this.loadingPage) {
+        throw new Error('Already loading the next page');
+    }
+    if (this.ended) {
+        throw new Error('There are no more pages to load');
+    }
+
+    if (this.unusedPlaceholders.length === 0) {
+        this.addPlaceholders();
+    }
+    if (this.loadNextPageObserver) {
+        this.loadNextPageObserver.disconnect();
+    }
+    this.root.setAttribute('loading', '');
+    this.loadingPage = true;
+
+    var projectIds = this.customProjectIds.filter(function (id) {
+        return id && !this.seenProjectIds[id];
+    }, this).slice(0, 9);
+
+    if (projectIds.length === 0) {
+        this.root.removeAttribute('loading');
+        this.loadingPage = false;
+        this.ended = true;
+        this.onend();
+        return;
+    }
+
+    var requestCount = projectIds.length;
+    var loadedProjects = [];
+
+    projectIds.forEach(function (id) {
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300 && xhr.response) {
+                var p = xhr.response;
+                this.seenProjectIds[p.id] = true;
+                loadedProjects.push({
+                    id: p.id,
+                    title: p.title,
+                    author: p.author && p.author.username ? p.author.username : 'Unknown',
+                    featured: p.featured,
+                    thumbnail: p.thumbnail_url ? `https:${p.thumbnail_url}` : null
+                });
+            }
+
+            requestCount -= 1;
+            if (requestCount === 0) {
+                this.page += 1;
+                this.offset += loadedProjects.length;
+                this.loadingPage = false;
+                this.root.removeAttribute('loading');
+                this.cleanupPlaceholders();
+
+                loadedProjects = this.shuffler(loadedProjects);
+                for (var i = 0; i < loadedProjects.length; i++) {
+                    this.addProject(loadedProjects[i]);
+                }
+
+                this.ended = true;
+                this.onend();
+                this.onpageload();
+            }
+        }.bind(this);
+        xhr.onerror = function () {
+            requestCount -= 1;
+            if (requestCount === 0) {
+                this.root.setAttribute('error', '');
+                this.cleanupPlaceholders();
+                this.addErrorElement();
+                this.ended = true;
+                this.loadingPage = false;
+                this.root.removeAttribute('loading');
+            }
+        }.bind(this);
+        xhr.open('GET', `https://projects.penguinmod.com/api/v1/projects/getproject?projectID=${id}`);
+        xhr.send();
+    }, this);
+};
+
 StudioView.prototype.loadNextPage = function () {
+    if (this.customProjectIds && this.customProjectIds.length > 0) {
+        this.loadCustomProjectIds();
+        return;
+    }
+
     if (this.loadingPage) {
         throw new Error('Already loading the next page');
     }
