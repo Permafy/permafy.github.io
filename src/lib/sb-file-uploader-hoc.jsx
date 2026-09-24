@@ -111,7 +111,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 
                 // pm: Some bad browsers block any file type (Safari) so we need to only add .accept for those which can handle it properly
                 if (isTypeFilterAvailable()) {
-                    this.inputElement.accept = '.sb,.sb2,.sb3,.pm,.pmf,.pmp,.gaia';
+                    this.inputElement.accept = '.sb,.sb2,.sb3,.pm,.pmf,.pmp,.gaia,.dino';
                 }
 
                 this.inputElement.style = 'display: none;';
@@ -232,7 +232,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     const handle = thisFileInput.handle;
                     if (handle) {
                         const lowerName = this.fileToUpload.name.toLowerCase();
-                        if (lowerName.endsWith('.sb') || lowerName.endsWith('.sb2') || lowerName.endsWith('.sb3') || lowerName.endsWith('.pm') || lowerName.endsWith('.pmf') || lowerName.endsWith('.pmp') || lowerName.endsWith('.gaia')) {
+                        if (lowerName.endsWith('.sb') || lowerName.endsWith('.sb2') || lowerName.endsWith('.sb3') || lowerName.endsWith('.pm') || lowerName.endsWith('.pmf') || lowerName.endsWith('.pmp') || lowerName.endsWith('.gaia') || lowerName.endsWith('.dino')) {
                             this.props.onSetFileHandle(handle);
                         } else {
                             this.props.onSetFileHandle(null);
@@ -268,7 +268,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         getProjectTitleFromFilename (fileInputFilename) {
             if (!fileInputFilename) return '';
             // only parse title with valid project extensions
-            const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp|\.gaia)$/);
+            const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp|\.gaia|\.dino)$/);
             if (!matches) return '';
             return matches[1].substring(0, 100); // truncate project title to max 100 chars
         }

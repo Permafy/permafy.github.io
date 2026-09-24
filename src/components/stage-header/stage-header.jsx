@@ -97,6 +97,21 @@ const StageHeaderComponent = function (props) {
         document.body.removeChild(link);
     };
 
+    const screenshotButton = (
+        <Button
+            className={classNames(styles.stageButton, {[styles.stageButtonDisabled]: !isStarted})}
+            onClick={isStarted ? takeScreenshot : null}
+        >
+            <img
+                alt={props.intl.formatMessage(messages.screenshotMessage)}
+                className={styles.stageButtonIcon}
+                draggable={false}
+                src={screenshotIcon}
+                title={props.intl.formatMessage(messages.screenshotMessage)}
+            />
+        </Button>
+    );
+
     let header = null;
 
     // const popoutWindowButton = <Button
@@ -128,20 +143,6 @@ const StageHeaderComponent = function (props) {
                 />
             </Button>
         ) : null;
-        const screenshotButton = (
-            <Button
-                className={classNames(styles.stageButton, {[styles.stageButtonDisabled]: !isStarted})}
-                onClick={isStarted ? takeScreenshot : null}
-            >
-                <img
-                    alt={props.intl.formatMessage(messages.screenshotMessage)}
-                    className={styles.stageButtonIcon}
-                    draggable={false}
-                    src={screenshotIcon}
-                    title={props.intl.formatMessage(messages.screenshotMessage)}
-                />
-            </Button>
-        );
         const fullscreenButton = isFullScreen ? (
             <Button
                 className={styles.stageButton}
