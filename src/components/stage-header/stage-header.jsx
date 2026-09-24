@@ -87,11 +87,28 @@ const StageHeaderComponent = function (props) {
     const takeScreenshot = function () {
         if (!vm || !vm.renderer || !vm.renderer.canvas || !isStarted) return;
         vm.renderer.draw();
-        const canvas = vm.renderer.canvas;
+
+        const sourceCanvas = vm.renderer.canvas;
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = sourceCanvas.width;
+        exportCanvas.height = sourceCanvas.height;
+
+        const context = exportCanvas.getContext('2d');
+        const background = vm.renderer._backgroundColor4f || [1, 1, 1, 1];
+        const red = Math.round((background[0] || 1) * 255);
+        const green = Math.round((background[1] || 1) * 255);
+        const blue = Math.round((background[2] || 1) * 255);
+        const alpha = background[3] ?? 1;
+
+        context.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
+        context.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+        context.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+        context.drawImage(sourceCanvas, 0, 0);
+
         const filename = `${(projectTitle || 'Project').trim() || 'Project'}-PermafyScreenshot.png`;
         const link = document.createElement('a');
         link.download = filename;
-        link.href = canvas.toDataURL('image/png');
+        link.href = exportCanvas.toDataURL('image/png');
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
