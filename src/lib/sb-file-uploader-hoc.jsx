@@ -111,7 +111,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 
                 // pm: Some bad browsers block any file type (Safari) so we need to only add .accept for those which can handle it properly
                 if (isTypeFilterAvailable()) {
-                    this.inputElement.accept = '.sb,.sb2,.sb3,.pm,.pmf,.pmp';
+                    this.inputElement.accept = '.sb,.sb2,.sb3,.pm,.pmf,.pmp,.gaia';
                 }
 
                 this.inputElement.style = 'display: none;';
@@ -231,7 +231,8 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     // Don't update file handle until after confirming replace.
                     const handle = thisFileInput.handle;
                     if (handle) {
-                        if (this.fileToUpload.name.endsWith('.sb') || this.fileToUpload.name.endsWith('.sb2') || this.fileToUpload.name.endsWith('.sb3') || this.fileToUpload.name.endsWith('.pm') || this.fileToUpload.name.endsWith('.pmf') || this.fileToUpload.name.endsWith('.pmp')) {
+                        const lowerName = this.fileToUpload.name.toLowerCase();
+                        if (lowerName.endsWith('.sb') || lowerName.endsWith('.sb2') || lowerName.endsWith('.sb3') || lowerName.endsWith('.pm') || lowerName.endsWith('.pmf') || lowerName.endsWith('.pmp') || lowerName.endsWith('.gaia')) {
                             this.props.onSetFileHandle(handle);
                         } else {
                             this.props.onSetFileHandle(null);
@@ -266,9 +267,8 @@ const SBFileUploaderHOC = function (WrappedComponent) {
         // used in step 6 below
         getProjectTitleFromFilename (fileInputFilename) {
             if (!fileInputFilename) return '';
-            // only parse title with valid scratch project extensions
-            // (.sb, .sb2, and .sb3)
-            const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp)$/);
+            // only parse title with valid project extensions
+            const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp|\.gaia)$/);
             if (!matches) return '';
             return matches[1].substring(0, 100); // truncate project title to max 100 chars
         }

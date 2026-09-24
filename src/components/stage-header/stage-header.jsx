@@ -16,6 +16,7 @@ import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 import settingsIcon from './icon--settings.svg';
+import screenshotIcon from '../../controls/screenshot.png';
 
 // import popoutIcon from './icon--popout.svg';
 // import bringBackIcon from './icon--popin.svg';
@@ -55,6 +56,11 @@ const messages = defineMessages({
         defaultMessage: 'Open gameplay settings',
         description: 'Button to open gameplay settings in embeds',
         id: 'pm.openGameplay'
+    },
+    screenshotMessage: {
+        defaultMessage: 'Take screenshot',
+        description: 'Button to save a PNG screenshot of the current stage',
+        id: 'pm.takeScreenshot'
     }
 });
 
@@ -73,8 +79,23 @@ const StageHeaderComponent = function (props) {
         onOpenSettings,
         isEmbedded,
         stageSizeMode,
-        vm
+        vm,
+        isStarted,
+        projectTitle
     } = props;
+
+    const takeScreenshot = function () {
+        if (!vm || !vm.renderer || !vm.renderer.canvas || !isStarted) return;
+        vm.renderer.draw();
+        const canvas = vm.renderer.canvas;
+        const filename = `${(projectTitle || 'Project').trim() || 'Project'}-PermafyScreenshot.png`;
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     let header = null;
 
@@ -107,6 +128,20 @@ const StageHeaderComponent = function (props) {
                 />
             </Button>
         ) : null;
+        const screenshotButton = (
+            <Button
+                className={classNames(styles.stageButton, {[styles.stageButtonDisabled]: !isStarted})}
+                onClick={isStarted ? takeScreenshot : null}
+            >
+                <img
+                    alt={props.intl.formatMessage(messages.screenshotMessage)}
+                    className={styles.stageButtonIcon}
+                    draggable={false}
+                    src={screenshotIcon}
+                    title={props.intl.formatMessage(messages.screenshotMessage)}
+                />
+            </Button>
+        );
         const fullscreenButton = isFullScreen ? (
             <Button
                 className={styles.stageButton}
@@ -148,6 +183,7 @@ const StageHeaderComponent = function (props) {
                     <Controls vm={vm} />
                     <div className={styles.embedButtons}>
                         {settingsButton}
+                        {screenshotButton}
                         {/* {popoutWindowButton} */}
                         {fullscreenButton}
                     </div>
@@ -207,6 +243,7 @@ const StageHeaderComponent = function (props) {
                         {stageControls}
                         <div className={styles.embedButtons}>
                             {/* {popoutWindowButton} */}
+                            {screenshotButton}
                             <Button
                                 className={styles.stageButton}
                                 onClick={onSetStageFull}
@@ -232,7 +269,9 @@ const StageHeaderComponent = function (props) {
 const mapStateToProps = state => ({
     customStageSize: state.scratchGui.customStageSize,
     // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
+    stageSizeMode: state.scratchGui.stageSize.stageSize,
+    isStarted: state.scratchGui.vmStatus.started,
+    projectTitle: state.scratchGui.projectTitle
 });
 
 StageHeaderComponent.propTypes = {
@@ -251,7 +290,9 @@ StageHeaderComponent.propTypes = {
     onOpenSettings: PropTypes.func.isRequired,
     isEmbedded: PropTypes.bool.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    isStarted: PropTypes.bool,
+    projectTitle: PropTypes.string
 };
 
 StageHeaderComponent.defaultProps = {

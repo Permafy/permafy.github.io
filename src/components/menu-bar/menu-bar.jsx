@@ -76,7 +76,6 @@ import dropdownCaret from './dropdown-caret.svg';
 import languageIcon from '../language-selector/language-icon.svg';
 import aboutIcon from './icon--about.svg';
 import errorIcon from './tw-error.svg';
-import themeIcon from './tw-moon.svg';
 
 import scratchLogo from './scratch-logo.svg';
 import titleImage from '../../../title.png';
@@ -518,20 +517,7 @@ class MenuBar extends React.Component {
                             </div>
                             <LanguageSelector label={this.props.intl.formatMessage(ariaMessages.language)} />
                         </div>)}
-                        {/* tw: theme toggler */}
-                        {this.props.onClickTheme && (
-                            <div
-                                className={classNames(styles.menuBarItem, styles.hoverable)}
-                                onMouseUp={this.props.onClickTheme}
-                            >
-                                <img
-                                    src={themeIcon}
-                                    width="24"
-                                    height="24"
-                                    draggable={false}
-                                />
-                            </div>
-                        )}
+                        {/* tw: dark mode is forced, so the theme toggle is intentionally hidden */}
                         {/* tw: display compile errors */}
                         {this.props.compileErrors.length > 0 && <div>
                             <div
