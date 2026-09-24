@@ -67,8 +67,8 @@ const IsLiveTests = urlParams.has('livetests');
 const messages = defineMessages({
     addExtension: {
         id: 'gui.gui.addExtension',
-        description: 'Button to add an extension in the target pane',
-        defaultMessage: 'Add Extension'
+        description: 'Button to load a custom extension in the target pane',
+        defaultMessage: 'Load Custom Extension'
     }
 });
 
