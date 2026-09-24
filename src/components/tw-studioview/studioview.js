@@ -321,7 +321,7 @@ StudioView.prototype.loadCustomProjectIds = function () {
                 this.root.removeAttribute('loading');
             }
         }.bind(this);
-        xhr.open('GET', `https://projects.penguinmod.com/api/v1/projects/getproject?projectID=${id}`);
+        xhr.open('GET', `https://projects.penguinmod.com/api/v1/projects/getproject?projectID=${id}&requestType=metadata`);
         xhr.send();
     }, this);
 };
