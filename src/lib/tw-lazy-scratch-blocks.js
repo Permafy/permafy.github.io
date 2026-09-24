@@ -71,10 +71,22 @@ const installNullSafetyGuards = ScratchBlocks => {
 
     const Field = ScratchBlocks.Field;
     if (Field && Field.prototype) {
+        const safeSourceBlock = function () {
+            if (!this || !this.sourceBlock_) {
+                return null;
+            }
+            const block = this.sourceBlock_;
+            if (!block || typeof block !== 'object') {
+                return null;
+            }
+            return block;
+        };
+
         const oldForceRerender = Field.prototype.forceRerender;
         if (oldForceRerender) {
             Field.prototype.forceRerender = function (...args) {
-                if (!this.sourceBlock_ || !this.sourceBlock_.rendered) {
+                const block = safeSourceBlock.call(this);
+                if (!block || block.rendered === false) {
                     return;
                 }
                 return oldForceRerender.apply(this, args);
@@ -84,10 +96,22 @@ const installNullSafetyGuards = ScratchBlocks => {
         const oldUpdateTextNode = Field.prototype.updateTextNode_;
         if (oldUpdateTextNode) {
             Field.prototype.updateTextNode_ = function (...args) {
-                if (!this.sourceBlock_) {
+                const block = safeSourceBlock.call(this);
+                if (!block) {
                     return;
                 }
                 return oldUpdateTextNode.apply(this, args);
+            };
+        }
+
+        const oldSetValue = Field.prototype.setValue;
+        if (oldSetValue) {
+            Field.prototype.setValue = function (...args) {
+                const block = safeSourceBlock.call(this);
+                if (!block || block.rendered === false) {
+                    return this;
+                }
+                return oldSetValue.apply(this, args);
             };
         }
     }
