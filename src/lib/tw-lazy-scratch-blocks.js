@@ -72,21 +72,15 @@ const installNullSafetyGuards = ScratchBlocks => {
     const Field = ScratchBlocks.Field;
     if (Field && Field.prototype) {
         const safeSourceBlock = function () {
-            if (!this || !this.sourceBlock_) {
-                return null;
-            }
-            const block = this.sourceBlock_;
-            if (!block || typeof block !== 'object') {
-                return null;
-            }
-            return block;
+            const block = this && this.sourceBlock_;
+            return block && typeof block === 'object' ? block : null;
         };
 
         const oldForceRerender = Field.prototype.forceRerender;
         if (oldForceRerender) {
             Field.prototype.forceRerender = function (...args) {
                 const block = safeSourceBlock.call(this);
-                if (!block || block.rendered === false) {
+                if (block && block.rendered === false) {
                     return;
                 }
                 return oldForceRerender.apply(this, args);
@@ -97,7 +91,7 @@ const installNullSafetyGuards = ScratchBlocks => {
         if (oldUpdateTextNode) {
             Field.prototype.updateTextNode_ = function (...args) {
                 const block = safeSourceBlock.call(this);
-                if (!block) {
+                if (block && block.rendered === false) {
                     return;
                 }
                 return oldUpdateTextNode.apply(this, args);
@@ -108,7 +102,7 @@ const installNullSafetyGuards = ScratchBlocks => {
         if (oldSetValue) {
             Field.prototype.setValue = function (...args) {
                 const block = safeSourceBlock.call(this);
-                if (!block || block.rendered === false) {
+                if (block && block.rendered === false) {
                     return this;
                 }
                 return oldSetValue.apply(this, args);
