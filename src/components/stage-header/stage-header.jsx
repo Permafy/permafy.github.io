@@ -85,33 +85,41 @@ const StageHeaderComponent = function (props) {
     } = props;
 
     const takeScreenshot = function () {
-        if (!vm || !vm.renderer || !vm.renderer.canvas || !isStarted) return;
+        if (!vm || !vm.renderer || !isStarted) return;
+
+        const snapshot = function (uri) {
+            const filename = `${(projectTitle || 'Project').trim() || 'Project'}-PermafyScreenshot.png`;
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        if (typeof vm.renderer.requestSnapshot === 'function') {
+            vm.renderer.draw();
+            vm.renderer.requestSnapshot(snapshot);
+            return;
+        }
+
+        const rendererCanvas = vm.renderer._gl && vm.renderer._gl.canvas ? vm.renderer._gl.canvas : vm.renderer.canvas;
+        const sourceCanvas = rendererCanvas || document.querySelector('canvas');
+        if (!sourceCanvas || sourceCanvas.width === 0 || sourceCanvas.height === 0) return;
         vm.renderer.draw();
 
-        const sourceCanvas = vm.renderer.canvas;
         const exportCanvas = document.createElement('canvas');
         exportCanvas.width = sourceCanvas.width;
         exportCanvas.height = sourceCanvas.height;
 
         const context = exportCanvas.getContext('2d');
-        const background = vm.renderer._backgroundColor4f || [1, 1, 1, 1];
-        const red = Math.round((background[0] || 1) * 255);
-        const green = Math.round((background[1] || 1) * 255);
-        const blue = Math.round((background[2] || 1) * 255);
-        const alpha = background[3] ?? 1;
+        if (!context) return;
 
         context.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
-        context.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+        context.fillStyle = 'white';
         context.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
         context.drawImage(sourceCanvas, 0, 0);
-
-        const filename = `${(projectTitle || 'Project').trim() || 'Project'}-PermafyScreenshot.png`;
-        const link = document.createElement('a');
-        link.download = filename;
-        link.href = exportCanvas.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        snapshot(exportCanvas.toDataURL('image/png'));
     };
 
     const screenshotButton = (

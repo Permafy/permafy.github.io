@@ -25,15 +25,87 @@ const get = () => {
     return _ScratchBlocks;
 };
 
+const createSafeWorkspace = () => ({
+    rendered: false,
+    options: {readOnly: true},
+    currentGesture_: null,
+    toolbox_: null,
+    isVisible: () => false,
+    getToolbox: () => null,
+    getFlyout: () => null,
+    recordCachedAreas: () => {},
+    updateToolbox: () => {},
+    scrollX: 0,
+    scrollY: 0
+});
+
+const installWorkspaceGuard = ScratchBlocks => {
+    if (!ScratchBlocks || typeof ScratchBlocks !== 'object') {
+        return;
+    }
+    let mainWorkspace = null;
+    const safeWorkspace = createSafeWorkspace();
+    Object.defineProperty(ScratchBlocks, 'mainWorkspace', {
+        configurable: true,
+        get: () => mainWorkspace || safeWorkspace,
+        set: value => {
+            mainWorkspace = value || null;
+        }
+    });
+    if (typeof window !== 'undefined' && window.Blockly && window.Blockly !== ScratchBlocks) {
+        let blocklyMainWorkspace = null;
+        Object.defineProperty(window.Blockly, 'mainWorkspace', {
+            configurable: true,
+            get: () => blocklyMainWorkspace || safeWorkspace,
+            set: value => {
+                blocklyMainWorkspace = value || null;
+            }
+        });
+    }
+};
+
+const installNullSafetyGuards = ScratchBlocks => {
+    if (!ScratchBlocks || typeof ScratchBlocks !== 'object') {
+        return;
+    }
+
+    const Field = ScratchBlocks.Field;
+    if (Field && Field.prototype) {
+        const oldForceRerender = Field.prototype.forceRerender;
+        if (oldForceRerender) {
+            Field.prototype.forceRerender = function (...args) {
+                if (!this.sourceBlock_ || !this.sourceBlock_.rendered) {
+                    return;
+                }
+                return oldForceRerender.apply(this, args);
+            };
+        }
+
+        const oldUpdateTextNode = Field.prototype.updateTextNode_;
+        if (oldUpdateTextNode) {
+            Field.prototype.updateTextNode_ = function (...args) {
+                if (!this.sourceBlock_) {
+                    return;
+                }
+                return oldUpdateTextNode.apply(this, args);
+            };
+        }
+    }
+};
+
 const load = () => {
     if (_ScratchBlocks && (isNameUrMom() === wasNameYourmom())) {
         window.ScratchBlocks = _ScratchBlocks;
+        installWorkspaceGuard(_ScratchBlocks);
         return Promise.resolve(_ScratchBlocks);
     }
     _ScratchBlocks = null;
     return import(/* webpackChunkName: "sb" */ 'scratch-blocks')
         .then(m => {
             _ScratchBlocks = m.default;
+            installWorkspaceGuard(_ScratchBlocks);
+            installNullSafetyGuards(_ScratchBlocks);
+            window.ScratchBlocks = _ScratchBlocks;
 
             for (const callback of callbacks) {
                 callback(_ScratchBlocks);
