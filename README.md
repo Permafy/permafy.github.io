@@ -41,7 +41,44 @@ src/lib/default-project/dango.svg is based on [Twemoji](https://twemoji.twitter.
 
 ## language thing
 
-it's better to use Permafy on English as on other languages it just doesn't work very well and i am too lazy to fix it
+it's better to use Permafy on English as on other languages it just doesn't work very well and i am too lazy to fix it.
+
+## default_project.pmf's README
+Welcome to Permafy, a PenguinMod fork with some other Scratch Mods features!! :D we're glad to have you here!
+
+See https://permafy.github.io/docs for the documentation and how to get started.
+
+Have so much fun playing around w/ the editor!
+(scroll down for way more information)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- additional information ---
+
+Found a Bug? Tell me! https://github.com/Permafy/permafy.github.io/issues/
+
+Wanna play around with the source code?
+https://github.com/Permafy/
+
+--- supporting ---
+
+Permafy is made by only one people and its alts.
+Wanna support him? Sorry, there is no pay method for him...
+
+--- last thing xd ---
+
+Here, we put this comment here since we got inspired by Astra Editor's default README feature and GaiaMod's (https://gaiamod-main.github.io).
 
 <!--
 
