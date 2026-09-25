@@ -223,7 +223,7 @@ module.exports = [
                 { from: path.resolve(__dirname, 'src/lib/block-media-overrides/icons/flag.png'), to: 'static/blocks-media/icons/flag.png', force: true },
                 { from: path.resolve(__dirname, 'src/lib/block-media-overrides/icons/stop.png'), to: 'static/blocks-media/icons/stop.png', force: true }
             ]}),
-            new CopyWebpackPlugin({ patterns: [{ from: 'extensions/**', to: 'static', context: 'src/examples' }] }),
+            new CopyWebpackPlugin({ patterns: [{ from: 'extensions/**', to: '', context: 'src/examples' }] }),
             new TWGenerateServiceWorkerPlugin()
         ])
     })
