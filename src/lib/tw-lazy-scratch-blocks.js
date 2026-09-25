@@ -81,6 +81,17 @@ const installNullSafetyGuards = ScratchBlocks => {
                 return oldForceRerender.apply(this, args);
             };
         }
+
+        const oldUpdateTextNode = Field.prototype.updateTextNode_;
+        if (oldUpdateTextNode) {
+            Field.prototype.updateTextNode_ = function (...args) {
+                const block = this && this.sourceBlock_;
+                if (!block || block.rendered === false) {
+                    return;
+                }
+                return oldUpdateTextNode.apply(this, args);
+            };
+        }
     }
 };
 
