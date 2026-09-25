@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Permafy Extensions</title>
+    <style>
+      :root {
+        --bg: #333333;
+        --panel: #222222;
+        --text: #ffffff;
+        --muted: #dfe8ff;
+        --accent: #4067ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .panel {
+        width: min(92vw, 720px);
+        background: var(--panel);
+        border: 1px solid rgba(255,255,255,0.08);
+        padding: 24px 28px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 5vw, 3rem);
+        letter-spacing: -0.05em;
+      }
+      p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      ul {
+        padding-left: 18px;
+        line-height: 1.9;
+      }
+      a {
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="panel">
+      <h1>Permafy Extensions</h1>
+      <p>This folder hosts extension files that can be loaded by the editor.</p>
+      <ul>
+        <li><a href="./WAYLIVES/FreeServers.js">WAYLIVES / FreeServers.js</a></li>
+      </ul>
+    </main>
+  </body>
+</html>
