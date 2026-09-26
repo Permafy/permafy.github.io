@@ -111,7 +111,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                 
                 // pm: Some bad browsers block any file type (Safari) so we need to only add .accept for those which can handle it properly
                 if (isTypeFilterAvailable()) {
-                    this.inputElement.accept = '.sb,.sb2,.sb3,.pm,.pmf,.pmp,.gaia,.dino';
+                    this.inputElement.accept = '.sb,.sb2,.sb3,.pm,.pmf,.pmp,.gaia,.dino,.snail';
                 }
 
                 this.inputElement.style = 'display: none;';
@@ -232,7 +232,7 @@ const SBFileUploaderHOC = function (WrappedComponent) {
                     const handle = thisFileInput.handle;
                     if (handle) {
                         const lowerName = this.fileToUpload.name.toLowerCase();
-                        if (lowerName.endsWith('.sb') || lowerName.endsWith('.sb2') || lowerName.endsWith('.sb3') || lowerName.endsWith('.pm') || lowerName.endsWith('.pmf') || lowerName.endsWith('.pmp') || lowerName.endsWith('.gaia') || lowerName.endsWith('.dino')) {
+                        if (lowerName.endsWith('.sb') || lowerName.endsWith('.sb2') || lowerName.endsWith('.sb3') || lowerName.endsWith('.pm') || lowerName.endsWith('.pmf') || lowerName.endsWith('.pmp') || lowerName.endsWith('.gaia') || lowerName.endsWith('.dino') || lowerName.endsWith('.snail')) {
                             this.props.onSetFileHandle(handle);
                         } else {
                             this.props.onSetFileHandle(null);

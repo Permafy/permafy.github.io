@@ -26,19 +26,25 @@ const showOpenFilePicker = async () => {
                 {
                     description: 'Supported Files',
                     accept: {
-                        'application/x.scratch.sb3': ['.pmf', '.pmp', '.pm', '.sb3', '.sb2', '.sb']
+                        'application/x.scratch.sb3': ['.pmf', '.pmp', '.pm', '.sb3', '.sb2', '.sb', '.snail']
                     }
                 },
                 {
                     description: 'Permafy Project',
                     accept: {
-                        'application/x.scratch.sb3': ['.pmf', '.pmp', '.pm']
+                        'application/x.scratch.sb3': ['.pmf', '.pmp', '.pm', '.snail']
                     }
                 },
                 {
                     description: 'Scratch Project',
                     accept: {
                         'application/x.scratch.sb3': ['.sb3', '.sb2', '.sb']
+                    }
+                },
+                {
+                    description: 'Snail IDE Project',
+                    accept: {
+                        'application/x.scratch.sb3': ['.snail']
                     }
                 }
             ]

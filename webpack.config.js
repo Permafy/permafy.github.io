@@ -212,7 +212,8 @@ module.exports = [
                 title: 'Permafy & TurboWarp Credits', noSplash: true, ...htmlWebpackPluginCommon
             }),
             new CopyWebpackPlugin({ patterns: [{ from: 'static', to: '' }] }),
-            new CopyWebpackPlugin({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }] }),
+            new CopyWebpackPlugin({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }, { from: 'favicon.png', to: 'favicon.png' }] }),
+            new CopyWebpackPlugin({ patterns: [{ from: 'snail-ide/snail-ide.github.io/static', to: 'snail-ide' }] }),
             new CopyWebpackPlugin({ patterns: [{ from: 'node_modules/scratch-blocks/media', to: 'static/blocks-media' }] }),
             new CopyWebpackPlugin({ patterns: [
                 { from: path.resolve(__dirname, 'src/lib/block-media-overrides/green-flag.svg'), to: 'static/blocks-media/green-flag.svg', force: true },

@@ -16,7 +16,7 @@ const getProjectTitleFromFilename = fileInputFilename => {
     if (!fileInputFilename) return '';
     // only parse title with valid scratch project extensions
     // (.sb, .sb2, .sb3, and .pm)
-    const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp)$/);
+    const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp|\.snail)$/);
     if (!matches) return '';
     return matches[1].substring(0, 100); // truncate project title to max 100 chars
 };

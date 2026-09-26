@@ -11,14 +11,14 @@ You should also update your credits & privacy policy pages. Some contributors ma
 Update any links to our github to yours so people can find the source code. Also make sure to update links that you have your own version of like feedback, docs, or packager.
 
 ### The "don't do that" section
-Don't remove any credit to Scratch, TurboWarp, PenguinMod, or Permafy. That's just not cool.  
+Don't remove any credit to Scratch, TurboWarp, PenguinMod, Permafy, Snail-IDE, or GaiaMod. That's just not cool.  
 Imagine if someone just forked your copy and pretended they made it all themselves.
 
 Don't change the license or visibility of your repositories if you don't know or understand what you are doing.
 
 # Server changes
-Unless you plan on keeping your mod 100% compatible with Permafy, please remove the Upload button and any project sharing features.
+Unless you plan on keeping your mod 100% compatible with PenguinMod, please remove the Upload button and any project sharing features.
 
-Our APIs are only built for Permafy and therefore will likely end up breaking in your mod at some point or another.
+The APIs are only built for PenguinMod and therefore will likely end up breaking in your mod at some point or another.
 
-We also do not allow projects that only work outside of Permafy so if we end up having a lot of broken uploads from your site, then we'll have to block your site from being able to use the project API.
+They also do not allow projects that only work outside of PenguinMod so if they end up having a lot of broken uploads from your site, then they'll have to block your site from being able to use the project API.

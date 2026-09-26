@@ -28,6 +28,8 @@ Windows
  * [ ] Chrome 
  * [ ] Firefox 
  * [ ] Edge
+ * [ ] Brave
+ * [ ] Thorium
  
 Chromebook
  * [ ] Chrome
