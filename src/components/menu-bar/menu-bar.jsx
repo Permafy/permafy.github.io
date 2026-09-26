@@ -477,14 +477,18 @@ class MenuBar extends React.Component {
             >
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        <div className={styles.titleImageWrapper}>
+                        <a
+                            href="https://permafy.github.io/"
+                            className={classNames(styles.titleImageWrapper, styles.menuBarItem, styles.hoverable, styles.titleImageLink)}
+                            aria-label="Permafy home"
+                        >
                             <img
                                 alt="Permafy"
                                 className={styles.titleImage}
                                 draggable={false}
                                 src={titleImage}
                             />
-                        </div>
+                        </a>
                         {this.props.onClickLogo ? (
                             <div className={classNames(styles.menuBarItem)}>
                                 <img

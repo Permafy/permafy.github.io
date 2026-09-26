@@ -59,6 +59,10 @@
     padding: 0 .5rem;
 }
 
+.title-image-link {
+    text-decoration: none;
+}
+
 .title-image {
     display: block;
     width: auto;
