@@ -1458,20 +1458,6 @@ if (IsLocal || IsLiveTests) {
             featured: true
         },
         {
-            name: 'Snail IDE Blocks',
-            extensionId: 'https://permafy.github.io/snail-ide/Eureka-7.js',
-            iconURL: defaultExtensionIcon,
-            description: 'Loads the Snail IDE extension scripts from the cloned Snail IDE project.',
-            featured: true
-        },
-        {
-            name: 'Snail IDE Extra Blocks',
-            extensionId: 'https://permafy.github.io/snail-ide/Monitors-Plus.js',
-            iconURL: defaultExtensionIcon,
-            description: 'Additional Snail IDE blocks for custom project tooling.',
-            featured: true
-        },
-        {
             name: 'Editor',
             href: 'https://studio.penguinmod.com/editor.html',
             extensionId: 'special_editorExtensionLibrary',
