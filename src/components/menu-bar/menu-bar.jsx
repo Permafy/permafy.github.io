@@ -51,9 +51,11 @@ import {
     accountMenuOpen,
     openFileMenu,
     closeFileMenu,
+    toggleFileMenu,
     fileMenuOpen,
     openEditMenu,
     closeEditMenu,
+    toggleEditMenu,
     editMenuOpen,
     openErrorsMenu,
     closeErrorsMenu,
@@ -76,6 +78,11 @@ import dropdownCaret from './dropdown-caret.svg';
 import languageIcon from '../language-selector/language-icon.svg';
 import aboutIcon from './icon--about.svg';
 import errorIcon from './tw-error.svg';
+
+import fileIcon from './gm-file.svg';
+import editIcon from './gm-pencil.svg';
+import addonsIcon from './gm-puzzle.svg';
+import advancedIcon from './gm-star-advanced.svg';
 
 import scratchLogo from './scratch-logo.svg';
 import titleImage from '../../../title.png';
@@ -199,6 +206,7 @@ class MenuBar extends React.Component {
         super(props);
         bindAll(this, [
             'handleClickSeeInside',
+            'handleClickBackHome',
             'handleClickNew',
             'handleClickNewWindow',
             'handleClickRemix',
@@ -372,6 +380,9 @@ class MenuBar extends React.Component {
     handleClickSeeInside() {
         this.props.onClickSeeInside();
     }
+    handleClickBackHome() {
+        window.location.assign('https://permafy.github.io/');
+    }
     buildAboutMenu(onClickAbout) {
         if (!onClickAbout) {
             // hide the button
@@ -492,13 +503,13 @@ class MenuBar extends React.Component {
                         {this.props.onClickLogo ? (
                             <div className={classNames(styles.menuBarItem)}>
                                 <img
-                                    alt="Scratch"
+                                    alt="Permafy"
                                     className={classNames(styles.scratchLogo, {
                                         [styles.clickable]: typeof this.props.onClickLogo !== 'undefined'
                                     })}
                                     draggable={false}
-                                    src={this.props.logo}
-                                    onClick={this.props.onClickLogo}
+                                    src={titleImage}
+                                    onClick={() => window.location.href = 'https://permafy.github.io/'}
                                 />
                             </div>
                         ) : null}
@@ -521,7 +532,6 @@ class MenuBar extends React.Component {
                             </div>
                             <LanguageSelector label={this.props.intl.formatMessage(ariaMessages.language)} />
                         </div>)}
-                        {/* tw: dark mode is forced, so the theme toggle is intentionally hidden */}
                         {/* tw: display compile errors */}
                         {this.props.compileErrors.length > 0 && <div>
                             <div
@@ -576,12 +586,23 @@ class MenuBar extends React.Component {
                             </div>
                         </div>}
                         {(this.props.canManageFiles) && (
-                            <div
-                                className={classNames(styles.menuBarItem, styles.hoverable, {
+                            <button
+                                type="button"
+                                className={classNames(styles.menuBarItem, styles.hoverable, styles.menuBarTrigger, {
                                     [styles.active]: this.props.fileMenuOpen
                                 })}
-                                onMouseUp={this.props.onClickFile}
+                                onClick={this.props.onClickFile}
+                                aria-expanded={this.props.fileMenuOpen}
+                                aria-haspopup="menu"
                             >
+                                <img
+                                    src={fileIcon}
+                                    draggable={false}
+                                    width={20}
+                                    height={20}
+                                    alt=""
+                                    className={styles.menuBarIcon}
+                                />
                                 <FormattedMessage
                                     defaultMessage="File"
                                     description="Text for file dropdown menu"
@@ -739,14 +760,25 @@ class MenuBar extends React.Component {
                                         </MenuItem>
                                     </MenuSection>
                                 </MenuBarMenu>
-                            </div>
+                            </button>
                         )}
-                        <div
-                            className={classNames(styles.menuBarItem, styles.hoverable, {
+                        <button
+                            type="button"
+                            className={classNames(styles.menuBarItem, styles.hoverable, styles.menuBarTrigger, {
                                 [styles.active]: this.props.editMenuOpen
                             })}
-                            onMouseUp={this.props.onClickEdit}
+                            onClick={this.props.onClickEdit}
+                            aria-expanded={this.props.editMenuOpen}
+                            aria-haspopup="menu"
                         >
+                            <img
+                                src={editIcon}
+                                draggable={false}
+                                width={20}
+                                height={20}
+                                alt=""
+                                className={styles.menuBarIcon}
+                            />
                             <div className={classNames(styles.editMenu)}>
                                 <FormattedMessage
                                     defaultMessage="Edit"
@@ -863,12 +895,22 @@ class MenuBar extends React.Component {
                                     </MenuItem>
                                 </MenuSection>
                             </MenuBarMenu>
-                        </div>
+                        </button>
                         {this.props.onClickAddonSettings && (
-                            <div
-                                className={classNames(styles.menuBarItem, styles.hoverable)}
-                                onMouseUp={this.props.onClickAddonSettings}
+                            <button
+                                type="button"
+                                className={classNames(styles.menuBarItem, styles.hoverable, styles.menuBarTrigger)}
+                                onClick={this.props.onClickAddonSettings}
+                                aria-haspopup="dialog"
                             >
+                                <img
+                                    src={addonsIcon}
+                                    draggable={false}
+                                    width={20}
+                                    height={20}
+                                    alt=""
+                                    className={styles.menuBarIcon}
+                                />
                                 <div>
                                     <FormattedMessage
                                         // Note: this string is used by scratch-vm for the addons blocks category
@@ -877,12 +919,22 @@ class MenuBar extends React.Component {
                                         id="tw.menuBar.addons"
                                     />
                                 </div>
-                            </div>
+                            </button>
                         )}
-                        <div
-                            className={classNames(styles.menuBarItem, styles.hoverable)}
-                            onMouseUp={this.props.onClickSettings}
+                        <button
+                            type="button"
+                            className={classNames(styles.menuBarItem, styles.hoverable, styles.menuBarTrigger)}
+                            onClick={this.props.onClickSettings}
+                            aria-haspopup="dialog"
                         >
+                            <img
+                                src={advancedIcon}
+                                draggable={false}
+                                width={20}
+                                height={20}
+                                alt=""
+                                className={styles.menuBarIcon}
+                            />
                             <div>
                                 <FormattedMessage
                                     defaultMessage="Settings"
@@ -890,7 +942,7 @@ class MenuBar extends React.Component {
                                     id="pm.menuBar.gameplaySettings"
                                 />
                             </div>
-                        </div>
+                        </button>
                     </div>
                     <Divider className={classNames(styles.divider)} />
                     {/* {(this.props.authorUsername && this.props.authorUsername !== this.props.username) ? (
@@ -956,20 +1008,16 @@ class MenuBar extends React.Component {
                             : (null)}
                     </div>
                     <div className={styles.menuBarItem}>
-                        <a
-                            className={styles.feedbackLink}
-                            href="https://permafy.github.io/"
-                            rel="noopener noreferrer"
-                            target="_blank"
+                        <Button
+                            className={styles.feedbackButton}
+                            onClick={this.handleClickBackHome}
                         >
-                            <Button className={styles.feedbackButton}>
-                                <FormattedMessage
-                                    defaultMessage="Back to Home"
-                                    description="Button to go back to the home page"
-                                    id="pm.backToHomeButton"
-                                />
-                            </Button>
-                        </a>
+                            <FormattedMessage
+                                defaultMessage="Back to Home"
+                                description="Button to go back to the home page"
+                                id="pm.backToHomeButton"
+                            />
+                        </Button>
                     </div>
                 </div>
 
@@ -1122,9 +1170,9 @@ const mapDispatchToProps = dispatch => ({
     onOpenTipLibrary: () => dispatch(openTipsLibrary()),
     onClickAccount: () => dispatch(openAccountMenu()),
     onRequestCloseAccount: () => dispatch(closeAccountMenu()),
-    onClickFile: () => dispatch(openFileMenu()),
+    onClickFile: () => dispatch(toggleFileMenu()),
     onRequestCloseFile: () => dispatch(closeFileMenu()),
-    onClickEdit: () => dispatch(openEditMenu()),
+    onClickEdit: () => dispatch(toggleEditMenu()),
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onClickLanguage: () => dispatch(openLanguageMenu()),
     onRequestCloseLanguage: () => dispatch(closeLanguageMenu()),

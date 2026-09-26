@@ -4,7 +4,7 @@ import React from 'react';
 import locales from '@turbowarp/scratch-l10n';
 import styles from './language-selector.css';
 
-const supportedLanguages = ['en', 'es'];
+const supportedLanguages = ['es', 'en'];
 
 const LanguageSelector = ({currentLocale, label, onChange}) => (
     <select

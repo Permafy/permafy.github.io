@@ -15,11 +15,6 @@ const ButtonComponent = ({
     children,
     ...props
 }) => {
-
-    if (disabled) {
-        onClick = function () {};
-    }
-
     const icon = iconSrc && (
         <img
             className={classNames(iconClassName, styles.icon)}
@@ -31,18 +26,19 @@ const ButtonComponent = ({
     );
 
     return (
-        <span
+        <button
+            type="button"
             className={classNames(
                 styles.outlinedButton,
                 className
             )}
-            role="button"
-            onClick={onClick}
+            disabled={disabled}
+            onClick={disabled ? undefined : onClick}
             {...props}
         >
             {icon}
             <div className={styles.content}>{children}</div>
-        </span>
+        </button>
     );
 };
 

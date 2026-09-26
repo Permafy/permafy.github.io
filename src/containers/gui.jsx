@@ -191,6 +191,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
     onExtensionButtonClick: () => dispatch(openCustomExtensionModal()),
+    onClickAddonSettings: () => {
+        const url = new URL('addons.html', window.location.href);
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
+    },
     onActivateTab: (tab) => dispatch(activateTab(tab)),
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
     onActivateSoundsTab: () => dispatch(activateTab(SOUNDS_TAB_INDEX)),

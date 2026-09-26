@@ -30,8 +30,9 @@ export default function (vm) {
     };
 
     const jsonForHatBlockMenu = function (hatName, name, menuOptionsFn, colors, start) {
+        const safeHatName = hatName || ScratchBlocks.Msg.CONTROL_STARTASCLONE || 'when I start as a clone';
         return {
-            message0: hatName,
+            message0: safeHatName,
             args0: [
                 {
                     type: 'field_dropdown',

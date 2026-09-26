@@ -644,21 +644,6 @@ const control = function (isInitialSetup, isStage) {
                 </shadow>
             </value>
         </block>
-        <block type="control_from_to">
-            <value name="FROM">
-                <shadow type="math_integer">
-                    <field name="NUM">1</field>
-                </shadow>
-            </value>
-            <value name="TO">
-                <shadow type="math_integer">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-            <value name="SHADOW">
-                <shadow type="control_from_to_index" />
-            </value>
-        </block>
         <block type="control_exitLoop"/>
         <block type="control_continueLoop"/>
         ${blockSeparator}

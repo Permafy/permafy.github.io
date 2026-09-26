@@ -34,6 +34,15 @@ const getSiteRoot = () => {
     return root.endsWith('/') ? root : `${root}/`;
 };
 
+const getFeaturedPageUrl = () => {
+    const root = process.env.ROOT || '/';
+    const normalizedRoot = root === '/' ? '/' : root.endsWith('/') ? root : `${root}/`;
+    const baseUrl = normalizedRoot.startsWith('http')
+        ? normalizedRoot
+        : `${window.location.origin}${normalizedRoot}`;
+    return new URL('featured', baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`).toString();
+};
+
 class FeaturedProjects extends React.Component {
     constructor(props) {
         super(props);
@@ -149,8 +158,7 @@ class FeaturedProjects extends React.Component {
                         <button
                             className={styles.sourceButton}
                             onClick={() => {
-                                const siteRoot = getSiteRoot();
-                                window.location.href = `${siteRoot}featured`;
+                                window.location.assign(getFeaturedPageUrl());
                             }}
                             type="button"
                         >
