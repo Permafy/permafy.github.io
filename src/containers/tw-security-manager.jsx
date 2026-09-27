@@ -35,6 +35,8 @@ const isTrustedExtensionOrigin = url => (
     url.startsWith('https://pen-group.github.io/') || // Pen-Group / ObviousAlexC
 
     /* For development */
+    url.startsWith('http://localhost:3000') ||
+    url.startsWith('http://127.0.0.1:3000') ||
     url.startsWith('http://localhost:8000') ||
     url.startsWith('http://localhost:6000') || // Launcher Home
     url.startsWith('http://localhost:6001') || // Launcher Extensions

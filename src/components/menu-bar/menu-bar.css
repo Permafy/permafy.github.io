@@ -7,9 +7,6 @@
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
-    position: sticky;
-    top: 0;
-    z-index: $z-index-menu-bar;
 
     /*
         For most things, we shouldn't explicitly set height, and let the
@@ -21,9 +18,6 @@
     */
     box-sizing: border-box;
     height: $menu-bar-height;
-    border-radius: 0;
-    border-bottom: 1px solid rgba(29, 52, 96, 0.18);
-    overflow: visible;
 
     /*
         @todo: This adds ~20px in Chrome, when scrolling to the right,
@@ -33,13 +27,12 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: $menu-bar-standard-font-size;
     font-weight: bold;
-    background: linear-gradient(180deg, #8cafff 0%, #7ea7f9 100%);
-    background-image: none;
-    color: $motion-text;
-    box-shadow: 0 0.1em 0.5em hsla(0, 0%, 0%, 0.22);
+    background-color: $menu-bar-background;
+    background-image: $menu-bar-background-image;
+    color: $ui-white;
 }
 [theme="dark"] .menu-bar {
-    background: linear-gradient(180deg, #8cafff 0%, #7ea7f9 100%);
+    background-color: $menu-bar-background-dark;
 }
 
 .main-menu {
@@ -51,32 +44,30 @@
     flex-grow: 1;
 }
 
+/* Menu bar alignment options */
+.main-menu-align-left {
+    justify-content: flex-start;
+}
+.main-menu-align-center {
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: 100%;
+    width: max-content
+}
+.main-menu-align-right {
+    justify-content: flex-end;
+}
+
 .scratch-logo {
-    height:  1.6rem;
+    height:  2.6rem;
     vertical-align: middle;
 }
 
 .scratch-logo.clickable {
     cursor: pointer;
-}
-
-.title-image-wrapper {
-    display: flex;
-    align-items: center;
-    height: $menu-bar-height;
-    padding: 0 .5rem;
-}
-
-.title-image-link {
-    text-decoration: none;
-}
-
-.title-image {
-    display: block;
-    width: auto;
-    height: 2.4rem;
-    max-width: 12rem;
-    object-fit: contain;
 }
 
 .language-icon {
@@ -96,36 +87,13 @@
 
 .menu-bar-item {
     display: flex;
-    padding: 0 0.25rem;
     text-decoration: none;
-    color: #fff;
     user-select: none;
     align-self: center;
     position: relative;
     align-items: center;
     white-space: nowrap;
     height: $menu-bar-height;
-    border-radius: 0.7rem;
-    transition: background-color 120ms ease, filter 120ms ease;
-    gap: 0.35rem;
-}
-
-.menu-bar-item.menu-bar-trigger {
-    appearance: none;
-    border: 0;
-    background: transparent;
-    font: inherit;
-    line-height: inherit;
-    cursor: pointer;
-    margin: 0.25rem 0;
-    padding: 0 0.75rem;
-    color: #fff;
-}
-
-.menu-bar-icon {
-    display: block;
-    flex-shrink: 0;
-    filter: brightness(0) invert(1);
 }
 
 .menu-bar-item.hoverable {
@@ -133,10 +101,8 @@
 }
 
 .menu-bar-item.active,
-.menu-bar-item.hoverable:hover,
-.menu-bar-item.menu-bar-trigger:hover {
-    background-color: rgba(0, 0, 0, 0.14);
-    filter: brightness(1.04);
+.menu-bar-item.hoverable:hover {
+    background-color: $ui-black-transparent;
 }
 
 .menu-bar-item.growable {
@@ -178,9 +144,7 @@
 
 .feedback-button {
     background-color: $ui-white;
-    color: #8cafff;
     height: 34px;
-    border-radius: 999px;
 }
 
 .divider {
@@ -195,11 +159,6 @@
 
 .menu-bar-button {
     height: $menu-bar-button-size;
-    border-radius: 999px;
-}
-
-.feedback-button {
-    border-radius: 999px;
 }
 
 .remix-button {
@@ -292,4 +251,60 @@
 .menu-item-link {
     color: $ui-white !important;
     text-decoration: none;
+}
+
+.moon-icon {
+    display: block; /* Afficher l'icône de la lune par défaut */
+}
+
+.sun-icon {
+    display: none; /* Masquer l'icône du soleil par défaut */
+}
+
+.midnight-icon {
+    display: none; /* Masquer l'icône du soleil par défaut */
+}
+
+/* Lorsque le thème est sombre */
+[theme="dark"] .moon-icon {
+    display: none; /* Masquer l'icône de la lune */
+}
+
+[theme="dark"] .sun-icon {
+    display: block; /* Afficher l'icône du soleil */
+}
+
+[theme="midight"] .sun-icon {
+    display: block; /* Afficher l'icône du soleil */
+}
+
+
+@media only screen and (max-width: 1124px) {
+    .tutorials-label, .collapsible-label {
+        display: none;
+    }
+
+    .help-icon {
+        margin-right: 0;
+    }
+}
+
+.submenu-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.submenu-row-label {
+    flex: 1;
+}
+
+.submenu-caret {
+    margin-left: 0.5rem;
+    opacity: 0.8;
+    transform: rotate(-90deg);
+}
+
+[dir="rtl"] .submenu-caret {
+    transform: rotate(90deg);
 }

@@ -14,8 +14,10 @@ const MODAL_TIPS_LIBRARY = 'tipsLibrary';
 const MODAL_USERNAME = 'usernameModal';
 const MODAL_SETTINGS = 'settingsModal';
 const MODAL_CUSTOM_EXTENSION = 'customExtensionModal';
+const MODAL_EXTS = 'extensionManagerModal';
 const MODAL_RESTORE_POINTS = 'restorePointModal';
 const MODAL_FONTS = 'fontsModal';
+const MODAL_SCREENSHOT = 'screenshotModal';
 
 const initialState = {
     [MODAL_BACKDROP_LIBRARY]: false,
@@ -31,8 +33,10 @@ const initialState = {
     [MODAL_USERNAME]: false,
     [MODAL_SETTINGS]: false,
     [MODAL_CUSTOM_EXTENSION]: false,
+    [MODAL_EXTS]: false,
     [MODAL_RESTORE_POINTS]: false,
     [MODAL_FONTS]: false,
+    [MODAL_SCREENSHOT]: false,
     extensionModalSwapId: null
 };
 
@@ -106,11 +110,15 @@ const openSettingsModal = function () {
 const openCustomExtensionModal = function (swapId) {
     return openModal(MODAL_CUSTOM_EXTENSION, swapId);
 };
+const openExtManagerModal = () => openModal(MODAL_EXTS);
 const openRestorePointModal = function () {
     return openModal(MODAL_RESTORE_POINTS);
 };
 const openFontsModal = function () {
     return openModal(MODAL_FONTS);
+};
+const openScreenshotModal = function () {
+    return openModal(MODAL_SCREENSHOT);
 };
 const closeBackdropLibrary = function () {
     return closeModal(MODAL_BACKDROP_LIBRARY);
@@ -151,11 +159,15 @@ const closeSettingsModal = function () {
 const closeCustomExtensionModal = function () {
     return closeModal(MODAL_CUSTOM_EXTENSION);
 };
+const closeExtManagerModal = () => closeModal(MODAL_EXTS);
 const closeRestorePointModal = function () {
     return closeModal(MODAL_RESTORE_POINTS);
 };
 const closeFontsModal = function () {
     return closeModal(MODAL_FONTS);
+};
+const closeScreenshotModal = function () {
+    return closeModal(MODAL_SCREENSHOT);
 };
 export {
     reducer as default,
@@ -173,8 +185,10 @@ export {
     openUsernameModal,
     openSettingsModal,
     openCustomExtensionModal,
+    openExtManagerModal,
     openRestorePointModal,
     openFontsModal,
+    openScreenshotModal,
     closeBackdropLibrary,
     closeCostumeLibrary,
     closeExtensionLibrary,
@@ -188,6 +202,8 @@ export {
     closeUsernameModal,
     closeSettingsModal,
     closeCustomExtensionModal,
+    closeExtManagerModal,
     closeRestorePointModal,
-    closeFontsModal
+    closeFontsModal,
+    closeScreenshotModal
 };

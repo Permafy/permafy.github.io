@@ -4,16 +4,17 @@ const TOGGLE_MENU = 'scratch-gui/menus/TOGGLE_MENU';
 
 const MENU_ABOUT = 'aboutMenu';
 const MENU_ACCOUNT = 'accountMenu';
+const MENU_SETTINGS = 'settingsMenu';
 const MENU_FILE = 'fileMenu';
 const MENU_EDIT = 'editMenu';
 const MENU_LANGUAGE = 'languageMenu';
 const MENU_LOGIN = 'loginMenu';
 const MENU_ERRORS = 'errorMenu';
 
-
 const initialState = {
     [MENU_ABOUT]: false,
     [MENU_ACCOUNT]: false,
+    [MENU_SETTINGS]: false,
     [MENU_FILE]: false,
     [MENU_EDIT]: false,
     [MENU_LANGUAGE]: false,
@@ -60,6 +61,10 @@ const openAccountMenu = () => openMenu(MENU_ACCOUNT);
 const closeAccountMenu = () => closeMenu(MENU_ACCOUNT);
 const toggleAccountMenu = () => toggleMenu(MENU_ACCOUNT);
 const accountMenuOpen = state => state.scratchGui.menus[MENU_ACCOUNT];
+const openSettingsMenu = () => openMenu(MENU_SETTINGS);
+const closeSettingsMenu = () => closeMenu(MENU_SETTINGS);
+const toggleSettingsMenu = () => toggleMenu(MENU_SETTINGS);
+const settingsMenuOpen = state => state.scratchGui.menus[MENU_SETTINGS];
 const openFileMenu = () => openMenu(MENU_FILE);
 const closeFileMenu = () => closeMenu(MENU_FILE);
 const toggleFileMenu = () => toggleMenu(MENU_FILE);
@@ -92,6 +97,10 @@ export {
     closeAccountMenu,
     toggleAccountMenu,
     accountMenuOpen,
+    openSettingsMenu,
+    closeSettingsMenu,
+    toggleSettingsMenu,
+    settingsMenuOpen,
     openFileMenu,
     closeFileMenu,
     toggleFileMenu,
