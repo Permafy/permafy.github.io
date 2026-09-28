@@ -96,8 +96,35 @@
     height: $menu-bar-height;
 }
 
+.menu-bar-action {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.75rem;
+}
+
 .menu-bar-item.hoverable {
     cursor: pointer;
+}
+
+.menu-bar-action.hoverable {
+    cursor: pointer;
+}
+
+.menu-bar-action.hoverable:hover {
+    background-color: $ui-black-transparent;
+}
+
+.menu-bar-icon {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin-right: 0.4rem;
+}
+
+[dir="rtl"] .menu-bar-icon {
+    margin-right: 0;
+    margin-left: 0.4rem;
 }
 
 .menu-bar-item.active,
@@ -138,6 +165,16 @@
     color: $motion-primary !important;
     text-decoration: none;
 }
+
+.back-to-home-item {
+    margin-left: 0.5rem;
+}
+
+[dir="rtl"] .back-to-home-item {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
 [theme="dark"] .feedback-link {
     color: $motion-primary-dark !important;
 }

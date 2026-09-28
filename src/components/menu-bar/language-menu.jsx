@@ -9,7 +9,7 @@ import locales from '@turbowarp/scratch-l10n';
 import check from './check.svg';
 import {MenuItem, Submenu} from '../menu/menu.jsx';
 import languageIcon from '../language-selector/language-icon.svg';
-import {languageMenuOpen, openLanguageMenu} from '../../reducers/menus.js';
+import {closeLanguageMenu, languageMenuOpen, openLanguageMenu} from '../../reducers/menus.js';
 import {selectLocale} from '../../reducers/locales.js';
 
 import styles from './settings-menu.css';
@@ -92,6 +92,7 @@ class LanguageMenu extends React.PureComponent {
                 >
                     {
                         Object.keys(locales)
+                            .filter(locale => locale === 'en' || locale === 'es')
                             .map(locale => (
                                 <MenuItem
                                     key={locale}
@@ -137,6 +138,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onChangeLanguage: locale => {
         dispatch(selectLocale(locale));
+        dispatch(closeLanguageMenu());
         ownProps.onRequestCloseSettings();
     },
     onRequestOpen: () => dispatch(openLanguageMenu())

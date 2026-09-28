@@ -42,7 +42,7 @@ import '../../lib/normalize.css';
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/jsx-no-bind */
 
-const locale = detectLocale(Object.keys(messagesByLocale));
+const locale = detectLocale(['en', 'es']);
 document.documentElement.lang = locale;
 
 const addonTranslations = messagesByLocale[locale] ? messagesByLocale[locale]() : {};

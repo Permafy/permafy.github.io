@@ -26,6 +26,7 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
+import TWGuiThemeMenu from './tw-theme-gui.jsx';
 import LanguageMenu from './language-menu.jsx';
 
 import FramerateChanger from '../../containers/tw-framerate-changer.jsx';
@@ -55,8 +56,8 @@ import {
     openFileMenu,
     closeFileMenu,
     fileMenuOpen,
-    openSettingsMenu,
     closeSettingsMenu,
+    toggleSettingsMenu,
     settingsMenuOpen,
     openEditMenu,
     closeEditMenu,
@@ -94,7 +95,7 @@ import addonsIcon from './addons.svg';
 import advancedIcon from './gm-star-advanced.svg';
 import videoIcon from './gm-video.svg';
 
-import scratchLogo from './scratch-logo.svg';
+import gaiamodLogo from '../../../static/title.png';
 
 import ChevronDown from './ChevronDown.jsx';
 
@@ -217,6 +218,7 @@ class MenuBar extends React.Component {
         super(props);
         bindAll(this, [
             'handleClickSeeInside',
+            'handleClickLogo',
             'handleClickNew',
             'handleClickNewWindow',
             'handleClickRemix',
@@ -241,6 +243,9 @@ class MenuBar extends React.Component {
     }
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyPress);
+    }
+    handleClickLogo() {
+        window.location.href = 'https://permafy.github.io/';
     }
     handleClickNew() {
         // if the project is dirty, and user owns the project, we will autosave.
@@ -513,10 +518,8 @@ class MenuBar extends React.Component {
                                 className={classNames(styles.scratchLogo, styles.clickable)}
                                 id={(window.location.pathname).includes("editor.html") ? "gui-editor-logo" : "gui-main-logo"}
                                 draggable={false}
-                                src={this.props.logo}
-                                onClick={() => {
-                                    window.location.href = "https://gaiamod-main.github.io/GaiaMod-Home/"
-                                }}
+                                src={this.props.logo || gaiamodLogo}
+                                onClick={this.handleClickLogo}
                             />
                         </div>
                         {/*(this.props.canChangeLanguage) && (<div
@@ -627,24 +630,29 @@ class MenuBar extends React.Component {
                                 </MenuBarMenu>
                             </div>
                         </div>}
-<div
-                            className={classNames(styles.menuBarItem, styles.hoverable, {
+                        <div
+                            className={classNames(styles.menuBarItem, {
                                 [styles.active]: this.props.settingsMenuOpen
                             })}
-                            onMouseUp={this.props.onClickSettingsItem}
                         >
-						<img
+                            <div
+                                className={classNames(styles.menuBarAction, styles.hoverable)}
+                                onMouseUp={this.props.onClickSettingsItem}
+                            >
+                                <img
+                                    className={styles.menuBarIcon}
                                     src={settingsIcon}
                                     draggable={false}
-                                    width={20}
-                                    height={20}
+                                    width={24}
+                                    height={24}
                                 />
-                            <div className={classNames(styles.editMenu)}>
-                                <FormattedMessage
-                                    defaultMessage="Settings"
-                                    description="Text for settings dropdown menu"
-                                    id="gui.menuBar.settings"
-                                />
+                                <div className={classNames(styles.editMenu)}>
+                                    <FormattedMessage
+                                        defaultMessage="Settings"
+                                        description="Text for settings dropdown menu"
+                                        id="gui.menuBar.settings"
+                                    />
+                                </div>
                             </div>
                             <MenuBarMenu
                                 className={classNames(styles.menuBarMenu)}
@@ -653,11 +661,17 @@ class MenuBar extends React.Component {
                                 onRequestClose={this.props.onRequestCloseSettings}
                             >
                                 <MenuSection>
-								{this.props.canChangeLanguage && <LanguageMenu onRequestCloseSettings={this.props.onRequestCloseSettings} />}
+                                    {this.props.canChangeLanguage && (
+                                        <LanguageMenu
+                                            onRequestCloseSettings={this.props.onRequestCloseSettings}
+                                        />
+                                    )}
                                     <TWGuiThemeMenu
                                         onChangeTheme={this.props.onClickTheme}
+                                        onRequestCloseSettings={
+                                            this.props.onRequestCloseSettings
+                                        }
                                     />
-                                    <TWAccentThemeMenu />
                                     {/*<MenuItem onClick={() => {alert("doesn't do anything")}}>
                                         <FormattedMessage
                                             defaultMessage="Doesn't do anything.."
@@ -675,11 +689,12 @@ class MenuBar extends React.Component {
                                 })}
                                 onMouseUp={this.props.onClickFile}
                             >
-							<img
+                                <img
+                                    className={styles.menuBarIcon}
                                     src={fileIcon}
                                     draggable={false}
-                                    width={20}
-                                    height={20}
+                                    width={24}
+                                    height={24}
                                 />
                                 <FormattedMessage
                                     defaultMessage="File"
@@ -847,10 +862,11 @@ class MenuBar extends React.Component {
                             onMouseUp={this.props.onClickEdit}
                         >
 						<img
+                        className={styles.menuBarIcon}
                                     src={editIcon}
                                     draggable={false}
-                                    width={20}
-                                    height={20}
+                        width={24}
+                        height={24}
                                 />
                             <div className={classNames(styles.editMenu)}>
                                 <FormattedMessage
@@ -981,11 +997,12 @@ class MenuBar extends React.Component {
                                 className={classNames(styles.menuBarItem, styles.hoverable)}
                                 onMouseUp={this.props.onClickAddonSettings}
                             >
-                               <img
+                             <img
+                                 className={styles.menuBarIcon}
                                     src={addonsIcon}
                                     draggable={false}
-                                    width={20}
-                                    height={20}
+                                 width={24}
+                                 height={24}
                                 />
                                 <div>
                                     <FormattedMessage
@@ -1001,11 +1018,12 @@ class MenuBar extends React.Component {
                             className={classNames(styles.menuBarItem, styles.hoverable)}
                             onMouseUp={this.props.onClickSettings}
                         >
-                               <img
+                             <img
+                                 className={styles.menuBarIcon}
                                     src={advancedIcon}
                                     draggable={false}
-                                    width={20}
-                                    height={20}
+                                 width={24}
+                                 height={24}
                                 />
                             <div>
                                 <FormattedMessage
@@ -1079,12 +1097,10 @@ class MenuBar extends React.Component {
                             />)
                             : (null)}
                     </div>
-                    <div className={styles.menuBarItem}>
+                    <div className={classNames(styles.menuBarItem, styles.backToHomeItem)}>
                         <a
                             className={styles.feedbackLink}
-                            href="https://gaiamod-main.github.io/GaiaMod-Home/"
-                            rel="noopener noreferrer"
-                            target="_blank"
+                            href="/"
                         >
                             <Button className={styles.feedbackButton}>
                                 <FormattedMessage
@@ -1216,7 +1232,7 @@ MenuBar.propTypes = {
 };
 
 MenuBar.defaultProps = {
-    logo: scratchLogo,
+    logo: gaiamodLogo,
     usernameLoggedIn: false,
     onShare: () => { }
 };
@@ -1260,7 +1276,7 @@ const mapDispatchToProps = dispatch => ({
     onRequestCloseAccount: () => dispatch(closeAccountMenu()),
     onClickFile: () => dispatch(openFileMenu()),
     onRequestCloseSettings: () => dispatch(closeSettingsMenu()),
-    onClickSettingsItem: () => dispatch(openSettingsMenu()),
+    onClickSettingsItem: () => dispatch(toggleSettingsMenu()),
     onRequestCloseFile: () => dispatch(closeFileMenu()),
     onClickEdit: () => dispatch(openEditMenu()),
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
@@ -1284,7 +1300,6 @@ const mapDispatchToProps = dispatch => ({
         dispatch(openSettingsModal());
         dispatch(closeEditMenu());
     },
-onClickSettingsItem: () => dispatch(openSettingsMenu()),
    onClickExtManager: () => {
         dispatch(openExtManagerModal());
         dispatch(closeEditMenu());

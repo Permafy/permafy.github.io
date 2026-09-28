@@ -180,7 +180,7 @@ module.exports = [
                 title: 'Permafy - Editor', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
-                chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'featured/index.html',
+                chunks: ['player'], template: 'src/playground/index.ejs', filename: 'featured/index.html',
                 title: 'Permafy - Featured Projects', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
@@ -212,7 +212,6 @@ module.exports = [
                 title: 'Permafy & TurboWarp Credits', noSplash: true, ...htmlWebpackPluginCommon
             }),
             new CopyWebpackPlugin({ patterns: [{ from: 'static', to: '' }] }),
-            new CopyWebpackPlugin({ patterns: [{ from: 'snail-ide.github.io/static', to: 'snail-ide' }] }),
             new CopyWebpackPlugin({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }, { from: 'favicon.png', to: 'favicon.png' }] }),
             new CopyWebpackPlugin({ patterns: [{ from: 'node_modules/scratch-blocks/media', to: 'static/blocks-media' }] }),
             new CopyWebpackPlugin({ patterns: [

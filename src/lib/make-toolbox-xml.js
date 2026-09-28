@@ -618,32 +618,6 @@ const control = function (isInitialSetup, isStage) {
                 </shadow>
             </value>
         </block>
-        <block type="snailextras_wait">
-            <value name="TIME">
-                <shadow type="math_positive_number">
-                    <field name="NUM">1000</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="snailextras_waitDivide">
-            <value name="TIME">
-                <shadow type="math_positive_number">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-            <value name="FUNNY">
-                <shadow type="math_positive_number">
-                    <field name="NUM">2</field>
-                </shadow>
-            </value>
-        </block>
-        <block type="snailextras_fetch">
-            <value name="URL">
-                <shadow type="text">
-                    <field name="TEXT">https://extensions.turbowarp.org/hello.txt</field>
-                </shadow>
-            </value>
-        </block>
         <block type="control_waitsecondsoruntil">
             <value name="DURATION">
                 <shadow type="math_positive_number">
