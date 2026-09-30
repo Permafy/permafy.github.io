@@ -28,12 +28,32 @@
 
 .menu-item {
     display: block;
+    position: relative;
     line-height: 34px;
     white-space: nowrap;
     padding: 0 10px;
     font-size: .75rem;
     margin: 0;
     font-weight: bold;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.menu-item.expanded > .submenu {
+    display: block;
+}
+
+.submenu.right {
+    left: 100%;
+}
+
+.submenu.left {
+    right: 100%;
 }
 
 .menu-item.active,

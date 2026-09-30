@@ -6,6 +6,14 @@ import {connect} from 'react-redux';
 
 import ControlsComponent from '../components/controls/controls.jsx';
 
+const startControlButtonHat = (vm, opcode) => {
+    const runtime = vm.runtime;
+    if (!runtime._hats[opcode]) {
+        runtime._hats[opcode] = {restartExistingThreads: true};
+    }
+    return runtime.startHats(opcode) || [];
+};
+
 class Controls extends React.Component {
     constructor (props) {
         super(props);
@@ -40,9 +48,15 @@ class Controls extends React.Component {
         e.preventDefault();
         if (!this.props.paused) {
             this.props.vm.pause();
+            const pauseHatThreads = startControlButtonHat(
+                this.props.vm,
+                'event_whenpausebuttonclicked'
+            );
+            pauseHatThreads.forEach(thread => thread.play());
             return;
         }
         this.props.vm.play();
+        startControlButtonHat(this.props.vm, 'event_whenplaybuttonclicked');
     }
     handleStopAllClick (e) {
         e.preventDefault();

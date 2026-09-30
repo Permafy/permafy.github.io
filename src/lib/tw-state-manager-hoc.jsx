@@ -104,7 +104,10 @@ class HashRouter extends Router {
 class FileHashRouter extends HashRouter {
     constructor (callbacks) {
         super(callbacks);
-        this.playerPath = location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
+        const isFeaturedPage = /(?:^|\/)featured\/?$/.test(location.pathname);
+        this.featuredPath = isFeaturedPage ? `${location.pathname.replace(/\/+$/, '')}/` : null;
+        this.playerPath = this.featuredPath ||
+            location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
         const isSourcePlayer = /\/(penguinmod|scratch)\/?$/.test(location.pathname);
         this.sourceEditorPath = isSourcePlayer ? this.playerPath : null;
         this.editorPath = `${this.playerPath}editor.html`;
@@ -115,7 +118,10 @@ class FileHashRouter extends HashRouter {
     onpathchange () {
         const pathName = location.pathname;
 
-        if (this.sourceEditorPath && pathName === this.playerPath) {
+        if (this.featuredPath && (pathName === this.featuredPath || pathName === this.featuredPath.slice(0, -1))) {
+            this.onSetIsPlayerOnly(true);
+            this.onSetIsFullScreen(false);
+        } else if (this.sourceEditorPath && pathName === this.playerPath) {
             this.onSetIsPlayerOnly(true);
             this.onSetIsFullScreen(false);
         } else if (pathName === this.editorPath) {

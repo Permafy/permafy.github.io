@@ -31,7 +31,9 @@ class Menu extends React.Component {
         document.removeEventListener('mouseup', this.handleClick);
     }
     handleClick (e) {
-        if (this.props.open && !this.menu.contains(e.target)) {
+        const clickIsIgnored = this.props.ignoreClickOutsideSelector &&
+            e.target.closest(this.props.ignoreClickOutsideSelector);
+        if (this.props.open && !this.menu.contains(e.target) && !clickIsIgnored) {
             this.props.onRequestClose();
         }
     }
@@ -58,6 +60,7 @@ class Menu extends React.Component {
 
 Menu.propTypes = {
     children: PropTypes.node,
+    ignoreClickOutsideSelector: PropTypes.string,
     onRequestClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired
 };

@@ -12,7 +12,6 @@ import VM from 'scratch-vm';
 import Box from '../box/box.jsx';
 import Button from '../button/button.jsx';
 import CommunityButton from './community-button.jsx';
-import ShareButton from './share-button.jsx';
 import { ComingSoonTooltip } from '../coming-soon/coming-soon.jsx';
 import Divider from '../divider/divider.jsx';
 import LanguageSelector from '../../containers/language-selector.jsx';
@@ -35,7 +34,6 @@ import CloudVariablesToggler from '../../containers/tw-cloud-toggler.jsx';
 import TWSaveStatus from './tw-save-status.jsx';
 
 import { openTipsLibrary, openSettingsModal, openRestorePointModal, openExtManagerModal, openCustomExtensionModal } from '../../reducers/modals';
-import { openScreenshotModal } from '../../reducers/modals';
 import { setPlayer } from '../../reducers/mode';
 import {
     autoUpdateProject,
@@ -68,9 +66,6 @@ import {
     openLanguageMenu,
     closeLanguageMenu,
     languageMenuOpen,
-    openLoginMenu,
-    closeLoginMenu,
-    loginMenuOpen
 } from '../../reducers/menus';
 import { setFileHandle } from '../../reducers/tw.js';
 
@@ -86,8 +81,6 @@ import errorIcon from './tw-error.svg';
 import moonIcon from './tw-moon.svg';
 import sunIcon from './tw-sun.svg';
 import midnightIcon from './tw-midnight.svg';
-import cameraIcon from '../../../static/camera.svg';
-
 import fileIcon from './icon--file.svg';
 import settingsIcon from './icon--settings.svg';
 import editIcon from './icon--edit.svg';
@@ -228,7 +221,6 @@ class MenuBar extends React.Component {
             'handleClickRestorePoints',
             'handleClickSeeCommunity',
             'handleClickDownloadLogs',
-			'handleClickScreenshot',  // ADD THIS LINE
             'handleClickShare',
             'handleKeyPress',
             'handleLanguageMouseUp',
@@ -455,9 +447,6 @@ class MenuBar extends React.Component {
         };
     }
     handleClickDownloadLogs() { downloadLogs(); }
-	handleClickScreenshot() {
-        this.props.onClickScreenshot();
-    }
     render() {
         const saveNowMessage = (
             <FormattedMessage
@@ -565,18 +554,6 @@ class MenuBar extends React.Component {
                                 />
                             </div>
                         )*/}
-						{/* tw: screenshot button */}
-                        <div
-                            className={classNames(styles.menuBarItem, styles.hoverable)}
-                            onMouseUp={this.handleClickScreenshot}
-                        >
-                            <img
-                                src={cameraIcon}
-                                width="24"
-                                height="24"
-                                draggable={false}
-                            />
-                        </div>
                         {/* tw: display compile errors */}
                         {this.props.compileErrors.length > 0 && <div>
                             <div
@@ -637,6 +614,7 @@ class MenuBar extends React.Component {
                         >
                             <div
                                 className={classNames(styles.menuBarAction, styles.hoverable)}
+                                data-settings-button="true"
                                 onMouseUp={this.props.onClickSettingsItem}
                             >
                                 <img
@@ -656,6 +634,7 @@ class MenuBar extends React.Component {
                             </div>
                             <MenuBarMenu
                                 className={classNames(styles.menuBarMenu)}
+                                ignoreClickOutsideSelector="[data-settings-button]"
                                 open={this.props.settingsMenuOpen}
                                 place={this.props.isRtl ? 'left' : 'right'}
                                 onRequestClose={this.props.onRequestCloseSettings}
@@ -1089,14 +1068,6 @@ class MenuBar extends React.Component {
                             />
                         ) : []))}
                     </div>
-                    <div className={styles.menuBarItem}>
-                        {this.props.isShowingProject && this.props.canEditTitle ?
-                            (<ShareButton
-                                className={styles.menuBarButton}
-                                isShared={this.props.isShared}
-                            />)
-                            : (null)}
-                    </div>
                     <div className={classNames(styles.menuBarItem, styles.backToHomeItem)}>
                         <a
                             className={styles.feedbackLink}
@@ -1116,12 +1087,6 @@ class MenuBar extends React.Component {
                     <div className={styles.menuBarItem}>
                         <TWSaveStatus />
                     </div>
-
-                    <a href={this.props.username ? `https://penguinmod.com/profile?user=${this.props.username}` : `https://penguinmod.com/signin?redirect=%2Fsignin&embed=false`}>
-                        <div className={classNames(styles.menuBarItem, styles.hoverable)}>
-                            {this.props.username ? this.props.username : 'Sign into PenguinMod'}
-                        </div>
-                    </a>
                 </div>
                 {aboutButton}
             </Box>
@@ -1167,7 +1132,6 @@ MenuBar.propTypes = {
     isUpdating: PropTypes.bool,
     languageMenuOpen: PropTypes.bool,
     locale: PropTypes.string.isRequired,
-    loginMenuOpen: PropTypes.bool,
     logo: PropTypes.string,
     onClickAbout: PropTypes.oneOfType([
         PropTypes.func, // button mode: call this callback when the About button is clicked
@@ -1186,7 +1150,6 @@ MenuBar.propTypes = {
     onClickEdit: PropTypes.func,
     onClickFile: PropTypes.func,
     onClickLanguage: PropTypes.func,
-    onClickLogin: PropTypes.func,
     onClickLogo: PropTypes.func,
     onClickNew: PropTypes.func,
     onClickNewWindow: PropTypes.func,
@@ -1210,7 +1173,6 @@ MenuBar.propTypes = {
     onRequestCloseEdit: PropTypes.func,
     onRequestCloseFile: PropTypes.func,
     onRequestCloseLanguage: PropTypes.func,
-    onRequestCloseLogin: PropTypes.func,
     onSeeCommunity: PropTypes.func,
     onShare: PropTypes.func,
     onStartSelectingFileUpload: PropTypes.func,
@@ -1220,15 +1182,12 @@ MenuBar.propTypes = {
     projectId: PropTypes.string,
     projectTitle: PropTypes.string,
     renderLogin: PropTypes.func,
-    sessionExists: PropTypes.bool,
     errorsMenuOpen: PropTypes.bool,
     shouldSaveBeforeTransition: PropTypes.func,
     showComingSoon: PropTypes.bool,
     userOwnsProject: PropTypes.bool,
-    username: PropTypes.string,
     usernameLoggedIn: PropTypes.bool.isRequired,
     vm: PropTypes.instanceOf(VM).isRequired,
-	onClickScreenshot: PropTypes.func
 };
 
 MenuBar.defaultProps = {
@@ -1255,12 +1214,9 @@ const mapStateToProps = (state, ownProps) => {
         isShowingProject: getIsShowingProject(loadingState),
         languageMenuOpen: languageMenuOpen(state),
         locale: state.locales.locale,
-        loginMenuOpen: loginMenuOpen(state),
         projectId: state.scratchGui.projectState.projectId,
         projectTitle: state.scratchGui.projectTitle,
-        sessionExists: state.session && typeof state.session.session !== 'undefined',
         errorsMenuOpen: errorsMenuOpen(state),
-        username: user ? user.username : null,
         usernameLoggedIn: state.scratchGui.tw.usernameLoggedIn,
         userOwnsProject: ownProps.authorUsername && user &&
             (ownProps.authorUsername === user.username),
@@ -1282,8 +1238,6 @@ const mapDispatchToProps = dispatch => ({
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onClickLanguage: () => dispatch(openLanguageMenu()),
     onRequestCloseLanguage: () => dispatch(closeLanguageMenu()),
-    onClickLogin: () => dispatch(openLoginMenu()),
-    onRequestCloseLogin: () => dispatch(closeLoginMenu()),
     onClickErrors: () => dispatch(openErrorsMenu()),
     onRequestCloseErrors: () => dispatch(closeErrorsMenu()),
     onRequestOpenAbout: () => dispatch(openAboutMenu()),
@@ -1309,7 +1263,6 @@ const mapDispatchToProps = dispatch => ({
         dispatch(closeEditMenu());
     },
     onSeeCommunity: () => dispatch(setPlayer(true)),
-	onClickScreenshot: () => dispatch(openScreenshotModal())
 });
 
 export default compose(

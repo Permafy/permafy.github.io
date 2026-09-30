@@ -8,7 +8,6 @@ const MENU_SETTINGS = 'settingsMenu';
 const MENU_FILE = 'fileMenu';
 const MENU_EDIT = 'editMenu';
 const MENU_LANGUAGE = 'languageMenu';
-const MENU_LOGIN = 'loginMenu';
 const MENU_ERRORS = 'errorMenu';
 
 const initialState = {
@@ -18,7 +17,6 @@ const initialState = {
     [MENU_FILE]: false,
     [MENU_EDIT]: false,
     [MENU_LANGUAGE]: false,
-    [MENU_LOGIN]: false,
     [MENU_ERRORS]: false
 };
 
@@ -77,10 +75,6 @@ const openLanguageMenu = () => openMenu(MENU_LANGUAGE);
 const closeLanguageMenu = () => closeMenu(MENU_LANGUAGE);
 const toggleLanguageMenu = () => toggleMenu(MENU_LANGUAGE);
 const languageMenuOpen = state => state.scratchGui.menus[MENU_LANGUAGE];
-const openLoginMenu = () => openMenu(MENU_LOGIN);
-const closeLoginMenu = () => closeMenu(MENU_LOGIN);
-const toggleLoginMenu = () => toggleMenu(MENU_LOGIN);
-const loginMenuOpen = state => state.scratchGui.menus[MENU_LOGIN];
 const openErrorsMenu = () => openMenu(MENU_ERRORS);
 const closeErrorsMenu = () => closeMenu(MENU_ERRORS);
 const toggleErrorsMenu = () => toggleMenu(MENU_ERRORS);
@@ -113,10 +107,6 @@ export {
     closeLanguageMenu,
     toggleLanguageMenu,
     languageMenuOpen,
-    openLoginMenu,
-    closeLoginMenu,
-    toggleLoginMenu,
-    loginMenuOpen,
     openErrorsMenu,
     closeErrorsMenu,
     toggleErrorsMenu,

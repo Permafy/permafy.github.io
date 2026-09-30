@@ -1,4 +1,7 @@
 import LazyScratchBlocks from './tw-lazy-scratch-blocks';
+import flagButtonIcon from '../components/stage-header/stagecontrols/flag.png';
+import pauseButtonIcon from '../components/stage-header/stagecontrols/pause.png';
+import playButtonIcon from '../components/stage-header/stagecontrols/play.png';
 
 /**
  * Connect scratch blocks with the vm
@@ -194,6 +197,37 @@ export default function (vm) {
     const controlColors = ScratchBlocks.Colours.control;
 
     const eventColors = ScratchBlocks.Colours.event;
+
+    const registerButtonHat = (opcode, icon, alt, colors) => {
+        ScratchBlocks.Blocks[opcode] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'when %1 clicked',
+                    args0: [{
+                        type: 'field_image',
+                        src: icon,
+                        width: 20,
+                        height: 20,
+                        alt
+                    }],
+                    nextStatement: null,
+                    colour: colors.primary,
+                    colourSecondary: colors.secondary,
+                    colourTertiary: colors.tertiary,
+                    extensions: ['shape_hat']
+                });
+            }
+        };
+
+        if (vm.runtime && vm.runtime._hats && !vm.runtime._hats[opcode]) {
+            vm.runtime._hats[opcode] = {restartExistingThreads: true};
+        }
+    };
+
+    registerButtonHat('event_whenflagclicked', flagButtonIcon, 'Flag', eventColors);
+    registerButtonHat('event_whenstopclicked', playButtonIcon, 'Play', eventColors);
+    registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', controlColors);
+    registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', controlColors);
 
     ScratchBlocks.Blocks.sound_sounds_menu.init = function () {
         const json = jsonForMenuBlock('SOUND_MENU', soundsMenu, soundColors, []);

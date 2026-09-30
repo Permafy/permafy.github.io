@@ -21,7 +21,8 @@ import classNames from 'classnames';
 const FEATURED_PROJECT_IDS = [
     '3854350626',
     '6299879522',
-    '0606152409'
+    '0606152409',
+    '2629896790'
 ];
 
 const isFeaturedPage = () => {
@@ -40,7 +41,7 @@ const getFeaturedPageUrl = () => {
     const baseUrl = normalizedRoot.startsWith('http')
         ? normalizedRoot
         : `${window.location.origin}${normalizedRoot}`;
-    return new URL('featured', baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`).toString();
+    return new URL('featured/', baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`).toString();
 };
 
 class FeaturedProjects extends React.Component {

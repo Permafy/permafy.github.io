@@ -611,6 +611,11 @@ const events = function (isInitialSetup, isStage) {
 const control = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">
+        <block type="event_whenflagclicked"/>
+        <block type="event_whenstopclicked"/>
+        <block type="event_whenpausebuttonclicked"/>
+        <block type="event_whenplaybuttonclicked"/>
+        ${blockSeparator}
         <block type="control_wait">
             <value name="DURATION">
                 <shadow type="math_positive_number">
