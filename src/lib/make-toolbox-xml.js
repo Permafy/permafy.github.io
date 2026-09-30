@@ -564,6 +564,8 @@ const events = function (isInitialSetup, isStage) {
     <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">
         <block type="event_whenflagclicked"/>
         <block type="event_whenstopclicked"/>
+        <block type="event_whenpausebuttonclicked"/>
+        <block type="event_whenplaybuttonclicked"/>
         ${blockSeparator}
         <block type="event_always"></block>
         <block type="event_whenanything">
@@ -611,10 +613,6 @@ const events = function (isInitialSetup, isStage) {
 const control = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_CONTROL}" id="control" colour="#FFAB19" secondaryColour="#CF8B17">
-        <block type="event_whenflagclicked"/>
-        <block type="event_whenstopclicked"/>
-        <block type="event_whenpausebuttonclicked"/>
-        <block type="event_whenplaybuttonclicked"/>
         ${blockSeparator}
         <block type="control_wait">
             <value name="DURATION">
