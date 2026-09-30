@@ -227,8 +227,8 @@ export default function (vm) {
 
     registerButtonHat('event_whenflagclicked', flagButtonIcon, 'Flag', eventColors);
     registerButtonHat('event_whenstopclicked', stopButtonIcon, 'Stop', eventColors);
-    registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', controlColors);
-    registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', controlColors);
+    registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', eventColors);
+    registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', eventColors);
 
     ScratchBlocks.Blocks.sound_sounds_menu.init = function () {
         const json = jsonForMenuBlock('SOUND_MENU', soundsMenu, soundColors, []);
