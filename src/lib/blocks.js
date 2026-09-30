@@ -2,6 +2,7 @@ import LazyScratchBlocks from './tw-lazy-scratch-blocks';
 import flagButtonIcon from '../components/stage-header/stagecontrols/flag.png';
 import pauseButtonIcon from '../components/stage-header/stagecontrols/pause.png';
 import playButtonIcon from '../components/stage-header/stagecontrols/play.png';
+import stopButtonIcon from '../components/stage-header/stagecontrols/stop.png';
 
 /**
  * Connect scratch blocks with the vm
@@ -225,7 +226,7 @@ export default function (vm) {
     };
 
     registerButtonHat('event_whenflagclicked', flagButtonIcon, 'Flag', eventColors);
-    registerButtonHat('event_whenstopclicked', playButtonIcon, 'Play', eventColors);
+    registerButtonHat('event_whenstopclicked', stopButtonIcon, 'Stop', eventColors);
     registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', controlColors);
     registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', controlColors);
 
