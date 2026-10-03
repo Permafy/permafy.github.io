@@ -149,7 +149,7 @@ const Footer = () => (
             </div>
             <div className={styles.footerColumns}>
                 <div className={styles.footerSection}>
-                    <a href="credits.html">
+                    <a href="/credits/">
                         <FormattedMessage
                             defaultMessage="Credits"
                             description="Credits link in footer"

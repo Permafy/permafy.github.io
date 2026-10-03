@@ -186,7 +186,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     onExtensionButtonClick: () => dispatch(openCustomExtensionModal()),
     onClickAddonSettings: () => {
-        const url = new URL('addons.html', window.location.href);
+        const url = new URL('/addons/', window.location.origin);
         window.open(url.toString(), '_blank', 'noopener,noreferrer');
     },
     onActivateTab: (tab) => dispatch(activateTab(tab)),

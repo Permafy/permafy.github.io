@@ -36,6 +36,12 @@ const base = {
         historyApiFallback: {
             rewrites: [
                 { from: /^\/\d+\/?$/, to: '/index.html' },
+                { from: /^\/editor\/?$/, to: '/editor.html' },
+                { from: /^\/fullscreen\/?$/, to: '/fullscreen.html' },
+                { from: /^\/playground\/?$/, to: '/playground.html' },
+                { from: /^\/embed\/?$/, to: '/embed.html' },
+                { from: /^\/addons\/?$/, to: '/addons.html' },
+                { from: /^\/credits\/?$/, to: '/credits.html' },
                 { from: /^\/\d+\/fullscreen\/?$/, to: '/fullscreen.html' },
                 { from: /^\/\d+\/editor\/?$/, to: '/editor.html' },
                 { from: /^\/\d+\/playground\/?$/, to: '/playground.html' },

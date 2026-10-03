@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="<%= htmlWebpackPlugin.options.root || '/' %>favicon.png">
     <link rel="icon" type="image/x-icon" href="<%= htmlWebpackPlugin.options.root || '/' %>favicon.ico">
     <% if (htmlWebpackPlugin.options.root === "/" || htmlWebpackPlugin.options.root === "") { %>
-      <link rel="manifest" href="<%= htmlWebpackPlugin.options.root %>manifest.webmanifest">
+      <link rel="manifest" href="<%= htmlWebpackPlugin.options.root || '/' %>manifest.webmanifest">
     <% } %>
     <style>
       #splash {

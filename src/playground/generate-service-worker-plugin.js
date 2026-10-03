@@ -8,9 +8,17 @@ const SW_NAME = 'sw.js';
 const INCLUDE_HTML = [
     'index.html',
     'editor.html',
+    'editor/index.html',
     'playground.html',
+    'playground/index.html',
     'fullscreen.html',
-    'addons.html'
+    'fullscreen/index.html',
+    'embed.html',
+    'embed/index.html',
+    'addons.html',
+    'addons/index.html',
+    'credits.html',
+    'credits/index.html'
 ];
 
 const hash = object => crypto.createHash('sha1')
@@ -28,6 +36,14 @@ class TWGenerateServiceWorkerPlugin {
             }
             const htmlAssets = [];
             const lazyAssets = [];
+            const prettyHtmlAssets = [...allAssetNames]
+                .filter(name => (
+                    !name.includes('/') &&
+                    name.endsWith('.html') &&
+                    name !== 'index.html' &&
+                    name !== '404.html'
+                ))
+                .map(name => `${name.slice(0, -'.html'.length)}/index.html`);
             for (const name of allAssetNames) {
                 if (
                     // HTML
@@ -60,6 +76,7 @@ class TWGenerateServiceWorkerPlugin {
                     !name.startsWith('js/library-')
                 ) lazyAssets.push(name);
             }
+            htmlAssets.push(...prettyHtmlAssets);
             const id = hash(allAssetNames);
             const workerFile = compilation.getAsset(SW_NAME);
             if (workerFile) {

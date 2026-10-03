@@ -42,7 +42,7 @@ const USERNAME_KEY = 'tw:username';
  * react is stupid and we can never reach the playground from any other
  * page so just have a value here to see if it is the playground
  */
-let isPlayground = location.pathname.includes('playground.html');
+let isPlayground = /(?:^|\/)playground(?:\.html|\/?)$/i.test(location.pathname);
 
 /**
  * The State Manager is responsible for managing persistent state and the URL.
@@ -106,13 +106,22 @@ class FileHashRouter extends HashRouter {
         super(callbacks);
         const isFeaturedPage = /(?:^|\/)featured\/?$/.test(location.pathname);
         this.featuredPath = isFeaturedPage ? `${location.pathname.replace(/\/+$/, '')}/` : null;
-        this.playerPath = this.featuredPath ||
-            location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
+        const cleanAppPage = location.pathname.match(/^(.*\/)(editor|playground|fullscreen)\/?$/i);
+        this.playerPath = this.featuredPath || (cleanAppPage ? cleanAppPage[1] :
+            location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1));
         const isSourcePlayer = /\/(penguinmod|scratch)\/?$/.test(location.pathname);
         this.sourceEditorPath = isSourcePlayer ? this.playerPath : null;
-        this.editorPath = `${this.playerPath}editor.html`;
-        this.playgroundPath = `${this.playerPath}playground.html`;
-        this.fullscreenPath = `${this.playerPath}fullscreen.html`;
+        const prettyUrls = this.playerPath === '/';
+        const appPageSuffix = prettyUrls ? '/' : '.html';
+        this.editorPath = `${this.playerPath}editor${appPageSuffix}`;
+        this.playgroundPath = `${this.playerPath}playground${appPageSuffix}`;
+        this.fullscreenPath = `${this.playerPath}fullscreen${appPageSuffix}`;
+        this.cleanEditorPath = `${this.playerPath}editor/`;
+        this.cleanPlaygroundPath = `${this.playerPath}playground/`;
+        this.cleanFullscreenPath = `${this.playerPath}fullscreen/`;
+        this.legacyEditorPath = `${this.playerPath}editor.html`;
+        this.legacyPlaygroundPath = `${this.playerPath}playground.html`;
+        this.legacyFullscreenPath = `${this.playerPath}fullscreen.html`;
     }
 
     onpathchange () {
@@ -124,17 +133,17 @@ class FileHashRouter extends HashRouter {
         } else if (this.sourceEditorPath && pathName === this.playerPath) {
             this.onSetIsPlayerOnly(true);
             this.onSetIsFullScreen(false);
-        } else if (pathName === this.editorPath) {
+        } else if ([this.editorPath, this.cleanEditorPath, this.legacyEditorPath].includes(pathName)) {
             this.onSetIsPlayerOnly(false);
             this.onSetIsFullScreen(false);
         } else if (pathName === this.playerPath) {
             this.onSetIsPlayerOnly(true);
             this.onSetIsFullScreen(false);
-        } else if (pathName === this.playgroundPath) {
+        } else if ([this.playgroundPath, this.cleanPlaygroundPath, this.legacyPlaygroundPath].includes(pathName)) {
             isPlayground = true;
             this.onSetIsPlayerOnly(false);
             this.onSetIsFullScreen(false);
-        } else if (pathName === this.fullscreenPath) {
+        } else if ([this.fullscreenPath, this.cleanFullscreenPath, this.legacyFullscreenPath].includes(pathName)) {
             this.onSetIsFullScreen(true);
         }
     }

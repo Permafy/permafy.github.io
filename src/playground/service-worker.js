@@ -27,6 +27,14 @@ self.addEventListener('fetch', event => {
     let relativePathname = url.pathname.substr(base.length);
     if (/^(\d+\/?)?$/.test(relativePathname)) {
         relativePathname = 'index.html';
+    } else if (/^(editor|playground|fullscreen|embed|addons|credits)\/?$/i.test(relativePathname)) {
+        relativePathname = `${relativePathname.replace(/\/+$/, '')}/index.html`;
+    } else if (/^\d+\/editor\/?$/i.test(relativePathname)) {
+        relativePathname = 'editor.html';
+    } else if (/^\d+\/playground\/?$/i.test(relativePathname)) {
+        relativePathname = 'playground.html';
+    } else if (/^\d+\/fullscreen\/?$/i.test(relativePathname)) {
+        relativePathname = 'fullscreen.html';
     } else if (/^(\d+\/)?editor\/?$/i.test(relativePathname)) {
         relativePathname = 'editor.html';
     } else if (/^(\d+\/)?playground\/?$/i.test(relativePathname)) {
