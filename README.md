@@ -1,6 +1,6 @@
 ## Permafy
 
-hello
+hello idk
 <p align="center">
 	<img src="/title.png" />
 	<h3 align="center">
