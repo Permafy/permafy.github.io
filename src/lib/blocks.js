@@ -226,10 +226,27 @@ export default function (vm) {
         }
     };
 
-    registerButtonHat('event_whenflagclicked', flagButtonIcon, 'Flag', controlColors);
+    registerButtonHat('event_whenflagclicked', flagButtonIcon, 'Flag', eventColors);
     registerButtonHat('event_whenstopclicked', stopButtonIcon, 'Stop', eventColors);
-    registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', controlColors);
-    registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', controlColors);
+    registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', eventColors);
+    registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', eventColors);
+
+    ScratchBlocks.Blocks.control_backToGreenFlag.init = function () {
+        this.jsonInit({
+            inputsInline: true,
+            message0: 'run %1',
+            args0: [{
+                type: 'field_image',
+                src: flagButtonIcon,
+                width: 24,
+                height: 24,
+                alt: 'Flag',
+                flip_rtl: false
+            }],
+            category: ScratchBlocks.Categories.control,
+            extensions: ['colours_control', 'shape_statement']
+        });
+    };
 
     const registerCustomBlock = (opcode, json) => {
         ScratchBlocks.Blocks[opcode] = {

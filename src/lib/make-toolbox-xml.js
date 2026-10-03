@@ -1707,12 +1707,22 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
     const motionXML = moveCategory('motion') || motion(isInitialSetup, isStage, targetId);
     const looksXML = moveCategory('looks') || looks(isInitialSetup, isStage, targetId, costumeName, backdropName);
     const soundXML = moveCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
-    const eventsXML = moveCategory('event') || events(isInitialSetup, isStage, targetId);
-    let controlXML = mergeCategory('control') || control(isInitialSetup, isStage, targetId);
-    const controlBlocks = [
+    let eventsXML = moveCategory('event') || events(isInitialSetup, isStage, targetId);
+    const eventBlocks = [
         'event_whenflagclicked',
         'event_whenpausebuttonclicked',
-        'event_whenplaybuttonclicked',
+        'event_whenplaybuttonclicked'
+    ].filter(opcode => !new RegExp(`<block\\b[^>]*\\btype="${opcode}"`).test(eventsXML))
+        .map(opcode => `<block type="${opcode}"/>`)
+        .join('');
+    const eventsOpeningTagEnd = eventsXML.indexOf('>');
+    if (eventsOpeningTagEnd >= 0) {
+        const eventsOpeningTag = eventsXML.slice(0, eventsOpeningTagEnd + 1);
+        const eventsContents = eventsXML.slice(eventsOpeningTagEnd + 1);
+        eventsXML = `${eventsOpeningTag}${eventBlocks}${eventsContents}`;
+    }
+    let controlXML = mergeCategory('control') || control(isInitialSetup, isStage, targetId);
+    const controlBlocks = [
         'control_pause',
         'control_resume'
     ].filter(opcode => !new RegExp(`<block\\b[^>]*\\btype="${opcode}"`).test(controlXML))
