@@ -9,7 +9,11 @@ import locales from '@turbowarp/scratch-l10n';
 import check from './check.svg';
 import {MenuItem, Submenu} from '../menu/menu.jsx';
 import languageIcon from '../language-selector/language-icon.svg';
-import {closeLanguageMenu, languageMenuOpen, openLanguageMenu} from '../../reducers/menus.js';
+import {
+    closeLanguageMenu,
+    languageMenuOpen,
+    toggleLanguageMenu
+} from '../../reducers/menus.js';
 import {selectLocale} from '../../reducers/locales.js';
 
 import styles from './settings-menu.css';
@@ -141,7 +145,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
         dispatch(closeLanguageMenu());
         ownProps.onRequestCloseSettings();
     },
-    onRequestOpen: () => dispatch(openLanguageMenu())
+    onRequestOpen: () => dispatch(toggleLanguageMenu())
 });
 
 export default connect(

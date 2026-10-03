@@ -20,21 +20,20 @@ const initialState = {
     [MENU_ERRORS]: false
 };
 
+const updateMenuState = (state, menu, isOpen) => Object.assign({}, state, {
+    [menu]: isOpen,
+    ...(menu === MENU_SETTINGS ? {[MENU_LANGUAGE]: false} : {})
+});
+
 const reducer = function (state, action) {
     if (typeof state === 'undefined') state = initialState;
     switch (action.type) {
     case OPEN_MENU:
-        return Object.assign({}, state, {
-            [action.menu]: true
-        });
+        return updateMenuState(state, action.menu, true);
     case CLOSE_MENU:
-        return Object.assign({}, state, {
-            [action.menu]: false
-        });
+        return updateMenuState(state, action.menu, false);
     case TOGGLE_MENU:
-        return Object.assign({}, state, {
-            [action.menu]: !state[action.menu]
-        });
+        return updateMenuState(state, action.menu, !state[action.menu]);
     default:
         return state;
     }

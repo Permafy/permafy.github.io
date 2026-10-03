@@ -25,7 +25,6 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
-import TWGuiThemeMenu from './tw-theme-gui.jsx';
 import LanguageMenu from './language-menu.jsx';
 
 import FramerateChanger from '../../containers/tw-framerate-changer.jsx';
@@ -643,12 +642,6 @@ class MenuBar extends React.Component {
                                             onRequestCloseSettings={this.props.onRequestCloseSettings}
                                         />
                                     )}
-                                    <TWGuiThemeMenu
-                                        onChangeTheme={this.props.onClickTheme}
-                                        onRequestCloseSettings={
-                                            this.props.onRequestCloseSettings
-                                        }
-                                    />
                                     {/*<MenuItem onClick={() => {alert("doesn't do anything")}}>
                                         <FormattedMessage
                                             defaultMessage="Doesn't do anything.."
