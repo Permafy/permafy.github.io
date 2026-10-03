@@ -501,7 +501,7 @@ class MenuBar extends React.Component {
             >
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                    <div className={classNames(styles.menuBarItem)}>
+                    <div className={classNames(styles.menuBarItem, styles.hoverable)}>
                             <img
                                 alt="GaiaMod"
                                 className={classNames(styles.scratchLogo, styles.clickable)}
@@ -588,7 +588,7 @@ class MenuBar extends React.Component {
                                         </MenuItemLink>
                                         <MenuItemLink href="https://discord.gg/k7RYUQDQmh">
                                             <FormattedMessage
-                                                defaultMessage="This is a bug. Please report it."
+                                                defaultMessage="This is a bug. Report it on Discord, please!"
                                                 description="Link in error menu"
                                                 id="tw.menuBar.reportError2"
                                             />
@@ -607,13 +607,11 @@ class MenuBar extends React.Component {
                                 </MenuBarMenu>
                             </div>
                         </div>}
-                        <div
-                            className={classNames(styles.menuBarItem, {
-                                [styles.active]: this.props.settingsMenuOpen
-                            })}
-                        >
+                        <div className={classNames(styles.menuBarItem, styles.hoverable, {
+                            [styles.active]: this.props.settingsMenuOpen
+                        })}>
                             <div
-                                className={classNames(styles.menuBarAction, styles.hoverable)}
+                                className={styles.menuBarAction}
                                 data-settings-button="true"
                                 onMouseUp={this.props.onClickSettingsItem}
                             >
@@ -814,7 +812,7 @@ class MenuBar extends React.Component {
                                                 onClick={this.handleClickPackager}
                                             >
                                                 <FormattedMessage
-                                                    defaultMessage="Package project"
+                                                    defaultMessage="Compile current project"
                                                     // eslint-disable-next-line max-len
                                                     description="Menu bar item to open the current project in the packager"
                                                     id="tw.menuBar.package"
@@ -892,13 +890,13 @@ class MenuBar extends React.Component {
                                         <MenuItem onClick={changeFramerate}>
                                             {framerate === 60 ? (
                                                 <FormattedMessage
-                                                    defaultMessage="Turn off 60 FPS Mode"
+                                                    defaultMessage="Turn off 60FPS"
                                                     description="Menu bar item for turning off 60 FPS mode"
                                                     id="tw.menuBar.60off"
                                                 />
                                             ) : (
                                                 <FormattedMessage
-                                                    defaultMessage="Turn on 60 FPS Mode"
+                                                    defaultMessage="Turn on 60FPS"
                                                     description="Menu bar item for turning on 60 FPS mode"
                                                     id="tw.menuBar.60on"
                                                 />
@@ -947,7 +945,7 @@ class MenuBar extends React.Component {
                                     )}</CloudVariablesToggler>
                                 </MenuSection>
 								<MenuSection>
-                                    <MenuItemLink href="https://discord.gg/fFnNT8RGav">
+                                    <MenuItemLink href="https://discord.gg/5aD33ZT6Jq">
                                         Join Discord!
                                     </MenuItemLink>
                                 </MenuSection>
@@ -958,8 +956,8 @@ class MenuBar extends React.Component {
 								 <MenuItem onClick={this.props.onClickCustManager}>
                                         Add Custom Extension
                                     </MenuItem>
-									<MenuItemLink href="https://gaiamod-main.github.io/Extension-Editor/">
-                                        Extension Editor
+									<MenuItemLink href="https://permafy.github.io/extensions">
+                                        Extension Gallery/Editor
                                     </MenuItemLink>
                                     <MenuItem onClick={this.handleClickDownloadLogs}>
                                         <FormattedMessage

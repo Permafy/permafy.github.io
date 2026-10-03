@@ -64,10 +64,15 @@
 .scratch-logo {
     height:  2.6rem;
     vertical-align: middle;
+    transition: filter 0.25s ease;
 }
 
 .scratch-logo.clickable {
     cursor: pointer;
+}
+
+.scratch-logo.clickable:hover {
+    filter: brightness(1.12) drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
 }
 
 .language-icon {
@@ -100,19 +105,20 @@
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 0 0.75rem;
 }
 
 .menu-bar-item.hoverable {
     cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+.menu-bar-item.hoverable:hover {
+    transform: scale(1.05);
+    z-index: 1;
 }
 
 .menu-bar-action.hoverable {
     cursor: pointer;
-}
-
-.menu-bar-action.hoverable:hover {
-    background-color: $ui-black-transparent;
 }
 
 .menu-bar-icon {

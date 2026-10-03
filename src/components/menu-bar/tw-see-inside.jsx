@@ -23,7 +23,7 @@ const SeeInsideButton = ({
         onClick={onClick}
     >
         <FormattedMessage
-            defaultMessage="See what's inside"
+            defaultMessage="Fork"
             description="Label for see inside button"
             id="tw.menuBar.seeInside"
         />
