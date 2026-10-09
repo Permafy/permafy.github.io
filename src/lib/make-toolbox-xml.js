@@ -1847,7 +1847,7 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
     );
     const soundXML = mergeCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
     const eventsXML = moveBlocksToEnd(
-        mergeCategory('event') || events(isInitialSetup, isStage, targetId),
+        mergeCategory('events') || events(isInitialSetup, isStage, targetId),
         [
             [
                 defineBlock('event_whenflagclicked', '<block type="event_whenflagclicked"/>'),
