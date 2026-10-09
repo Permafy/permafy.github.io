@@ -2,7 +2,7 @@ import 'web-audio-test-api';
 
 import React from 'react';
 import configureStore from 'redux-mock-store';
-import {mountWithIntl, shallowWithIntl} from '../../helpers/intl-helpers.jsx';
+import {shallowWithIntl} from '../../helpers/intl-helpers.jsx';
 import {LoadingState} from '../../../src/reducers/project-state';
 import VM from 'scratch-vm';
 
@@ -73,6 +73,11 @@ describe('SBFileUploaderHOC', () => {
 
     test('correctly sets title with .sb filename', () => {
         const projectName = unwrappedInstance().getProjectTitleFromFilename('my project is great.sb');
+        expect(projectName).toBe('my project is great');
+    });
+
+    test('correctly sets title with .snail filename', () => {
+        const projectName = unwrappedInstance().getProjectTitleFromFilename('my project is great.snail');
         expect(projectName).toBe('my project is great');
     });
 

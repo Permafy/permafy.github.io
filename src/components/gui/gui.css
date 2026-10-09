@@ -175,8 +175,29 @@
 .tab:hover {
   background-color: $ui-primary;
 }
+.tab.tab-code {
+    background-color: #4067ff;
+    color: $ui-white;
+}
+.tab.tab-code:hover,
+.tab.tab-code.is-selected {
+    background-color: #274de6;
+    color: $ui-white;
+}
 [theme="dark"] .tab:hover {
     background-color: $ui-secondary;
+}
+.tab.tab-costumes,
+.tab.tab-sounds {
+    background-color: #1B2433;
+    color: $ui-white;
+}
+.tab.tab-costumes:hover,
+.tab.tab-sounds:hover,
+.tab.tab-costumes.is-selected,
+.tab.tab-sounds.is-selected {
+    background-color: #1B2433;
+    color: $ui-white;
 }
 
 .tab.is-selected {
@@ -187,6 +208,35 @@
 }
 [theme="dark"] .tab.is-selected {
     background-color: $ui-secondary;
+}
+
+.permafy-paint-editor [class*="button"] img,
+.permafy-paint-editor [class*="button"] svg {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(100%) saturate(6) hue-rotate(200deg) brightness(0.9);
+}
+
+.permafy-paint-editor .bitmap-button,
+.permafy-paint-editor .mod-tool-select.is-selected {
+    background-color: #4067ff;
+    filter: none;
+}
+
+.permafy-paint-editor .bitmap-button img,
+.permafy-paint-editor .bitmap-button svg,
+.permafy-paint-editor .mod-tool-select.is-selected img,
+.permafy-paint-editor .mod-tool-select.is-selected svg {
+    filter: brightness(0) invert(1);
+}
+
+.permafy-paint-editor .bitmap-button .button-text {
+    color: #ffffff;
+}
+
+.permafy-paint-editor {
+    display: flex;
+    flex-grow: 1;
+    min-width: 0;
+    min-height: 0;
 }
 
 .tab img {
@@ -212,6 +262,11 @@
 }
 
 .tab.is-selected img {
+    filter: none;
+}
+
+.tab.tab-logs img,
+.tab.tab-logs.is-selected img {
     filter: none;
 }
 

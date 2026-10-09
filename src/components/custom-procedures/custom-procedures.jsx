@@ -23,8 +23,84 @@ const messages = defineMessages({
         defaultMessage: 'Make a Block',
         description: 'Title for the modal where you create a custom block.',
         id: 'gui.customProcedures.myblockModalTitle'
+    },
+    blockIconLabel: {
+        defaultMessage: 'Block icon',
+        description: 'Label for the icon picker for custom blocks.',
+        id: 'pm.customProcedures.blockIconLabel'
+    },
+    noBlockIcon: {
+        defaultMessage: 'None',
+        description: 'Label for removing a custom block icon.',
+        id: 'pm.customProcedures.noBlockIcon'
+    },
+    iconCommandLabel: {
+        defaultMessage: 'Icon command',
+        description: 'Label for entering a custom block icon command.',
+        id: 'pm.customProcedures.iconCommandLabel'
+    },
+    iconCommandHelp: {
+        defaultMessage: 'Try greenflag = @flag or use @pause, @play, @stop, @turnleft, @turnright, @loop, or @list.',
+        description: 'Help text listing icon commands.',
+        id: 'pm.customProcedures.iconCommandHelp'
+    },
+    invalidIconCommand: {
+        defaultMessage: 'Unknown icon command.',
+        description: 'Validation message for an unknown icon command.',
+        id: 'pm.customProcedures.invalidIconCommand'
+    },
+    greenFlagIcon: {
+        defaultMessage: 'Green flag',
+        description: 'Accessible name for the green flag custom block icon.',
+        id: 'pm.customProcedures.greenFlagIcon'
+    },
+    pauseIcon: {
+        defaultMessage: 'Pause',
+        description: 'Accessible name for the pause custom block icon.',
+        id: 'pm.customProcedures.pauseIcon'
+    },
+    playIcon: {
+        defaultMessage: 'Play',
+        description: 'Accessible name for the play custom block icon.',
+        id: 'pm.customProcedures.playIcon'
+    },
+    stopSignIcon: {
+        defaultMessage: 'Stop sign',
+        description: 'Accessible name for the stop sign custom block icon.',
+        id: 'pm.customProcedures.stopSignIcon'
+    },
+    turnLeftIcon: {
+        defaultMessage: 'Turn left',
+        description: 'Accessible name for the turn left custom block icon.',
+        id: 'pm.customProcedures.turnLeftIcon'
+    },
+    turnRightIcon: {
+        defaultMessage: 'Turn right',
+        description: 'Accessible name for the turn right custom block icon.',
+        id: 'pm.customProcedures.turnRightIcon'
+    },
+    loopArrowIcon: {
+        defaultMessage: 'Loop arrow',
+        description: 'Accessible name for the loop arrow custom block icon.',
+        id: 'pm.customProcedures.loopArrowIcon'
+    },
+    listIcon: {
+        defaultMessage: 'List',
+        description: 'Accessible name for the list custom block icon.',
+        id: 'pm.customProcedures.listIcon'
     }
 });
+
+const iconMessages = {
+    greenFlag: messages.greenFlagIcon,
+    pause: messages.pauseIcon,
+    play: messages.playIcon,
+    stopSign: messages.stopSignIcon,
+    turnLeft: messages.turnLeftIcon,
+    turnRight: messages.turnRightIcon,
+    loopArrow: messages.loopArrowIcon,
+    list: messages.listIcon
+};
 
 const BlockColorSection = props => (
     <div className={styles.colorPickerArea}>
@@ -348,6 +424,60 @@ const CustomProcedures = props => (
             </div>}
 
             <BlockColorSection {...props} />
+            <div className={styles.iconPicker}>
+                <div className={styles.iconPickerLabel}>
+                    <FormattedMessage {...messages.blockIconLabel} />
+                </div>
+                <div className={styles.iconOptions}>
+                    <label className={styles.iconOption}>
+                        <input
+                            type="radio"
+                            name="custom-block-icon"
+                            value=""
+                            checked={!props.selectedIcon}
+                            onChange={props.onIconChange}
+                        />
+                        <FormattedMessage {...messages.noBlockIcon} />
+                    </label>
+                    {props.icons.map(icon => (
+                        <label
+                            className={styles.iconOption}
+                            key={icon.name}
+                        >
+                            <input
+                                type="radio"
+                                name="custom-block-icon"
+                                value={icon.command}
+                                checked={props.selectedIcon === icon.command}
+                                onChange={props.onIconChange}
+                            />
+                            <img
+                                src={icon.image}
+                                alt=""
+                            />
+                            <span className={styles.iconOptionLabel}>
+                                <FormattedMessage {...iconMessages[icon.name]} />
+                            </span>
+                            <code>{icon.command}</code>
+                        </label>
+                    ))}
+                </div>
+                <label className={styles.iconCommand}>
+                    <FormattedMessage {...messages.iconCommandLabel} />
+                    <input
+                        type="text"
+                        value={props.iconCommand}
+                        aria-invalid={props.iconCommandError}
+                        onChange={props.onIconCommandChange}
+                        placeholder="@flag"
+                    />
+                </label>
+                <div className={props.iconCommandError ? styles.iconCommandError : styles.iconCommandHelp}>
+                    {props.iconCommandError ?
+                        <FormattedMessage {...messages.invalidIconCommand} /> :
+                        <FormattedMessage {...messages.iconCommandHelp} />}
+                </div>
+            </div>
             <div className={styles.checkboxRow}>
                 <label>
                     <input
@@ -387,6 +517,7 @@ const CustomProcedures = props => (
                 <button
                     className={styles.okButton}
                     onClick={props.onOk}
+                    disabled={props.iconCommandError}
                 >
                     <FormattedMessage
                         defaultMessage="OK"
@@ -414,7 +545,17 @@ CustomProcedures.propTypes = {
     returns: PropTypes.bool.isRequired,
     editing: PropTypes.bool.isRequired,
     selectedType: PropTypes.string.isRequired,
-    onOutputTypeChanged: PropTypes.func.isRequired
+    onOutputTypeChanged: PropTypes.func.isRequired,
+    icons: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        command: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired
+    })).isRequired,
+    selectedIcon: PropTypes.string.isRequired,
+    onIconChange: PropTypes.func.isRequired,
+    iconCommand: PropTypes.string.isRequired,
+    iconCommandError: PropTypes.bool.isRequired,
+    onIconCommandChange: PropTypes.func.isRequired
 };
 
 export default injectIntl(CustomProcedures);

@@ -30,7 +30,7 @@ const mainMessages = {
     ),
     'gui.loader.creating': (
         <FormattedMessage
-            defaultMessage="Creating Project"
+            defaultMessage="Building Project..."
             description="Main creating message"
             id="gui.loader.creating"
         />

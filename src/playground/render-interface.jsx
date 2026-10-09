@@ -36,6 +36,7 @@ import VoteFrame from './vote-frame.jsx';
 import MenuBar from '../components/menu-bar/menu-bar.jsx';
 import ProjectInput from '../components/tw-project-input/project-input.jsx';
 import FeaturedProjects from '../components/tw-featured-projects/featured-projects.jsx';
+import Dashboard from '../components/dashboard/dashboard.jsx';
 import Description from '../components/tw-description/description.jsx';
 import BrowserModal from '../components/browser-modal/browser-modal.jsx';
 import CloudVariableBadge from '../containers/tw-cloud-variable-badge.jsx';
@@ -142,21 +143,21 @@ const Footer = () => (
             <div className={styles.footerText}>
                 <FormattedMessage
                     // eslint-disable-next-line max-len
-                    defaultMessage="PenguinMod and TurboWarp are not affiliated with Scratch, the Scratch Team, or the Scratch Foundation."
-                    description="Disclaimer that PenguinMod and TurboWarp are not connected to Scratch"
+                    defaultMessage="Permafy, PenguinMod and TurboWarp are not affiliated with Scratch, the Scratch Team, or the Scratch Foundation."
+                    description="Disclaimer that Permafy, PenguinMod and TurboWarp are not connected to Scratch"
                     id="tw.footer.disclaimer"
                 />
             </div>
             <div className={styles.footerColumns}>
                 <div className={styles.footerSection}>
-                    <a href="credits.html">
+                    <a href="/credits/">
                         <FormattedMessage
                             defaultMessage="Credits"
                             description="Credits link in footer"
                             id="tw.footer.credits"
                         />
                     </a>
-                    <a href="https://penguinmod.com/donate">
+                    <a href="https://permafy.github.io/coffee">
                         <FormattedMessage
                             defaultMessage="Donate"
                             description="Donation link in footer"
@@ -165,9 +166,9 @@ const Footer = () => (
                     </a>
                 </div>
                 <div className={styles.footerSection}>
-                    <a href="https://studio.penguinmod.com/PenguinMod-Packager">
+                    <a href="https://permafy.github.io/compiler">
                         {/* Do not translate */}
-                        {'PenguinMod Packager'}
+                        {'Permafy Compiler/Packager'}
                     </a>
                     <a href="https://desktop.turbowarp.org/">
                         {/* Do not translate */}
@@ -196,28 +197,28 @@ const Footer = () => (
                     </a>
                 </div>
                 <div className={styles.footerSection}>
-                    <a href="https://penguinmod.com/terms">
+                    <a href="https://permafy.github.io/terms">
                         <FormattedMessage
                             defaultMessage="Terms of Service"
                             description="Link to Terms of Service"
                             id="pm.terms"
                         />
                     </a>
-                    <a href="https://penguinmod.com/privacy">
+                    <a href="https://permafy.github.io/privacy">
                         <FormattedMessage
                             defaultMessage="Privacy Policy"
                             description="Link to privacy policy"
                             id="tw.privacy"
                         />
                     </a>
-                    <a href="https://github.com/PenguinMod/PenguinMod-Home/issues">
+                    <a href="https://github.com/Permafy/permafy.github.io/issues">
                         <FormattedMessage
                             defaultMessage="Feedback & Bugs"
                             description="Link to feedback/bugs page"
                             id="tw.feedback"
                         />
                     </a>
-                    <a href="https://github.com/PenguinMod">
+                    <a href="https://github.com/Permafy">
                         <FormattedMessage
                             defaultMessage="Source Code"
                             description="Link to source code"
@@ -266,6 +267,51 @@ class Interface extends React.Component {
     constructor (props) {
         super(props);
         this.handleUpdateProjectTitle = this.handleUpdateProjectTitle.bind(this);
+        this.handleStageResizePointerDown = this.handleStageResizePointerDown.bind(this);
+        this.handleStageResizePointerMove = this.handleStageResizePointerMove.bind(this);
+        this.handleStageResizePointerUp = this.handleStageResizePointerUp.bind(this);
+        this.handleStageResizeKeyDown = this.handleStageResizeKeyDown.bind(this);
+        this.handleOpenScratchProjects = this.handleOpenScratchProjects.bind(this);
+        this.rootRef = React.createRef();
+        this.resizeHandleRef = React.createRef();
+        this.state = {
+            hideFooter: false
+        };
+    }
+    handleOpenScratchProjects () {
+        this.setState({hideFooter: true});
+    }
+    handleStageResizePointerDown (event) {
+        event.preventDefault();
+        this.isResizingStage = true;
+        event.currentTarget.setPointerCapture(event.pointerId);
+        this.setStageColumnWidth(event.clientX);
+    }
+    handleStageResizePointerMove (event) {
+        if (this.isResizingStage) {
+            this.setStageColumnWidth(event.clientX);
+        }
+    }
+    handleStageResizePointerUp (event) {
+        this.isResizingStage = false;
+        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+        }
+    }
+    handleStageResizeKeyDown (event) {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        const currentWidth = parseFloat(
+            this.rootRef.current.style.getPropertyValue('--stage-column-width')
+        );
+        this.setStageColumnWidth(currentWidth + (event.key === 'ArrowRight' ? 24 : -24));
+    }
+    setStageColumnWidth (width) {
+        const minWidth = 240;
+        const maxWidth = Math.max(minWidth, window.innerWidth - 328);
+        const newWidth = Math.max(minWidth, Math.min(width, maxWidth));
+        this.rootRef.current.style.setProperty('--stage-column-width', `${newWidth}px`);
+        this.resizeHandleRef.current.setAttribute('aria-valuenow', Math.round(newWidth));
     }
     componentDidUpdate (prevProps) {
         if (prevProps.isLoading && !this.props.isLoading) {
@@ -274,9 +320,9 @@ class Interface extends React.Component {
     }
     handleUpdateProjectTitle (title, isDefault) {
         if (isDefault || !title) {
-            document.title = `PenguinMod - ${this.props.intl.formatMessage(messages.defaultTitle)}`;
+            document.title = `Permafy - ${this.props.intl.formatMessage(messages.defaultTitle)}`;
         } else {
-            document.title = `${title} - PenguinMod`;
+            document.title = `${title} - Permafy`;
         }
     }
     copyProjectLink (id) {
@@ -304,6 +350,11 @@ class Interface extends React.Component {
         } = this.props;
         const isHomepage = isPlayerOnly && !isFullScreen;
         const isEditor = !isPlayerOnly;
+        const showDashboard = isHomepage && !/(?:^|\/)featured\/?$/.test(window.location.pathname);
+        const defaultStageColumnWidth = Math.min(
+            Math.max(480, props.customStageSize.width) + 2,
+            window.innerWidth / 2
+        );
         const isUpdated = extraProjectInfo.isUpdated;
         const projectReleaseYear = extraProjectInfo.releaseDate.getFullYear();
         const projectReleaseMonth = monthNames[extraProjectInfo.releaseDate.getMonth()];
@@ -318,11 +369,16 @@ class Interface extends React.Component {
             <div
                 className={classNames(styles.container, {
                     [styles.playerOnly]: isHomepage,
-                    [styles.editor]: isEditor
+                    [styles.editor]: isEditor,
+                    [styles.splitHomepage]: showDashboard
                 })}
+                style={showDashboard ? {
+                    '--stage-column-width': `${defaultStageColumnWidth}px`
+                } : null}
+                ref={this.rootRef}
             >
-                {isHomepage ? (
-                    <div className={styles.menu}>
+                {showDashboard && (
+                    <div className={styles.siteMenu}>
                         <WrappedMenuBar
                             canChangeLanguage
                             canManageFiles
@@ -331,14 +387,26 @@ class Interface extends React.Component {
                             onClickTheme={onClickTheme}
                         />
                     </div>
-                ) : null}
-                <div
-                    className={styles.center}
-                    style={isPlayerOnly ? ({
-                        // add a couple pixels to account for border (TODO: remove weird hack)
-                        width: `${Math.max(480, props.customStageSize.width) + 2}px`
-                    }) : null}
-                >
+                )}
+                <div className={styles.homepageEditor}>
+                    {isHomepage && !showDashboard ? (
+                        <div className={styles.menu}>
+                            <WrappedMenuBar
+                                canChangeLanguage
+                                canManageFiles
+                                enableSeeInside
+                                onClickAddonSettings={handleClickAddonSettings}
+                                onClickTheme={onClickTheme}
+                            />
+                        </div>
+                    ) : null}
+                    <div
+                        className={styles.center}
+                        style={isPlayerOnly ? ({
+                            // add a couple pixels to account for border (TODO: remove weird hack)
+                            width: `${Math.max(480, props.customStageSize.width) + 2}px`
+                        }) : null}
+                    >
                     {isHomepage && announcement ? <DOMElementRenderer domElement={announcement} /> : null}
                     {isHomepage && projectId !== '0' && title && extraProjectInfo && extraProjectInfo.author && <div className={styles.projectDetails}>
                         <a
@@ -510,19 +578,35 @@ class Interface extends React.Component {
                                 </div>
                             )}
                             <div className={styles.section}>
-                                <FeaturedProjects />
+                                <FeaturedProjects onOpenProjects={this.handleOpenScratchProjects} />
                             </div>
-                            <a
-                                target="_blank"
-                                href="https://penguinmod.com/search?q=newest:"
-                                rel="noreferrer"
-                            >
-                                See more projects
-                            </a>
                         </React.Fragment>
                     ) : null}
+                    </div>
+                    {isHomepage && !this.state.hideFooter && <Footer />}
                 </div>
-                {isHomepage && <Footer />}
+                {showDashboard && (
+                    <div
+                        className={styles.resizeHandle}
+                        onPointerDown={this.handleStageResizePointerDown}
+                        onPointerMove={this.handleStageResizePointerMove}
+                        onPointerUp={this.handleStageResizePointerUp}
+                        onPointerCancel={this.handleStageResizePointerUp}
+                        onKeyDown={this.handleStageResizeKeyDown}
+                        ref={this.resizeHandleRef}
+                        role="separator"
+                        aria-label="Resize editor and dashboard"
+                        aria-orientation="vertical"
+                        aria-valuemin="240"
+                        aria-valuenow={Math.round(defaultStageColumnWidth)}
+                        tabIndex="0"
+                    />
+                )}
+                {showDashboard && (
+                    <div className={styles.dashboardPane}>
+                        <Dashboard language={intl.locale} />
+                    </div>
+                )}
             </div>
         );
     }

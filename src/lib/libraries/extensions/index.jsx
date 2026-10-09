@@ -1459,7 +1459,7 @@ if (IsLocal || IsLiveTests) {
         },
         {
             name: 'Editor',
-            href: 'https://studio.penguinmod.com/editor.html',
+            href: 'https://permafy.github.io/editor',
             extensionId: 'special_editorExtensionLibrary',
             iconURL: penguinmodLibraryExtensionIcon,
             description: 'Opens the editor with this tab as the parent, still with the library opened. For developers.',

@@ -12,7 +12,6 @@ import VM from 'scratch-vm';
 import Box from '../box/box.jsx';
 import Button from '../button/button.jsx';
 import CommunityButton from './community-button.jsx';
-import ShareButton from './share-button.jsx';
 import { ComingSoonTooltip } from '../coming-soon/coming-soon.jsx';
 import Divider from '../divider/divider.jsx';
 import LanguageSelector from '../../containers/language-selector.jsx';
@@ -26,17 +25,21 @@ import DeletionRestorer from '../../containers/deletion-restorer.jsx';
 import TurboMode from '../../containers/turbo-mode.jsx';
 import MenuBarHOC from '../../containers/menu-bar-hoc.jsx';
 
+import LanguageMenu from './language-menu.jsx';
+import TopbarMenu from './topbar-menu.jsx';
+
 import FramerateChanger from '../../containers/tw-framerate-changer.jsx';
 import ChangeUsername from '../../containers/tw-change-username.jsx';
 import CloudVariablesToggler from '../../containers/tw-cloud-toggler.jsx';
 import TWSaveStatus from './tw-save-status.jsx';
 
-import { openTipsLibrary, openSettingsModal, openRestorePointModal } from '../../reducers/modals';
+import { openTipsLibrary, openSettingsModal, openRestorePointModal, openExtManagerModal, openCustomExtensionModal } from '../../reducers/modals';
 import { setPlayer } from '../../reducers/mode';
 import {
     autoUpdateProject,
     getIsUpdating,
     getIsShowingProject,
+    getIsShowingWithoutId,
     manualUpdateProject,
     requestNewProject,
     remixProject,
@@ -52,6 +55,9 @@ import {
     openFileMenu,
     closeFileMenu,
     fileMenuOpen,
+    closeSettingsMenu,
+    toggleSettingsMenu,
+    settingsMenuOpen,
     openEditMenu,
     closeEditMenu,
     editMenuOpen,
@@ -61,9 +67,6 @@ import {
     openLanguageMenu,
     closeLanguageMenu,
     languageMenuOpen,
-    openLoginMenu,
-    closeLoginMenu,
-    loginMenuOpen
 } from '../../reducers/menus';
 import { setFileHandle } from '../../reducers/tw.js';
 
@@ -76,13 +79,24 @@ import dropdownCaret from './dropdown-caret.svg';
 import languageIcon from '../language-selector/language-icon.svg';
 import aboutIcon from './icon--about.svg';
 import errorIcon from './tw-error.svg';
-import themeIcon from './tw-moon.svg';
+import moonIcon from './tw-moon.svg';
+import sunIcon from './tw-sun.svg';
+import midnightIcon from './tw-midnight.svg';
+import fileIcon from './icon--file.svg';
+import settingsIcon from './icon--settings.svg';
+import editIcon from './icon--edit.svg';
+import addonsIcon from './addons.svg';
+import advancedIcon from './gm-star-advanced.svg';
+import videoIcon from './gm-video.svg';
 
-import scratchLogo from './scratch-logo.svg';
+import gaiamodLogo from '../../../static/title.png';
+
+import ChevronDown from './ChevronDown.jsx';
 
 import sharedMessages from '../../lib/shared-messages';
 
 import SeeInsideButton from './tw-see-inside.jsx';
+import seeInsideStyles from './tw-see-inside.css';
 import { notScratchDesktop } from '../../lib/isScratchDesktop.js';
 
 import { downloadLogs } from '../../lib/pm-log-capture.js';
@@ -199,7 +213,9 @@ class MenuBar extends React.Component {
         super(props);
         bindAll(this, [
             'handleClickSeeInside',
+            'handleClickLogo',
             'handleClickNew',
+            'handleClickNewNamed',
             'handleClickNewWindow',
             'handleClickRemix',
             'handleClickSave',
@@ -213,16 +229,44 @@ class MenuBar extends React.Component {
             'handleLanguageMouseUp',
             'handleRestoreOption',
             'getSaveToComputerHandler',
-            'restoreOptionMessage'
+            'restoreOptionMessage',
+            'handleClickLoadFromUrl',
+            'handleTopbarAccentChange',
         ]);
+        const savedTopbarAccent = window.localStorage.getItem('permafy:topbarAccent');
+        this.state = {
+            topbarAccent: savedTopbarAccent === 'turbo-gray' ? 'turbo-gray' : 'permafy'
+        };
+        this.openEditorAfterNew = false;
     }
     componentDidMount() {
         document.addEventListener('keydown', this.handleKeyPress);
     }
+    componentDidUpdate() {
+        if (this.openEditorAfterNew && this.props.isShowingWithoutId) {
+            this.openEditorAfterNew = false;
+            this.props.onClickSeeInside();
+        }
+    }
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleKeyPress);
     }
+    handleClickLogo() {
+        window.location.href = 'https://permafy.github.io/';
+    }
+    handleTopbarAccentChange (accent) {
+        const topbarAccent = accent === 'turbo-gray' ? 'turbo-gray' : 'permafy';
+        window.localStorage.setItem('permafy:topbarAccent', topbarAccent);
+        this.setState({topbarAccent});
+        this.props.onRequestCloseSettings();
+    }
     handleClickNew() {
+        this.handleCreateNewProject();
+    }
+    handleClickNewNamed() {
+        this.handleCreateNewProject('New Project');
+    }
+    handleCreateNewProject(projectTitle) {
         // if the project is dirty, and user owns the project, we will autosave.
         // but if they are not logged in and can't save, user should consider
         // downloading or logging in first.
@@ -233,6 +277,16 @@ class MenuBar extends React.Component {
         );
         this.props.onRequestCloseFile();
         if (readyToReplaceProject) {
+            if (projectTitle) {
+                this.openEditorAfterNew = this.props.isPlayerOnly;
+                const url = new URL(window.location.href);
+                url.searchParams.set('project_title', projectTitle);
+                window.history.replaceState(
+                    window.history.state,
+                    '',
+                    `${url.pathname}${url.search}${url.hash}`
+                );
+            }
             this.props.onClickNew(this.props.canSave && this.props.canCreateNew);
         }
         this.props.onRequestCloseFile();
@@ -253,7 +307,7 @@ class MenuBar extends React.Component {
         this.props.onClickSaveAsCopy();
         this.props.onRequestCloseFile();
     }
-    handleClickPackager() {
+    handleClickPackager () {
         this.props.onClickPackager();
         this.props.onRequestCloseFile();
     }
@@ -337,6 +391,12 @@ class MenuBar extends React.Component {
             case 'upsidedown':
                 body.style.transform = 'rotateX(180deg) rotateY(180deg)';
                 break;
+        }
+    }
+	
+	handleClickLoadFromUrl () {
+        if (this.props.onStartSelectingUrlLoad) {
+            this.props.onRequestCloseFile();
         }
     }
 
@@ -467,30 +527,31 @@ class MenuBar extends React.Component {
             </Button>
         );
         // Show the About button only if we have a handler for it (like in the desktop app)
+        // Show the About button only if we have a handler for it (like in the desktop app)
         const aboutButton = this.buildAboutMenu(this.props.onClickAbout);
         return (
             <Box
                 className={classNames(
                     this.props.className,
-                    styles.menuBar
+                    styles.menuBar,
+                    this.state.topbarAccent === 'turbo-gray' ?
+                        styles.topbarTurboGray :
+                        styles.topbarPermafy
                 )}
             >
                 <div className={styles.mainMenu}>
                     <div className={styles.fileGroup}>
-                        {this.props.onClickLogo ? (
-                            <div className={classNames(styles.menuBarItem)}>
-                                <img
-                                    alt="Scratch"
-                                    className={classNames(styles.scratchLogo, {
-                                        [styles.clickable]: typeof this.props.onClickLogo !== 'undefined'
-                                    })}
-                                    draggable={false}
-                                    src={this.props.logo}
-                                    onClick={this.props.onClickLogo}
-                                />
-                            </div>
-                        ) : null}
-                        {(this.props.canChangeLanguage) && (<div
+                    <div className={classNames(styles.menuBarItem, styles.hoverable)}>
+                            <img
+                                alt="GaiaMod"
+                                className={classNames(styles.scratchLogo, styles.clickable)}
+                                id={(window.location.pathname).includes("editor.html") ? "gui-editor-logo" : "gui-main-logo"}
+                                draggable={false}
+                                src={this.props.logo || gaiamodLogo}
+                                onClick={this.handleClickLogo}
+                            />
+                        </div>
+                        {/*(this.props.canChangeLanguage) && (<div
                             className={classNames(styles.menuBarItem, styles.hoverable, styles.languageMenu)}
                         >
                             <div>
@@ -508,21 +569,31 @@ class MenuBar extends React.Component {
                                 />
                             </div>
                             <LanguageSelector label={this.props.intl.formatMessage(ariaMessages.language)} />
-                        </div>)}
-                        {/* tw: theme toggler */}
+                        </div>)*/}
+                       {/* tw: theme toggler }
                         {this.props.onClickTheme && (
                             <div
                                 className={classNames(styles.menuBarItem, styles.hoverable)}
                                 onMouseUp={this.props.onClickTheme}
                             >
                                 <img
-                                    src={themeIcon}
-                                    width="24"
-                                    height="24"
+                                    src={moonIcon}
+                                    width="20"
+                                    height="20"
                                     draggable={false}
+                                    alt="Icon"
+                                    className={styles.moonIcon}
+                                />
+                                <img
+                                    src={sunIcon}
+                                    width="20"
+                                    height="20"
+                                    draggable={false}
+                                    alt="Icon"
+                                    className={styles.sunIcon}
                                 />
                             </div>
-                        )}
+                        )*/}
                         {/* tw: display compile errors */}
                         {this.props.compileErrors.length > 0 && <div>
                             <div
@@ -548,16 +619,16 @@ class MenuBar extends React.Component {
                                     onRequestClose={this.props.onRequestCloseErrors}
                                 >
                                     <MenuSection>
-                                        <MenuItemLink href="https://discord.gg/NZ9MBMYTZh">
+                                        <MenuItemLink href="https://discord.gg/k7RYUQDQmh">
                                             <FormattedMessage
                                                 defaultMessage="Some scripts could not be compiled."
                                                 description="Link in error menu"
                                                 id="tw.menuBar.reportError1"
                                             />
                                         </MenuItemLink>
-                                        <MenuItemLink href="https://discord.gg/NZ9MBMYTZh">
+                                        <MenuItemLink href="https://discord.gg/k7RYUQDQmh">
                                             <FormattedMessage
-                                                defaultMessage="This is a bug. Please report it."
+                                                defaultMessage="This is a bug. Report it on Discord, please!"
                                                 description="Link in error menu"
                                                 id="tw.menuBar.reportError2"
                                             />
@@ -576,6 +647,57 @@ class MenuBar extends React.Component {
                                 </MenuBarMenu>
                             </div>
                         </div>}
+                        <div className={classNames(styles.menuBarItem, styles.hoverable, {
+                            [styles.active]: this.props.settingsMenuOpen
+                        })}>
+                            <div
+                                className={styles.menuBarAction}
+                                data-settings-button="true"
+                                onMouseUp={this.props.onClickSettingsItem}
+                            >
+                                <img
+                                    className={styles.menuBarIcon}
+                                    src={settingsIcon}
+                                    draggable={false}
+                                    width={24}
+                                    height={24}
+                                />
+                                <div className={classNames(styles.editMenu)}>
+                                    <FormattedMessage
+                                        defaultMessage="Settings"
+                                        description="Text for settings dropdown menu"
+                                        id="gui.menuBar.settings"
+                                    />
+                                </div>
+                            </div>
+                            <MenuBarMenu
+                                className={classNames(styles.menuBarMenu)}
+                                ignoreClickOutsideSelector="[data-settings-button]"
+                                open={this.props.settingsMenuOpen}
+                                place={this.props.isRtl ? 'left' : 'right'}
+                                onRequestClose={this.props.onRequestCloseSettings}
+                            >
+                                <MenuSection>
+                                    {this.props.canChangeLanguage && (
+                                        <LanguageMenu
+                                            onRequestCloseSettings={this.props.onRequestCloseSettings}
+                                        />
+                                    )}
+                                    <TopbarMenu
+                                        accent={this.state.topbarAccent}
+                                        isRtl={this.props.isRtl}
+                                        onChangeAccent={this.handleTopbarAccentChange}
+                                    />
+                                    {/*<MenuItem onClick={() => {alert("doesn't do anything")}}>
+                                        <FormattedMessage
+                                            defaultMessage="Doesn't do anything.."
+                                            description="Placeholder Menu bar item for settings"
+                                            id="gm.menuBar.placeHolder"
+                                        />
+                                    </MenuItem>*/}
+                                </MenuSection>
+                            </MenuBarMenu>
+                        </div>
                         {(this.props.canManageFiles) && (
                             <div
                                 className={classNames(styles.menuBarItem, styles.hoverable, {
@@ -583,6 +705,13 @@ class MenuBar extends React.Component {
                                 })}
                                 onMouseUp={this.props.onClickFile}
                             >
+                                <img
+                                    className={styles.menuBarIcon}
+                                    src={fileIcon}
+                                    draggable={false}
+                                    width={24}
+                                    height={24}
+                                />
                                 <FormattedMessage
                                     defaultMessage="File"
                                     description="Text for file dropdown menu"
@@ -670,27 +799,31 @@ class MenuBar extends React.Component {
                                                     </React.Fragment>
                                                 )}
                                                 {notScratchDesktop() && (
-                                                    <MenuItem onClick={this.getSaveToComputerHandler(downloadProject)}>
-                                                        {extended.available ? (
-                                                            <FormattedMessage
-                                                                defaultMessage="Save to separate file..."
-                                                                // eslint-disable-next-line max-len
-                                                                description="Download the project once, without being able to easily save to the same spot"
-                                                                id="tw.oldDownload"
-                                                            />
-                                                        ) : (
-                                                            <FormattedMessage
-                                                                defaultMessage="Save to your computer"
-                                                                description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
-                                                                id="gui.menuBar.downloadToComputer"
-                                                            />
-                                                        )}
-                                                    </MenuItem>
+                                                    <React.Fragment>
+                                                        <MenuItem
+                                                            onClick={this.getSaveToComputerHandler(downloadProject)}
+                                                        >
+                                                            {extended.available ? (
+                                                                <FormattedMessage
+                                                                    defaultMessage="Save to separate file..."
+                                                                    // eslint-disable-next-line max-len
+                                                                    description="Download the project once, without being able to easily save to the same spot"
+                                                                    id="tw.oldDownload"
+                                                                />
+                                                            ) : (
+                                                                <FormattedMessage
+                                                                    defaultMessage="Save to your computer"
+                                                                    description="Menu bar item for downloading a project to your computer" // eslint-disable-line max-len
+                                                                    id="gui.menuBar.downloadToComputer"
+                                                                />
+                                                            )}
+                                                        </MenuItem>
+                                                    </React.Fragment>
                                                 )}
                                             </React.Fragment>
                                         )}</SB3Downloader>
                                     </MenuSection>
-                                    {this.props.isDirectoryPickerSupported && (
+                                    {/*this.props.isDirectoryPickerSupported && (
                                         <MenuSection>
                                             <MenuItem
                                                 onClick={this.props.onStartFolderUpload}
@@ -715,14 +848,14 @@ class MenuBar extends React.Component {
                                                 </React.Fragment>
                                             )}</SB3Downloader>
                                         </MenuSection>
-                                    )}
+                                    )*/}
                                     {this.props.onClickPackager && (
                                         <MenuSection>
                                             <MenuItem
                                                 onClick={this.handleClickPackager}
                                             >
                                                 <FormattedMessage
-                                                    defaultMessage="Package project"
+                                                    defaultMessage="Compile current project"
                                                     // eslint-disable-next-line max-len
                                                     description="Menu bar item to open the current project in the packager"
                                                     id="tw.menuBar.package"
@@ -748,6 +881,13 @@ class MenuBar extends React.Component {
                             })}
                             onMouseUp={this.props.onClickEdit}
                         >
+						<img
+                        className={styles.menuBarIcon}
+                                    src={editIcon}
+                                    draggable={false}
+                        width={24}
+                        height={24}
+                                />
                             <div className={classNames(styles.editMenu)}>
                                 <FormattedMessage
                                     defaultMessage="Edit"
@@ -793,13 +933,13 @@ class MenuBar extends React.Component {
                                         <MenuItem onClick={changeFramerate}>
                                             {framerate === 60 ? (
                                                 <FormattedMessage
-                                                    defaultMessage="Turn off 60 FPS Mode"
+                                                    defaultMessage="Turn off 60FPS"
                                                     description="Menu bar item for turning off 60 FPS mode"
                                                     id="tw.menuBar.60off"
                                                 />
                                             ) : (
                                                 <FormattedMessage
-                                                    defaultMessage="Turn on 60 FPS Mode"
+                                                    defaultMessage="Turn on 60FPS"
                                                     description="Menu bar item for turning on 60 FPS mode"
                                                     id="tw.menuBar.60on"
                                                 />
@@ -847,14 +987,21 @@ class MenuBar extends React.Component {
                                         </MenuItem>
                                     )}</CloudVariablesToggler>
                                 </MenuSection>
+								<MenuSection>
+                                    <MenuItemLink href="https://discord.gg/5aD33ZT6Jq">
+                                        Join Discord!
+                                    </MenuItemLink>
+                                </MenuSection>
                                 <MenuSection>
-                                    <MenuItem onClick={this.props.onClickSettings}>
-                                        <FormattedMessage
-                                            defaultMessage="Gameplay Settings"
-                                            description="Menu bar item for gameplay settings"
-                                            id="pm.menuBar.moreSettings"
-                                        />
+								 <MenuItem onClick={this.props.onClickExtManager}>
+                                        Extension Manager
                                     </MenuItem>
+								 <MenuItem onClick={this.props.onClickCustManager}>
+                                        Add Custom Extension
+                                    </MenuItem>
+									<MenuItemLink href="https://permafy.github.io/extensions">
+                                        Extension Gallery/Editor
+                                    </MenuItemLink>
                                     <MenuItem onClick={this.handleClickDownloadLogs}>
                                         <FormattedMessage
                                             defaultMessage="Download Logs"
@@ -870,6 +1017,13 @@ class MenuBar extends React.Component {
                                 className={classNames(styles.menuBarItem, styles.hoverable)}
                                 onMouseUp={this.props.onClickAddonSettings}
                             >
+                             <img
+                                 className={styles.menuBarIcon}
+                                    src={addonsIcon}
+                                    draggable={false}
+                                 width={24}
+                                 height={24}
+                                />
                                 <div>
                                     <FormattedMessage
                                         // Note: this string is used by scratch-vm for the addons blocks category
@@ -884,10 +1038,17 @@ class MenuBar extends React.Component {
                             className={classNames(styles.menuBarItem, styles.hoverable)}
                             onMouseUp={this.props.onClickSettings}
                         >
+                             <img
+                                 className={styles.menuBarIcon}
+                                    src={advancedIcon}
+                                    draggable={false}
+                                 width={24}
+                                 height={24}
+                                />
                             <div>
                                 <FormattedMessage
-                                    defaultMessage="Settings"
-                                    description="Text for gameplay settings menu item"
+                                    defaultMessage="Advanced"
+                                    description="Text for the settings menu item"
                                     id="pm.menuBar.gameplaySettings"
                                 />
                             </div>
@@ -919,6 +1080,17 @@ class MenuBar extends React.Component {
                     <div className={classNames(styles.menuBarItem)}>
                         {this.props.canRemix ? remixButton : []}
                     </div>
+                    <div className={classNames(styles.menuBarItem, styles.newProjectItem)}>
+                        <Button
+                            className={classNames(
+                                styles.menuBarButton,
+                                seeInsideStyles.seeInsideButton
+                            )}
+                            onClick={this.handleClickNewNamed}
+                        >
+                            New...
+                        </Button>
+                    </div>
                     <div className={classNames(styles.menuBarItem, styles.communityButtonWrapper)}>
                         {this.props.enableCommunity ? (
                             (this.props.isShowingProject || this.props.isUpdating) && (
@@ -948,20 +1120,10 @@ class MenuBar extends React.Component {
                             />
                         ) : []))}
                     </div>
-                    <div className={styles.menuBarItem}>
-                        {this.props.isShowingProject && this.props.canEditTitle ?
-                            (<ShareButton
-                                className={styles.menuBarButton}
-                                isShared={this.props.isShared}
-                            />)
-                            : (null)}
-                    </div>
-                    <div className={styles.menuBarItem}>
+                    <div className={classNames(styles.menuBarItem, styles.backToHomeItem)}>
                         <a
                             className={styles.feedbackLink}
-                            href="https://penguinmod.com"
-                            rel="noopener noreferrer"
-                            target="_blank"
+                            href="/"
                         >
                             <Button className={styles.feedbackButton}>
                                 <FormattedMessage
@@ -973,13 +1135,11 @@ class MenuBar extends React.Component {
                         </a>
                     </div>
                 </div>
-
                 <div className={styles.accountInfoGroup}>
                     <div className={styles.menuBarItem}>
                         <TWSaveStatus />
                     </div>
                 </div>
-
                 {aboutButton}
             </Box>
         );
@@ -1013,17 +1173,18 @@ MenuBar.propTypes = {
     editMenuOpen: PropTypes.bool,
     enableCommunity: PropTypes.bool,
     fileMenuOpen: PropTypes.bool,
+    settingsMenuOpen: PropTypes.bool,
     handleSaveProject: PropTypes.func,
     intl: intlShape,
     isDirectoryPickerSupported: PropTypes.bool,
     isPlayerOnly: PropTypes.bool,
     isRtl: PropTypes.bool,
     isShared: PropTypes.bool,
+    isShowingWithoutId: PropTypes.bool,
     isShowingProject: PropTypes.bool,
     isUpdating: PropTypes.bool,
     languageMenuOpen: PropTypes.bool,
     locale: PropTypes.string.isRequired,
-    loginMenuOpen: PropTypes.bool,
     logo: PropTypes.string,
     onClickAbout: PropTypes.oneOfType([
         PropTypes.func, // button mode: call this callback when the About button is clicked
@@ -1042,7 +1203,6 @@ MenuBar.propTypes = {
     onClickEdit: PropTypes.func,
     onClickFile: PropTypes.func,
     onClickLanguage: PropTypes.func,
-    onClickLogin: PropTypes.func,
     onClickLogo: PropTypes.func,
     onClickNew: PropTypes.func,
     onClickNewWindow: PropTypes.func,
@@ -1050,6 +1210,9 @@ MenuBar.propTypes = {
     onClickSave: PropTypes.func,
     onClickSaveAsCopy: PropTypes.func,
     onClickSettings: PropTypes.func,
+    onClickSettingsItem: PropTypes.func,
+    onClickExtManager: PropTypes.func,
+    onClickCustManager: PropTypes.func,
     onClickErrors: PropTypes.func,
     onRequestCloseErrors: PropTypes.func,
     onLogOut: PropTypes.func,
@@ -1059,30 +1222,29 @@ MenuBar.propTypes = {
     onRequestOpenAbout: PropTypes.func,
     onRequestCloseAbout: PropTypes.func,
     onRequestCloseAccount: PropTypes.func,
+    onRequestCloseSettings: PropTypes.func,
     onRequestCloseEdit: PropTypes.func,
     onRequestCloseFile: PropTypes.func,
     onRequestCloseLanguage: PropTypes.func,
-    onRequestCloseLogin: PropTypes.func,
     onSeeCommunity: PropTypes.func,
     onShare: PropTypes.func,
     onStartSelectingFileUpload: PropTypes.func,
     onStartFolderUpload: PropTypes.func,
     onToggleLoginOpen: PropTypes.func,
+	onStartSelectingUrlLoad: PropTypes.func,
     projectId: PropTypes.string,
     projectTitle: PropTypes.string,
     renderLogin: PropTypes.func,
-    sessionExists: PropTypes.bool,
     errorsMenuOpen: PropTypes.bool,
     shouldSaveBeforeTransition: PropTypes.func,
     showComingSoon: PropTypes.bool,
     userOwnsProject: PropTypes.bool,
-    username: PropTypes.string,
     usernameLoggedIn: PropTypes.bool.isRequired,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
 };
 
 MenuBar.defaultProps = {
-    logo: scratchLogo,
+    logo: gaiamodLogo,
     usernameLoggedIn: false,
     onShare: () => { }
 };
@@ -1098,18 +1260,17 @@ const mapStateToProps = (state, ownProps) => {
         compileErrors: state.scratchGui.tw.compileErrors,
         fileMenuOpen: fileMenuOpen(state),
         editMenuOpen: editMenuOpen(state),
+        settingsMenuOpen: settingsMenuOpen(state),
         isPlayerOnly: state.scratchGui.mode.isPlayerOnly,
         isRtl: state.locales.isRtl,
+        isShowingWithoutId: getIsShowingWithoutId(loadingState),
         isUpdating: getIsUpdating(loadingState),
         isShowingProject: getIsShowingProject(loadingState),
         languageMenuOpen: languageMenuOpen(state),
         locale: state.locales.locale,
-        loginMenuOpen: loginMenuOpen(state),
         projectId: state.scratchGui.projectState.projectId,
         projectTitle: state.scratchGui.projectTitle,
-        sessionExists: state.session && typeof state.session.session !== 'undefined',
         errorsMenuOpen: errorsMenuOpen(state),
-        username: user ? user.username : null,
         usernameLoggedIn: state.scratchGui.tw.usernameLoggedIn,
         userOwnsProject: ownProps.authorUsername && user &&
             (ownProps.authorUsername === user.username),
@@ -1124,13 +1285,13 @@ const mapDispatchToProps = dispatch => ({
     onClickAccount: () => dispatch(openAccountMenu()),
     onRequestCloseAccount: () => dispatch(closeAccountMenu()),
     onClickFile: () => dispatch(openFileMenu()),
+    onRequestCloseSettings: () => dispatch(closeSettingsMenu()),
+    onClickSettingsItem: () => dispatch(toggleSettingsMenu()),
     onRequestCloseFile: () => dispatch(closeFileMenu()),
     onClickEdit: () => dispatch(openEditMenu()),
     onRequestCloseEdit: () => dispatch(closeEditMenu()),
     onClickLanguage: () => dispatch(openLanguageMenu()),
     onRequestCloseLanguage: () => dispatch(closeLanguageMenu()),
-    onClickLogin: () => dispatch(openLoginMenu()),
-    onRequestCloseLogin: () => dispatch(closeLoginMenu()),
     onClickErrors: () => dispatch(openErrorsMenu()),
     onRequestCloseErrors: () => dispatch(closeErrorsMenu()),
     onRequestOpenAbout: () => dispatch(openAboutMenu()),
@@ -1147,7 +1308,15 @@ const mapDispatchToProps = dispatch => ({
         dispatch(openSettingsModal());
         dispatch(closeEditMenu());
     },
-    onSeeCommunity: () => dispatch(setPlayer(true))
+   onClickExtManager: () => {
+        dispatch(openExtManagerModal());
+        dispatch(closeEditMenu());
+    },
+   onClickCustManager: () => {
+        dispatch(openCustomExtensionModal());
+        dispatch(closeEditMenu());
+    },
+    onSeeCommunity: () => dispatch(setPlayer(true)),
 });
 
 export default compose(

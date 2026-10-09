@@ -16,7 +16,7 @@ const getProjectTitleFromFilename = fileInputFilename => {
     if (!fileInputFilename) return '';
     // only parse title with valid scratch project extensions
     // (.sb, .sb2, .sb3, and .pm)
-    const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmp)$/);
+    const matches = fileInputFilename.match(/^(.*)(\.sb[23]?|\.pm|\.pmf|\.pmp|\.snail)$/i);
     if (!matches) return '';
     return matches[1].substring(0, 100); // truncate project title to max 100 chars
 };
@@ -67,6 +67,7 @@ class SB3Downloader extends React.Component {
         super(props);
         bindAll(this, [
             'downloadProject',
+            'downloadProjectAsSnail',
             'saveAsNew',
             'saveToLastFile',
             'saveToLastFileOrNew',
@@ -91,6 +92,16 @@ class SB3Downloader extends React.Component {
         this.props.saveProjectSb3().then(content => {
             this.finishedSaving();
             downloadBlob(this.props.projectFilename, content);
+        });
+    }
+    downloadProjectAsSnail () {
+        if (!this.props.canSaveProject) {
+            return;
+        }
+        this.startedSaving();
+        this.props.saveProjectSb3().then(content => {
+            this.finishedSaving();
+            downloadBlob(this.props.snailProjectFilename, content);
         });
     }
     async saveAsNew () {
@@ -293,21 +304,23 @@ class SB3Downloader extends React.Component {
                 saveToLastFile: this.saveToLastFile,
                 saveToLastFileOrNew: this.saveToLastFileOrNew,
                 smartSave: this.saveToLastFileOrNew,
-                saveAsFolder: this.saveAsFolder
+                saveAsFolder: this.saveAsFolder,
+                downloadProjectAsSnail: this.downloadProjectAsSnail
             } : {
                 available: false,
-                smartSave: this.downloadProject
+                smartSave: this.downloadProject,
+                downloadProjectAsSnail: this.downloadProjectAsSnail
             }
         );
     }
 }
 
-const getProjectFilename = (curTitle, defaultTitle) => {
+const getProjectFilename = (curTitle, defaultTitle, extension = '.pmf') => {
     let filenameTitle = curTitle;
     if (!filenameTitle || filenameTitle.length === 0) {
         filenameTitle = defaultTitle;
     }
-    return `${filenameTitle.substring(0, 100)}.pmp`;
+    return `${filenameTitle.substring(0, 100)}${extension}`;
 };
 
 SB3Downloader.propTypes = {
@@ -318,6 +331,7 @@ SB3Downloader.propTypes = {
     }),
     onSaveFinished: PropTypes.func,
     projectFilename: PropTypes.string,
+    snailProjectFilename: PropTypes.string,
     saveProjectSb3: PropTypes.func,
     saveProjectSb3Stream: PropTypes.func,
     saveProjectZip: PropTypes.func,
@@ -340,7 +354,8 @@ const mapStateToProps = state => ({
     // TODO: Is there a good reason to keep saveProjectZip private now that we use JSZip?
     saveProjectZip: state.scratchGui.vm._saveProjectZip.bind(state.scratchGui.vm),
     canSaveProject: getIsShowingProject(state.scratchGui.projectState.loadingState),
-    projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState)
+    projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState),
+    snailProjectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState, '.snail')
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -13,6 +13,7 @@ import {
     BLOCKS_TAB_INDEX,
     COSTUMES_TAB_INDEX,
     SOUNDS_TAB_INDEX,
+    ASSETS_TAB_INDEX,
     VARIABLES_TAB_INDEX,
     FILES_TAB_INDEX,
 } from "../reducers/editor-tab";
@@ -21,7 +22,7 @@ import {
     closeCostumeLibrary,
     closeBackdropLibrary,
     closeTelemetryModal,
-    openExtensionLibrary,
+    openCustomExtensionModal,
 } from "../reducers/modals";
 
 import FontLoaderHOC from "../lib/font-loader-hoc.jsx";
@@ -38,7 +39,6 @@ import cloudManagerHOC from "../lib/cloud-manager-hoc.jsx";
 import TWFullScreenResizerHOC from "../lib/tw-fullscreen-resizer-hoc.jsx";
 
 import GUIComponent from "../components/gui/gui.jsx";
-import HomeCommunication from "./home-communication.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 
 class GUI extends React.Component {
@@ -98,11 +98,6 @@ class GUI extends React.Component {
                 >
                     {children}
                 </GUIComponent>
-
-                <HomeCommunication
-                    projectId={projectId}
-                    isPlayground={isPlayground}
-                />
             </>
         );
     }
@@ -170,6 +165,8 @@ const mapStateToProps = (state) => {
         projectId: state.scratchGui.projectState.projectId,
         soundsTabVisible:
             state.scratchGui.editorTab.activeTabIndex === SOUNDS_TAB_INDEX,
+        assetsTabVisible:
+            state.scratchGui.editorTab.activeTabIndex === ASSETS_TAB_INDEX,
         variablesTabVisible:
             state.scratchGui.editorTab.activeTabIndex === VARIABLES_TAB_INDEX,
         filesTabVisible:
@@ -190,10 +187,15 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    onExtensionButtonClick: () => dispatch(openExtensionLibrary()),
+    onExtensionButtonClick: () => dispatch(openCustomExtensionModal()),
+    onClickAddonSettings: () => {
+        const url = new URL('/addons/', window.location.origin);
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
+    },
     onActivateTab: (tab) => dispatch(activateTab(tab)),
     onActivateCostumesTab: () => dispatch(activateTab(COSTUMES_TAB_INDEX)),
     onActivateSoundsTab: () => dispatch(activateTab(SOUNDS_TAB_INDEX)),
+    onActivateAssetsTab: () => dispatch(activateTab(ASSETS_TAB_INDEX)),
     onActivateVariablesTab: () => dispatch(activateTab(VARIABLES_TAB_INDEX)),
     onActivateFilesTab: () => dispatch(activateTab(FILES_TAB_INDEX)),
     onRequestCloseBackdropLibrary: () => dispatch(closeBackdropLibrary()),

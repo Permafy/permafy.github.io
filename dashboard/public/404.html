@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#8cafff">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="https://penguinmod.com/favicon.ico">
+		<meta property="twitter:image" content="https://penguinmod.com/favicon.ico">
+        
+        <link href="/dashboard/css/markdown-alert.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/arduino-light.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD@100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+		<link rel="icon" href="/dashboard/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="/dashboard/_app/immutable/entry/start.B8ERogz0.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/BNt-QsL8.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DCLWzKqF.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/CRV5GlSC.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DjunSrrq.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/entry/app.CuvHQeyH.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/CoyRD3sq.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DTpCwBoU.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/4lkNGORl.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/p3Zi0nd7.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/a0ozePau.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DMqOyPGA.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/nodes/0.DkBKBvw9.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DhdaTU7D.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/CxTYO-4S.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/D6-XlEtG.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DYaRoSiT.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/BSOM857q.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/CTmSWnei.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/CBUaOwN1.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/ChAa5NnE.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/CplULvWQ.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/Cudpd2TA.js" rel="modulepreload">
+		<link href="/dashboard/_app/immutable/chunks/DWVL91qT.js" rel="modulepreload">
+		<link href="/dashboard/_app/env.js" rel="modulepreload">
+		
+		<link href="/dashboard/_app/immutable/assets/Lottie.C4MBdrF8.css" rel="stylesheet">
+		<link href="/dashboard/_app/immutable/assets/0.BpZ7kMos.css" rel="stylesheet">
+		<link href="/dashboard/_app/immutable/assets/Component.CsvL3WuE.css" rel="stylesheet">
+
+        <style>
+            body {
+                font-family: Helvetica, Arial, sans-serif;
+            }
+			a {
+    		    color: dodgerblue;
+    		}
+    		a:visited {
+    		    color: #862aff;
+    		}
+            
+			/* .sb3-comment-label {
+				fill: black !important;
+			} */
+        </style>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">
+			<script>
+				{
+					__sveltekit_1hkh0ia = {
+						base: "/dashboard",
+						assets: "/dashboard",
+						env: null
+					};
+
+					const element = document.currentScript.parentElement;
+
+					import("/dashboard/_app/env.js").then(({ env }) => {
+						__sveltekit_1hkh0ia.env = env;
+
+						Promise.all([
+							import("/dashboard/_app/immutable/entry/start.B8ERogz0.js"),
+							import("/dashboard/_app/immutable/entry/app.CuvHQeyH.js")
+						]).then(([kit, app]) => {
+							kit.start(app, element);
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+    <script>
+        (() => {
+            'use strict';
+
+            // NOTE: We need to parse settings here because no fancy svelte (svelte ALWAYS has some FOUC)
+            const settingsUpdated = () => {
+                const stringStored = localStorage.getItem('pm:settings') || "{}";
+                const savedSettings = JSON.parse(stringStored);
+
+                const appTheme = "dark";
+                const appAccent = savedSettings.appAccent || "cyan";
+
+                // NOTE: PM Home listens to theme on body, but We need to tell SvelteUI to render everything in dark mode with *its* class, because the global SvelteUI theme class is better than manually passing our appTheme into each element (what a surprise)
+                document.body.setAttribute("class", "");
+                document.body.classList.add(`app-theme-${appTheme}`);
+                document.body.classList.add(`app-accent-${appAccent}`);
+                if (appTheme !== "light")
+                    document.body.classList.add(`penguinmodsvelteui-theme-${appTheme}`);
+            }
+
+            // NOTE: We use StoreSettings' generous document event to listen for dark theme swaps
+            settingsUpdated();
+            document.addEventListener("penguinmod-store-settings-updated", () => {
+                settingsUpdated();
+            });
+        })();
+    </script>
+</html>

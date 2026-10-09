@@ -3,11 +3,20 @@ import {addLocaleData} from 'react-intl';
 import {localeData, isRtl} from '@turbowarp/scratch-l10n';
 import editorMessages from '@turbowarp/scratch-l10n/locales/editor-msgs';
 import addAdditionalTranslations from '../lib/tw-translations/index.js';
+import lolcatMessages from '../lib/tw-translations/lolcat.json';
 
 import {LANGUAGE_KEY} from '../lib/detect-locale.js';
 
 addAdditionalTranslations(editorMessages);
-addLocaleData(localeData);
+editorMessages.lolcat = Object.assign({}, editorMessages.en, lolcatMessages);
+const englishLocaleData = localeData.find(locale => locale.locale === 'en');
+if (!englishLocaleData) {
+    throw new Error('English locale data is required to initialize lolcat.');
+}
+addLocaleData([
+    ...localeData,
+    Object.assign({}, englishLocaleData, {locale: 'lolcat'})
+]);
 
 const UPDATE_LOCALES = 'scratch-gui/locales/UPDATE_LOCALES';
 const SELECT_LOCALE = 'scratch-gui/locales/SELECT_LOCALE';

@@ -1,11 +1,15 @@
 import VM from 'scratch-vm';
 import storage from '../lib/storage';
+import RuntimeLoggingExtension from '../lib/runtime-logging-extension';
 import {MAXIMUM_CLOUD_VARIABLES} from '../lib/tw-cloud-limits';
 
 const SET_VM = 'scratch-gui/vm/SET_VM';
+
 const defaultVM = new VM();
 defaultVM.setCompatibilityMode(true);
 defaultVM.extensionManager.workerMode = 'iframe';
+defaultVM.extensionManager.addBuiltinExtension('debug', RuntimeLoggingExtension);
+defaultVM.extensionManager.loadExtensionIdSync('debug');
 defaultVM.runtime.cloudOptions.limit = MAXIMUM_CLOUD_VARIABLES;
 defaultVM.attachStorage(storage);
 const initialState = defaultVM;

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+ width="48px" height="48px"
+ viewbox="0 0 48 48"
+>
+    <defs>
+        <linearGradient id="Gradient1" x1="0" x2="0" y1="0" y2="1">
+            <stop style="stop-color:#0094FF;" class="stop1" offset="0%" />
+            <stop style="stop-color:#006FFF;" class="stop2" offset="100%" />
+        </linearGradient>
+        <clipPath id="cut-off-bit">
+            <rect x="0" y="0" width="48" height="24" />
+            <rect x="0" y="0" width="24" height="48" />
+        </clipPath>
+    </defs>
+    <g fill="url(#Gradient1)">
+        <path
+        clip-path="url(#cut-off-bit)"
+        d="M 24 0 A 1 1 0 0 0 24 48 A 1 1 0 0 0 24 0 M 24 8 A 1 1 0 0 1 24 40 A 1 1 0 0 1 24 8" />
+    </g>
+</svg>

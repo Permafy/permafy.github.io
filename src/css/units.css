@@ -1,13 +1,16 @@
 /* make sure to keep these in sync with other constants,
 e.g. STAGE_DIMENSION_DEFAULTS in lib/screen-utils.js */
 
+$margin: 0.5rem;
+$roundedness: 1.75rem;
+
 $space: 0.5rem;
 
-$sprites-per-row: 5;
+$sprites-per-row: 9;
 
-$menu-bar-height: 3rem;
+$menu-bar-height: 48px;
 $language-selector-width: 3rem;
-$sprite-info-height: 6rem;
+$sprite-info-height: 8rem;
 $stage-menu-height: 2.75rem;
 
 $library-header-height: 3.125rem;
@@ -17,14 +20,15 @@ $stage-standard-border-width: 0.0625rem;
 $stage-full-screen-border-width: 0.1875rem;
 $stage-full-screen-stage-padding: 0.1875rem;
 
-$form-radius: calc($space / 2);
+/*$form-radius: calc($space / 2);*/
+$form-radius: calc($roundedness / 4);
 
 /* layout contants from `layout-constants.js` */
 $full-size: 1095px;
 $full-size-paint: 1249px;
 
 $menu-bar-standard-font-size: 0.75rem;
-$menu-bar-large-font-size: 0.875rem;
+$menu-bar-large-font-size: 0.775rem;
 $menu-bar-button-size: 2rem;
 
 $menu-bar-item-max-width: 12rem;

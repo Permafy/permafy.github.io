@@ -3,6 +3,7 @@ import defaultsDeep from 'lodash.defaultsdeep';
 import PropTypes from 'prop-types';
 import React from 'react';
 import CustomProceduresComponent from '../components/custom-procedures/custom-procedures.jsx';
+import getScratchblocksIcons, {getIconCommand, getIconImage} from '../lib/scratchblocks-icons';
 import LazyScratchBlocks from '../lib/tw-lazy-scratch-blocks';
 import {connect} from 'react-redux';
 
@@ -31,7 +32,8 @@ class CustomProcedures extends React.Component {
             'handleBlockColorChange',
             'setHexBlockColor',
             'setBlocks',
-            'handleTestFunction'
+            'handleIconChange',
+            'handleIconCommandChange'
         ]);
         this.state = {
             rtlOffset: 0,
@@ -39,7 +41,11 @@ class CustomProcedures extends React.Component {
             returns: false,
             editing: false,
             blockColor: '#000000',
-            type: 'statement'
+            type: 'statement',
+            icons: [],
+            selectedIcon: '',
+            iconCommand: '',
+            iconCommandError: false
         };
     }
     componentWillUnmount () {
@@ -58,6 +64,21 @@ class CustomProcedures extends React.Component {
 
         // @todo This is a hack to make there be no toolbox.
         ScratchBlocks = LazyScratchBlocks.get();
+        /* eslint-disable no-invalid-this */
+        const createProcedureIcon = function () {
+            const image = getIconImage(this.image) || this.image;
+            if (image && (image.startsWith('data:') || image.startsWith('http'))) {
+                this.appendDummyInput().appendField(new ScratchBlocks.FieldImage(image, 16, 16));
+            }
+        };
+        /* eslint-enable no-invalid-this */
+        [
+            'procedures_declaration',
+            'procedures_prototype',
+            'procedures_call'
+        ].forEach(type => {
+            ScratchBlocks.Blocks[type].createIcon_ = createProcedureIcon;
+        });
         const oldDefaultToolbox = ScratchBlocks.Blocks.defaultToolbox;
         ScratchBlocks.Blocks.defaultToolbox = null;
         this.workspace = ScratchBlocks.inject(this.blocks, workspaceConfig);
@@ -121,6 +142,10 @@ class CustomProcedures extends React.Component {
             this.mutationRoot.moveBy(dx, dy);
         });
         this.mutationRoot.domToMutation(this.props.mutator);
+        const existingIconCommand = getIconCommand(this.mutationRoot.image);
+        if (existingIconCommand) {
+            this.mutationRoot.setImage(existingIconCommand);
+        }
         this.mutationRoot.initSvg();
         this.mutationRoot.render();
         this.setState({
@@ -129,7 +154,11 @@ class CustomProcedures extends React.Component {
             editing: this.mutationRoot.getEdited(),
             // sometimes color[0] exists but sometimes it doesnt
             // i can blame gsa for this or just do nothing about it :troll:
-            blockColor: this.mutationRoot.color ? this.mutationRoot.color[0] : this.mutationRoot.colour_
+            blockColor: this.mutationRoot.color ? this.mutationRoot.color[0] : this.mutationRoot.colour_,
+            icons: getScratchblocksIcons(),
+            selectedIcon: getIconCommand(this.mutationRoot.image),
+            iconCommand: getIconCommand(this.mutationRoot.image),
+            iconCommandError: false
         });
         // Allow the initial events to run to position this block, then focus.
         setTimeout(() => {
@@ -148,7 +177,7 @@ class CustomProcedures extends React.Component {
         this.props.onRequestClose();
     }
     handleOk () {
-        this.mutationRoot.setEdited(true)
+        this.mutationRoot.setEdited(true);
         const newMutation = this.mutationRoot ? this.mutationRoot.mutationToDom(true) : null;
         this.props.onRequestClose(newMutation);
     }
@@ -227,6 +256,50 @@ class CustomProcedures extends React.Component {
             }
         }
     }
+    handleIconChange (event) {
+        const iconCommand = event.target.value;
+        if (this.mutationRoot) {
+            if (iconCommand) {
+                this.mutationRoot.setImage(iconCommand);
+            } else {
+                this.mutationRoot.unsetImage();
+            }
+            this.setState({
+                selectedIcon: iconCommand,
+                iconCommand,
+                iconCommandError: false
+            });
+        }
+    }
+    handleIconCommandChange (event) {
+        const value = event.target.value;
+        if (!value.trim()) {
+            this.mutationRoot.unsetImage();
+            this.setState({
+                selectedIcon: '',
+                iconCommand: '',
+                iconCommandError: false
+            });
+            return;
+        }
+        const commandMatch = value.trim().match(/(?:^|=)\s*(@[\w-]+)\s*$/);
+        if (!commandMatch) {
+            this.setState({iconCommand: value, iconCommandError: Boolean(value.trim())});
+            return;
+        }
+        const image = getIconImage(commandMatch[1]);
+        if (!image) {
+            this.setState({iconCommand: value, iconCommandError: true});
+            return;
+        }
+        const iconCommand = getIconCommand(image);
+        this.mutationRoot.setImage(iconCommand);
+        this.setState({
+            selectedIcon: iconCommand,
+            iconCommand,
+            iconCommandError: false
+        });
+    }
     render () {
         return (
             <CustomProceduresComponent
@@ -247,7 +320,12 @@ class CustomProcedures extends React.Component {
                 onOutputTypeChanged={this.handleChangeType}
                 onBlockColorChange={this.handleBlockColorChange}
                 setHexBlockColor={this.setHexBlockColor}
-                onTestStart={this.handleTestFunction}
+                icons={this.state.icons}
+                selectedIcon={this.state.selectedIcon}
+                onIconChange={this.handleIconChange}
+                iconCommand={this.state.iconCommand}
+                iconCommandError={this.state.iconCommandError}
+                onIconCommandChange={this.handleIconCommandChange}
             />
         );
     }

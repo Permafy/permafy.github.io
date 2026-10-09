@@ -54,6 +54,116 @@ a {
 .player-only .center {
     margin: auto;
 }
+
+.homepage-editor {
+    display: contents;
+}
+
+.split-homepage {
+    position: fixed;
+    display: grid;
+    grid-template-columns: minmax(240px, min(var(--stage-column-width), calc(100vw - 328px))) 8px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.site-menu {
+    z-index: 2;
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+
+.split-homepage .homepage-editor {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.split-homepage .center {
+    flex: 1 1 auto;
+    width: 100% !important;
+    min-height: 640px;
+    margin: 0;
+    overflow-y: auto;
+}
+
+.dashboard-pane {
+    grid-column: 3;
+    grid-row: 2;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.resize-handle {
+    grid-column: 2;
+    grid-row: 2;
+    z-index: 1;
+    width: 8px;
+    height: 100%;
+    background: transparent;
+    cursor: ew-resize;
+    touch-action: none;
+}
+
+.resize-handle::after {
+    display: block;
+    width: 2px;
+    height: 100%;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.16);
+    content: '';
+}
+
+.resize-handle:hover::after,
+.resize-handle:focus::after {
+    background: #4c97ff;
+}
+
+.resize-handle:focus {
+    outline: none;
+}
+
+@media (max-width: 960px) {
+    .split-homepage {
+        position: absolute;
+        display: block;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .split-homepage .homepage-editor {
+        grid-column: 1;
+        grid-row: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .split-homepage .center {
+        flex: none;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .dashboard-pane {
+        grid-column: 1;
+        grid-row: auto;
+        height: 100vh;
+    }
+
+    .resize-handle {
+        display: none;
+    }
+}
+
 .menu {
     margin-bottom: 8px;
 }

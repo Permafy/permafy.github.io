@@ -1,0 +1,54 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+
+.runtime-logs {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+    color: $text-primary;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+}
+
+.header {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background: $ui-tertiary;
+}
+
+.clear-button {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+}
+
+.clear-button {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.clear-button:focus {
+    outline: 2px solid $motion-primary;
+    outline-offset: -2px;
+}
+
+.log-list {
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.5rem 0.75rem;
+    background: $ui-primary;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.empty {
+    color: $text-primary-transparent;
+}

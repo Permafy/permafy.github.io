@@ -117,6 +117,10 @@
 .embed-buttons {
     display: flex;
 }
+.stage-button-disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
 [dir="ltr"] .embed-buttons > *:not(:last-child) {
     margin-right: .2rem;
 }

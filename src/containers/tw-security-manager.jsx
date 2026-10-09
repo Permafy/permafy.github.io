@@ -26,6 +26,8 @@ const isTrustedExtensionOrigin = url => (
     url.startsWith('https://extensions.turbowarp.org/') ||
     url.startsWith('https://extensions.penguinmod.com/') ||
     url.startsWith('https://penguinmod-extensions-gallery.vercel.app/') ||
+    url.startsWith('https://permafy.github.io/') ||
+    url.startsWith('https://permafy.github.io/extensions/') ||
 
     /* Trust other people's galleries. These can be removed in the future, they will just show a pop-up on load if they are */
     url.startsWith('https://sharkpools-extensions.vercel.app/') || // SharkPool
@@ -33,6 +35,8 @@ const isTrustedExtensionOrigin = url => (
     url.startsWith('https://pen-group.github.io/') || // Pen-Group / ObviousAlexC
 
     /* For development */
+    url.startsWith('http://localhost:3000') ||
+    url.startsWith('http://127.0.0.1:3000') ||
     url.startsWith('http://localhost:8000') ||
     url.startsWith('http://localhost:6000') || // Launcher Home
     url.startsWith('http://localhost:6001') || // Launcher Extensions

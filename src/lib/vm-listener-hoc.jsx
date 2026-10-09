@@ -25,6 +25,37 @@ import {setCustomStageSize} from '../reducers/custom-stage-size';
 import implementGuiAPI from './tw-extension-gui-api';
 
 let compileErrorCounter = 0;
+const PENGUINMOD_USER_ID_KEY = 'pm:penguinmodUserId';
+
+const getPenguinModUserId = () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('pm_user_id')) {
+        const requestedId = params.get('pm_user_id') || '';
+        const userId = /^\d+$/.test(requestedId) ? requestedId : '';
+        try {
+            if (userId) {
+                sessionStorage.setItem(PENGUINMOD_USER_ID_KEY, userId);
+            } else {
+                sessionStorage.removeItem(PENGUINMOD_USER_ID_KEY);
+            }
+        } catch (error) {
+            // Storage may be disabled; the current editor session can still use the URL value.
+        }
+        params.delete('pm_user_id');
+        const search = params.toString();
+        window.history.replaceState(
+            window.history.state,
+            '',
+            `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`
+        );
+        return userId;
+    }
+    try {
+        return sessionStorage.getItem(PENGUINMOD_USER_ID_KEY) || '';
+    } catch (error) {
+        return '';
+    }
+};
 
 /*
  * Higher Order Component to manage events emitted by the VM
@@ -81,6 +112,7 @@ const vmListenerHOC = function (WrappedComponent) {
                 document.addEventListener('keydown', this.handleKeyDown);
                 document.addEventListener('keyup', this.handleKeyUp);
             }
+            this.props.vm.runtime._penguinmodUserId = getPenguinModUserId();
             this.props.vm.postIOData('userData', {
                 username: this.props.username,
                 loggedIn: this.props.usernameLoggedIn

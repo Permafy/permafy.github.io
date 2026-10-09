@@ -87,7 +87,7 @@ const CustomExtensionModal = props => (
                         value={props.url}
                         onChange={props.onChangeURL}
                         onKeyDown={props.onKeyDown}
-                        placeholder="https://extensions.turbowarp.org/..."
+                        placeholder="https://permafy.github.io/extensions/... or https://extensions.turbowarp.org/"
                         autoFocus
                     />
                 </React.Fragment>
@@ -188,7 +188,7 @@ const CustomExtensionModal = props => (
                 <p>
                     <FormattedMessage
                         // eslint-disable-next-line max-len
-                        defaultMessage="Your browser may not allow PenguinMod to access certain sites. If this is causing issues for you, try loading from a file or text instead."
+                        defaultMessage="Your browser may not allow Permafy to access certain sites. If this is causing issues for you, try loading from a file or text instead."
                         description="Message that appears in custom extension prompt"
                         id="pm.customExtensionModal.corsProblem"
                     />

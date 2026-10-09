@@ -42,7 +42,7 @@ import '../../lib/normalize.css';
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/jsx-no-bind */
 
-const locale = detectLocale(Object.keys(messagesByLocale));
+const locale = detectLocale(['en', 'es']);
 document.documentElement.lang = locale;
 
 const addonTranslations = messagesByLocale[locale] ? messagesByLocale[locale]() : {};
@@ -55,7 +55,7 @@ if (locale !== 'en') {
     }
 }
 
-document.title = `${settingsTranslations.title} - PenguinMod`;
+document.title = `${settingsTranslations.title} - Permafy`;
 
 const theme = getInitialDarkMode() ? 'dark' : 'light';
 document.body.setAttribute('theme', theme);
@@ -1053,7 +1053,7 @@ class AddonSettingsComponent extends React.Component {
                             />
                         </div>
                         <a
-                            href="https://discord.gg/NZ9MBMYTZh"
+                            href="https://discord.gg/5aD33ZT6Jq"
                             target="_blank"
                             rel="noreferrer"
                             className={styles.feedbackButtonOuter}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		
+		<meta property="theme-color" content="#8cafff">
+		<meta property="og:type" content="website">
+		<meta property="og:image" content="https://penguinmod.com/favicon.ico">
+		<meta property="twitter:image" content="https://penguinmod.com/favicon.ico">
+        
+        <link href="%sveltekit.assets%/css/markdown-alert.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/arduino-light.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD@100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+
+		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+
+        <style>
+            body {
+                font-family: Helvetica, Arial, sans-serif;
+            }
+			a {
+    		    color: dodgerblue;
+    		}
+    		a:visited {
+    		    color: #862aff;
+    		}
+            
+			/* .sb3-comment-label {
+				fill: black !important;
+			} */
+        </style>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+    <script>
+        (() => {
+            'use strict';
+
+            // NOTE: We need to parse settings here because no fancy svelte (svelte ALWAYS has some FOUC)
+            const settingsUpdated = () => {
+                const stringStored = localStorage.getItem('pm:settings') || "{}";
+                const savedSettings = JSON.parse(stringStored);
+
+                const appTheme = "dark";
+                const appAccent = savedSettings.appAccent || "cyan";
+
+                // NOTE: PM Home listens to theme on body, but We need to tell SvelteUI to render everything in dark mode with *its* class, because the global SvelteUI theme class is better than manually passing our appTheme into each element (what a surprise)
+                document.body.setAttribute("class", "");
+                document.body.classList.add(`app-theme-${appTheme}`);
+                document.body.classList.add(`app-accent-${appAccent}`);
+                if (appTheme !== "light")
+                    document.body.classList.add(`penguinmodsvelteui-theme-${appTheme}`);
+            }
+
+            // NOTE: We use StoreSettings' generous document event to listen for dark theme swaps
+            settingsUpdated();
+            document.addEventListener("penguinmod-store-settings-updated", () => {
+                settingsUpdated();
+            });
+        })();
+    </script>
+</html>

@@ -15,9 +15,11 @@ import VM from 'scratch-vm';
 import Renderer from 'scratch-render';
 
 import Blocks from '../../containers/blocks.jsx';
+import RuntimeLogs from '../runtime-logs/runtime-logs.jsx';
 import CostumeTab from '../../containers/costume-tab.jsx';
 import TargetPane from '../../containers/target-pane.jsx';
 import SoundTab from '../../containers/sound-tab.jsx';
+import AssetTab from '../../containers/asset-tab.jsx';
 import VariablesTab from '../../containers/variables-tab.jsx';
 import FilesTab from '../../containers/files-tab.jsx';
 import StageWrapper from '../../containers/stage-wrapper.jsx';
@@ -45,6 +47,7 @@ import TWFontsModal from '../../containers/tw-fonts-modal.jsx';
 import PMExtensionModals from '../../containers/pm-extension-modals.jsx';
 
 import layout, {STAGE_SIZE_MODES} from '../../lib/layout-constants';
+import {normalizeBasePath} from '../../lib/normalize-base-path';
 import {resolveStageSize} from '../../lib/screen-utils';
 
 import {isRendererSupported, isBrowserSupported} from '../../lib/tw-environment-support-prober';
@@ -55,8 +58,10 @@ import addExtensionIcon from './icon--extensions.svg';
 import codeIcon from './icon--code.svg';
 import costumesIcon from './icon--costumes.svg';
 import soundsIcon from './icon--sounds.svg';
+import assetsIcon from './icon--assets.svg';
 import variablesIcon from './icon--variables.svg';
 import filesIcon from './icon--files.svg';
+import logsIcon from '../../controls/logs.png';
 
 const urlParams = new URLSearchParams(location.search);
 
@@ -66,8 +71,8 @@ const IsLiveTests = urlParams.has('livetests');
 const messages = defineMessages({
     addExtension: {
         id: 'gui.gui.addExtension',
-        description: 'Button to add an extension in the target pane',
-        defaultMessage: 'Add Extension'
+        description: 'Button to load a custom extension in the target pane',
+        defaultMessage: 'Load Custom Extension'
     }
 });
 
@@ -95,6 +100,7 @@ const safeJSONParse = (json, defaul, mustBeArray) => {
 const fullscreenBackgroundColor = getFullscreenBackgroundColor();
 
 const GUIComponent = props => {
+    const [, forceUpdateTabOrder] = React.useReducer(tabOrderVersion => tabOrderVersion + 1, 0);
     const {
         accountNavOpen,
         activeTabIndex,
@@ -148,6 +154,7 @@ const GUIComponent = props => {
         onToggleLoginOpen,
         onActivateCostumesTab,
         onActivateSoundsTab,
+        onActivateAssetsTab,
         onActivateVariablesTab,
         onActivateFilesTab,
         onActivateTab,
@@ -167,6 +174,7 @@ const GUIComponent = props => {
         onTelemetryModalOptOut,
         showComingSoon,
         soundsTabVisible,
+        assetsTabVisible,
         variablesTabVisible,
         filesTabVisible,
         stageSizeMode,
@@ -181,6 +189,7 @@ const GUIComponent = props => {
         vm,
         ...componentProps
     } = omit(props, 'dispatch');
+    const resolvedBasePath = normalizeBasePath(basePath);
     if (children) {
         return <Box {...componentProps}>{children}</Box>;
     }
@@ -197,10 +206,32 @@ const GUIComponent = props => {
     // We can't move this into it's own component or it'll break the selected tab styles & disable switching to the code tab
     // Moving the whole TabList element will also break the code panel from resizing properly
     const getTabOrder = () => {
-        const tabOrderStr = localStorage.getItem('pm:taborder') || '["code", "costume", "sound"]';
-        const tabOrder = safeJSONParse(tabOrderStr, [], true);
+        const defaultTabOrder = ['code', 'costume', 'sound', 'asset', 'variable', 'logs'];
+        const tabOrderStorageKey = 'pm:taborder:v3';
+        const savedTabOrder = localStorage.getItem(tabOrderStorageKey);
+        if (savedTabOrder) {
+            const tabOrder = safeJSONParse(savedTabOrder, defaultTabOrder, true);
+            const filteredTabOrder = [...new Set(tabOrder.filter(tabId => defaultTabOrder.includes(tabId)))];
+            if (!filteredTabOrder.includes('code')) filteredTabOrder.unshift('code');
+            return filteredTabOrder;
+        }
 
-        return tabOrder;
+        const previousTabOrder = localStorage.getItem('pm:taborder:v2') ||
+            localStorage.getItem('pm:taborder') ||
+            JSON.stringify(defaultTabOrder);
+        const legacyTabOrder = safeJSONParse(
+            previousTabOrder,
+            defaultTabOrder,
+            true
+        );
+        const migratedTabOrder = [
+            ...new Set([
+                ...legacyTabOrder.filter(tabId => defaultTabOrder.includes(tabId)),
+                ...defaultTabOrder
+            ])
+        ];
+        localStorage.setItem(tabOrderStorageKey, JSON.stringify(migratedTabOrder));
+        return migratedTabOrder;
     };
     const tabOrder = getTabOrder();
     
@@ -224,7 +255,7 @@ const GUIComponent = props => {
     };
 
     // currently each tab can decide whether or not its hidden, remove this once rearranging tabs is supported
-    const codeTab = (<Tab className={classNames(tabClassNames.tab, tabOrder.includes('code') ? null : styles.tabDisabled)}>
+    const codeTab = (<Tab className={classNames(tabClassNames.tab, styles.tabCode, tabOrder.includes('code') ? null : styles.tabDisabled)}>
             <ContextMenuWrapTab tabId="code">
                 <img
                     draggable={false}
@@ -237,7 +268,7 @@ const GUIComponent = props => {
                 />
             </ContextMenuWrapTab>
         </Tab>);
-    const costumesTab = (<Tab className={classNames(tabClassNames.tab, tabOrder.includes('costume') ? null : styles.tabDisabled)} onClick={onActivateCostumesTab}>
+    const costumesTab = (<Tab className={classNames(tabClassNames.tab, styles.tabCostumes, tabOrder.includes('costume') ? null : styles.tabDisabled)} onClick={onActivateCostumesTab}>
             <ContextMenuWrapTab tabId="costume">
                 <img
                     draggable={false}
@@ -258,7 +289,7 @@ const GUIComponent = props => {
                 )}
             </ContextMenuWrapTab>
         </Tab>);
-    const soundsTab = (<Tab className={classNames(tabClassNames.tab, tabOrder.includes('sound') ? null : styles.tabDisabled)} onClick={onActivateSoundsTab}>
+    const soundsTab = (<Tab className={classNames(tabClassNames.tab, styles.tabSounds, tabOrder.includes('sound') ? null : styles.tabDisabled)} onClick={onActivateSoundsTab}>
             <ContextMenuWrapTab tabId="sound">
                 <img
                     draggable={false}
@@ -268,6 +299,19 @@ const GUIComponent = props => {
                     defaultMessage="Sounds"
                     description="Button to get to the sounds panel"
                     id="gui.gui.soundsTab"
+                />
+            </ContextMenuWrapTab>
+        </Tab>);
+    const assetsTab = (<Tab className={classNames(tabClassNames.tab, tabOrder.includes('asset') ? null : styles.tabDisabled)} onClick={onActivateAssetsTab}>
+            <ContextMenuWrapTab tabId="asset">
+                <img
+                    draggable={false}
+                    src={assetsIcon}
+                />
+                <FormattedMessage
+                    defaultMessage="Assets"
+                    description="Button to get to the asset panel"
+                    id="pm.gui.assetsTab"
                 />
             </ContextMenuWrapTab>
         </Tab>);
@@ -297,12 +341,35 @@ const GUIComponent = props => {
                 />
             </ContextMenuWrapTab>
         </Tab>);
+    const logsTab = (
+        <Tab
+            className={classNames(
+                tabClassNames.tab,
+                styles.tabLogs,
+                tabOrder.includes('logs') ? null : styles.tabDisabled
+            )}
+        >
+            <ContextMenuWrapTab tabId="logs">
+                <img
+                    draggable={false}
+                    src={logsIcon}
+                />
+                <FormattedMessage
+                    defaultMessage="Logs"
+                    description="Button to open runtime logs"
+                    id="pm.gui.logsTab"
+                />
+            </ContextMenuWrapTab>
+        </Tab>
+    );
 
     const tabPairs = {
         code: codeTab,
         costume: costumesTab,
         sound: soundsTab,
+        asset: assetsTab,
         variable: variablesTab,
+        logs: logsTab,
         // file: filesTab,
     };
 
@@ -328,8 +395,10 @@ const GUIComponent = props => {
 
     const addTabToEditor = (tabId) => {
         const tabOrder = getTabOrder();
+        if (tabOrder.includes(tabId)) return;
         tabOrder.push(tabId);
-        localStorage.setItem('pm:taborder', JSON.stringify(tabOrder));
+        localStorage.setItem('pm:taborder:v3', JSON.stringify(tabOrder));
+        forceUpdateTabOrder();
 
         const tabKeys = Object.keys(tabPairs);
         const tabIndex = tabKeys.indexOf(tabId);
@@ -339,6 +408,7 @@ const GUIComponent = props => {
 
         onActivateTab(tabIndex);
     };
+    const addLogsTabToEditor = () => addTabToEditor('logs');
     const removeTabFromEditor = (tabId) => {
         setTimeout(() => { // sometimes clicking delete will switch to the deleted tab
             const tabOrder = getTabOrder();
@@ -346,7 +416,8 @@ const GUIComponent = props => {
             if (idx === -1) return;
     
             tabOrder.splice(idx, 1);
-            localStorage.setItem('pm:taborder', JSON.stringify(tabOrder));
+            localStorage.setItem('pm:taborder:v3', JSON.stringify(tabOrder));
+            forceUpdateTabOrder();
 
             if (tabId !== 'code') {
                 return onActivateTab(0);
@@ -568,6 +639,19 @@ const GUIComponent = props => {
                                                 />
                                             </div>
                                         </MenuItem>}
+                                        {!tabOrder.includes('asset') && <MenuItem onClick={() => addTabToEditor('asset')}>
+                                            <div className={styles.tabAdditionItem}>
+                                                <img
+                                                    draggable={false}
+                                                    src={assetsIcon}
+                                                />
+                                                <FormattedMessage
+                                                    defaultMessage="Assets"
+                                                    description="Button to get to the asset panel"
+                                                    id="pm.gui.assetsTab"
+                                                />
+                                            </div>
+                                        </MenuItem>}
                                         {!tabOrder.includes('variable') && <MenuItem onClick={() => addTabToEditor('variable')}>
                                             <div className={styles.tabAdditionItem}>
                                                 <img
@@ -578,6 +662,19 @@ const GUIComponent = props => {
                                                     defaultMessage="Variables"
                                                     description="Button to get to the variables panel"
                                                     id="pm.gui.variablesTab"
+                                                />
+                                            </div>
+                                        </MenuItem>}
+                                        {!tabOrder.includes('logs') && <MenuItem onClick={addLogsTabToEditor}>
+                                            <div className={styles.tabAdditionItem}>
+                                                <img
+                                                    draggable={false}
+                                                    src={logsIcon}
+                                                />
+                                                <FormattedMessage
+                                                    defaultMessage="Logs"
+                                                    description="Button to open runtime logs"
+                                                    id="pm.gui.logsTab"
                                                 />
                                             </div>
                                         </MenuItem>}
@@ -605,27 +702,27 @@ const GUIComponent = props => {
                                             grow={1}
                                             isVisible={blocksTabVisible}
                                             options={{
-                                                media: `${basePath}static/blocks-media/`
+                                                media: `${resolvedBasePath}static/blocks-media/`
                                             }}
                                             stageSize={stageSize}
                                             vm={vm}
                                         />
-                                    </Box>
-                                    <Box className={styles.extensionButtonContainer}>
-                                        <button
-                                            className={styles.extensionButton}
-                                            title={intl.formatMessage(messages.addExtension)}
-                                            onClick={onExtensionButtonClick}
-                                        >
-                                            <img
-                                                className={styles.extensionButtonIcon}
-                                                draggable={false}
-                                                src={addExtensionIcon}
-                                            />
-                                        </button>
-                                    </Box>
-                                    <Box className={styles.watermark}>
-                                        <Watermark />
+                                        <Box className={styles.extensionButtonContainer}>
+                                            <button
+                                                className={styles.extensionButton}
+                                                title={intl.formatMessage(messages.addExtension)}
+                                                onClick={onExtensionButtonClick}
+                                            >
+                                                <img
+                                                    className={styles.extensionButtonIcon}
+                                                    draggable={false}
+                                                    src={addExtensionIcon}
+                                                />
+                                            </button>
+                                        </Box>
+                                        <Box className={styles.watermark}>
+                                            <Watermark />
+                                        </Box>
                                     </Box>
                                 </TabPanel>
                                 <TabPanel className={tabClassNames.tabPanel}>
@@ -638,7 +735,13 @@ const GUIComponent = props => {
                                     {soundsTabVisible ? <SoundTab vm={vm} /> : null}
                                 </TabPanel>
                                 <TabPanel className={tabClassNames.tabPanel}>
+                                    {assetsTabVisible ? <AssetTab vm={vm} /> : null}
+                                </TabPanel>
+                                <TabPanel className={tabClassNames.tabPanel}>
                                     {variablesTabVisible ? <VariablesTab vm={vm} /> : null}
+                                </TabPanel>
+                                <TabPanel className={tabClassNames.tabPanel}>
+                                    <RuntimeLogs vm={vm} />
                                 </TabPanel>
                             </Tabs>
                             {backpackVisible ? (
@@ -711,6 +814,7 @@ GUIComponent.propTypes = {
     logo: PropTypes.string,
     onActivateCostumesTab: PropTypes.func,
     onActivateSoundsTab: PropTypes.func,
+    onActivateAssetsTab: PropTypes.func,
     onActivateVariablesTab: PropTypes.func,
     onActivateFilesTab: PropTypes.func,
     onActivateTab: PropTypes.func,
@@ -755,7 +859,7 @@ GUIComponent.propTypes = {
 GUIComponent.defaultProps = {
     backpackHost: null,
     backpackVisible: false,
-    basePath: './',
+    basePath: normalizeBasePath(process.env.ROOT),
     canChangeLanguage: true,
     canCreateNew: false,
     canEditTitle: false,

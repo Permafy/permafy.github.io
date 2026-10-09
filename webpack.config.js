@@ -36,10 +36,17 @@ const base = {
         historyApiFallback: {
             rewrites: [
                 { from: /^\/\d+\/?$/, to: '/index.html' },
+                { from: /^\/editor\/?$/, to: '/editor.html' },
+                { from: /^\/fullscreen\/?$/, to: '/fullscreen.html' },
+                { from: /^\/playground\/?$/, to: '/playground.html' },
+                { from: /^\/embed\/?$/, to: '/embed.html' },
+                { from: /^\/addons\/?$/, to: '/addons.html' },
+                { from: /^\/credits\/?$/, to: '/credits.html' },
                 { from: /^\/\d+\/fullscreen\/?$/, to: '/fullscreen.html' },
                 { from: /^\/\d+\/editor\/?$/, to: '/editor.html' },
                 { from: /^\/\d+\/playground\/?$/, to: '/playground.html' },
                 { from: /^\/\d+\/embed\/?$/, to: '/embed.html' },
+                { from: /^\/featured\/?$/, to: '/featured/index.html' },
                 { from: /^\/addons\/?$/, to: '/addons.html' }
             ]
         }
@@ -48,7 +55,7 @@ const base = {
         library: 'GUI',
         filename: process.env.NODE_ENV === 'production' ? 'js/[name].[contenthash].js' : 'js/[name].js',
         chunkFilename: process.env.NODE_ENV === 'production' ? 'js/[name].[contenthash].js' : 'js/[name].js',
-        publicPath: root
+        publicPath: '/'
     },
     resolve: {
         symlinks: false,
@@ -168,35 +175,62 @@ module.exports = [
             }),
             new HtmlWebpackPlugin({
                 chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'editor.html',
-                title: 'PenguinMod - Editor', ...htmlWebpackPluginCommon
+                title: 'Permafy - Studio / Editor', ...htmlWebpackPluginCommon
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'editor/index.html',
+                title: 'Permafy - Studio / Editor', ...htmlWebpackPluginCommon
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'penguinmod/index.html',
+                title: 'Permafy', ...htmlWebpackPluginCommon
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['player'], template: 'src/playground/index.ejs', filename: 'featured/index.html',
+                title: 'Permafy - Featured Projects', ...htmlWebpackPluginCommon
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['editor'], template: 'src/playground/index.ejs', filename: 'scratch/index.html',
+                title: 'Permafy - Editor', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['playground'], template: 'src/playground/index.ejs', filename: 'playground.html',
-                title: 'PenguinMod - Playground', ...htmlWebpackPluginCommon
+                title: 'Permafy - Playground', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['player'], template: 'src/playground/index.ejs', filename: 'index.html',
-                title: 'PenguinMod - A mod of TurboWarp', ...htmlWebpackPluginCommon
+                title: 'Permafy - A block-based coding environment', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['fullscreen'], template: 'src/playground/index.ejs', filename: 'fullscreen.html',
-                title: 'PenguinMod - A mod of TurboWarp', ...htmlWebpackPluginCommon
+                title: 'Permafy - A block-based coding environment', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['embed'], template: 'src/playground/index.ejs', filename: 'embed.html',
-                title: 'Embedded Project - PenguinMod', noTheme: true, ...htmlWebpackPluginCommon
+                title: 'Embedded Project - Permafy', noTheme: true, ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['addon-settings'], template: 'src/playground/simple.ejs', filename: 'addons.html',
-                title: 'Addon Settings - PenguinMod', ...htmlWebpackPluginCommon
+                title: 'Addon Settings - Permafy', ...htmlWebpackPluginCommon
             }),
             new HtmlWebpackPlugin({
                 chunks: ['credits'], template: 'src/playground/simple.ejs', filename: 'credits.html',
-                title: 'PenguinMod & TurboWarp Credits', noSplash: true, ...htmlWebpackPluginCommon
+                title: 'Permafy, PenguinMod & TurboWarp Credits', noSplash: true, ...htmlWebpackPluginCommon
             }),
             new CopyWebpackPlugin({ patterns: [{ from: 'static', to: '' }] }),
+            new CopyWebpackPlugin({ patterns: [{ from: path.resolve(__dirname, 'dashboard/public'), to: 'dashboard' }] }),
+            new CopyWebpackPlugin({ patterns: [{ from: 'favicon.ico', to: 'favicon.ico' }, { from: 'favicon.png', to: 'favicon.png' }] }),
             new CopyWebpackPlugin({ patterns: [{ from: 'node_modules/scratch-blocks/media', to: 'static/blocks-media' }] }),
-            new CopyWebpackPlugin({ patterns: [{ from: 'extensions/**', to: 'static', context: 'src/examples' }] }),
+            new CopyWebpackPlugin({ patterns: [
+                { from: path.resolve(__dirname, 'src/lib/block-media-overrides/green-flag.svg'), to: 'static/blocks-media/green-flag.svg', force: true },
+                { from: path.resolve(__dirname, 'src/lib/block-media-overrides/icons/control_stop.svg'), to: 'static/blocks-media/icons/control_stop.svg', force: true },
+                { from: path.resolve(__dirname, 'src/lib/block-media-overrides/icons/event_whenflagclicked.svg'), to: 'static/blocks-media/icons/event_whenflagclicked.svg', force: true },
+                { from: path.resolve(__dirname, 'src/components/stage-header/stagecontrols/flag.png'), to: 'flag.png', force: true },
+                { from: path.resolve(__dirname, 'src/components/stage-header/stagecontrols/stop.png'), to: 'stop.png', force: true },
+                { from: path.resolve(__dirname, 'src/components/stage-header/stagecontrols/flag.png'), to: 'static/blocks-media/icons/flag.png', force: true },
+                { from: path.resolve(__dirname, 'src/components/stage-header/stagecontrols/stop.png'), to: 'static/blocks-media/icons/stop.png', force: true }
+            ]}),
+            new CopyWebpackPlugin({ patterns: [{ from: 'extensions/**', to: '', context: 'src/examples' }] }),
             new TWGenerateServiceWorkerPlugin()
         ])
     })

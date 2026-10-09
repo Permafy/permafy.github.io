@@ -21,6 +21,7 @@ import CostumeTab from "../../containers/costume-tab.jsx";
 import SoundTab from "../../containers/sound-tab.jsx";
 import FilesTab from "../../containers/files-tab.jsx";
 import Watermark from "../../containers/watermark.jsx";
+import { normalizeBasePath } from "../../lib/normalize-base-path";
 
 const safeJSONParse = (json, defaul, mustBeArray) => {
     try {
@@ -70,6 +71,7 @@ class OrganizedTabs extends React.Component {
             costumesTabVisible,
             soundsTabVisible,
         } = this.props;
+        const resolvedBasePath = normalizeBasePath(basePath);
 
         const tabClassNames = {
             tabs: styles.tabs,
@@ -93,7 +95,7 @@ class OrganizedTabs extends React.Component {
             const tabOrder = safeJSONParse(tabOrderStr, [], true);
 
             const codeTab = (
-                <Tab className={tabClassNames.tab}>
+                <Tab className={classNames(tabClassNames.tab, styles.tabCode)}>
                     <img draggable={false} src={codeIcon} />
                     <FormattedMessage
                         defaultMessage="Code"
@@ -104,7 +106,7 @@ class OrganizedTabs extends React.Component {
             );
             const costumesTab = (
                 <Tab
-                    className={tabClassNames.tab}
+                    className={classNames(tabClassNames.tab, styles.tabCostumes)}
                     onClick={onActivateCostumesTab}
                 >
                     <img draggable={false} src={costumesIcon} />
@@ -125,7 +127,7 @@ class OrganizedTabs extends React.Component {
             );
             const soundsTab = (
                 <Tab
-                    className={tabClassNames.tab}
+                    className={classNames(tabClassNames.tab, styles.tabSounds)}
                     onClick={onActivateSoundsTab}
                 >
                     <img draggable={false} src={soundsIcon} />
@@ -170,7 +172,7 @@ class OrganizedTabs extends React.Component {
                             grow={1}
                             isVisible={blocksTabVisible}
                             options={{
-                                media: `${basePath}static/blocks-media/`,
+                                media: `${resolvedBasePath}static/blocks-media/`,
                             }}
                             stageSize={stageSize}
                             vm={vm}

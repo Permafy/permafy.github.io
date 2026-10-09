@@ -1,34 +1,636 @@
+body[coloraccent="Gaia Blue"] {
+--ui-modal-overlay: hsla(240, 100%, 65%, 0.9); /* 90% transparent version of motion-primary */
+
+--motion-primary: #8cafff;
+--motion-tertiary: hsla(240, 65%, 30%, 1); /* #007bc7 */
+--motion-transparent: hsla(240, 100%, 50%, 0.35); /* 35% transparent version of motion-primary */
+--motion-light-transparent: hsla(237, 100%, 39%, 0.15); /* 15% transparent version of motion-primary */
+
+/* opt-in theme overrides */
+--motion-primary-dark: #8cafff;
+--motion-dark-transparent: hsla(240, 65%, 40%, 0.40); /*top bar color when in dark mode*/
+
+--red-primary: hsla(240, 65%, 50%, 1); /* #00c3ff */
+--red-tertiary: hsla(240, 65%, 30%, 1); /* #007bc7 */
+
+--extensions-primary: hsla(240, 100%, 50%, 1);
+--extensions-tertiary: hsla(237, 100%, 39%, 1);
+--extensions-transparent: hsla(240, 100%, 50%, 0.35); /* 35% transparent version of extensions-primary */
+--extensions-light: hsla(237, 100%, 39%, 1); /* opaque version of extensions-transparent, on white bg */
+
+--drop-highlight: hsla(240, 100%, 77%, 1); /* lighter than motion-primary */
+
+--menu-bar-background: var(--motion-primary);
+--menu-bar-background-dark: var(--motion-primary-dark);
+
+--menu-bar-background-image: none;
+}
+
+body[coloraccent="Lime Green"] {
+    --motion-primary: hsla(92, 91%, 53%, 1); /* #00c3ff */
+    --motion-tertiary: hsla(92, 80%, 43%, 1); /* #007bc7 */
+    --motion-transparent: hsla(92, 92%, 53%, 0.35); /* 35% transparent version of motion-primary */
+    --motion-light-transparent: hsla(92, 80%, 43%, 0.15); /* 15% transparent version of motion-primary */
+
+    --paint-motion-primary: hsla(92, 91%, 53%, 1); /* #00c3ff */
+    --paint-motion-tertiary: hsla(92, 80%, 43%, 1); /* #007bc7 */
+    --paint-motion-transparent: hsla(92, 92%, 53%, 0.35); /* 35% transparent version of motion-primary */
+
+    /* opt-in theme overrides */
+    --motion-primary-dark: hsla(84, 100%, 41%, 1); /*top bar color when in dark mode*/ /*when it doesn't work. change back: hsla(92, 91%, 53%, 1)*/
+    --motion-dark-transparent: hsla(84, 100%, 41%, 0.40); /*top bar color when in dark mode*/ /*when it doesn't work. change back: hsla(92, 91%, 53%, 1)*/
+
+    --extensions-primary: hsla(92, 91%, 53%, 1);
+    --extensions-tertiary: hsla(92, 80%, 43%, 1);
+    --extensions-transparent: hsla(92, 91%, 53%, 0.35); /* 35% transparent version of extensions-primary */
+    --extensions-light: hsla(92, 80%, 43%, 1); /* opaque version of extensions-transparent, on white bg */
+
+    --drop-highlight: hsla(92, 91%, 59%, 1); /* lighter than motion-primary */
+
+    /* menu bar colors */
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+body[coloraccent="Light Blue"] {
+    --motion-primary: hsla(194, 100%, 50%, 1);
+    --motion-tertiary: hsla(203, 100%, 39%, 1);
+    --motion-transparent: hsla(203, 100%, 39%, 0.35);
+    --motion-light-transparent: hsla(203, 100%, 39%, 0.15);
+
+    --paint-motion-primary: hsla(194, 100%, 50%, 1);
+    --paint-motion-tertiary: hsla(203, 100%, 39%, 1);
+    --paint-motion-transparent: hsla(203, 100%, 39%, 0.35);
+
+    --motion-primary-dark: #009CCC;
+    --motion-dark-transparent: #009CCC57;
+
+    --extensions-primary: hsla(194, 100%, 50%, 1);
+    --extensions-tertiary: hsla(203, 100%, 39%, 1);
+    --extensions-transparent: hsla(194, 100%, 50%, 0.35);
+    --extensions-light: hsla(203, 100%, 39%, 1);
+    
+    --drop-highlight: hsla(203, 100%, 39%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+body[coloraccent="Red"] {
+    --motion-primary: #ff4c4c;
+    --motion-tertiary: #cc3333;
+    --motion-transparent: #ff4c4c57;
+    --motion-light-transparent: #cc333326;
+
+    --paint-motion-primary: #ff4c4c;
+    --paint-motion-tertiary: #cc3333;
+    --paint-motion-transparent: #ff4c4c57;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: hsla(10, 85%, 65%, 1);
+    --extensions-tertiary: hsla(10, 85%, 40%, 1);
+    --extensions-transparent: hsla(10, 85%, 65%, 0.35);
+    --extensions-light: hsla(10, 57%, 85%, 1);
+    
+    --drop-highlight: #ff8c8c;
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+body[coloraccent="Blue"] {
+    --motion-primary: hsla(215, 100%, 65%, 1);
+    --motion-tertiary: hsla(215, 60%, 50%, 1);
+    --motion-transparent: hsla(215, 100%, 65%, 0.35);
+    --motion-light-transparent: hsla(215, 60%, 50%, 0.15);
+
+    --paint-motion-primary: hsla(215, 100%, 65%, 1);
+    --paint-motion-tertiary: hsla(215, 60%, 50%, 1);
+    --paint-motion-transparent: hsla(215, 100%, 65%, 0.35);
+
+    --motion-primary-dark: #333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: hsla(163, 85%, 40%, 1);
+    --extensions-tertiary: hsla(163, 85%, 30%, 1);
+    --extensions-transparent: hsla(163, 85%, 40%, 0.35);
+    --extensions-light: hsla(163, 57%, 85%, 1);
+    
+    --drop-highlight: hsla(215, 100%, 77%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+body[coloraccent="Corrupted Blue"] {
+    --motion-primary: #625e97;
+    --motion-tertiary: hsla(203, 100%, 17%, 1);
+    --motion-transparent: hsla(215, 100%, 11%, 0.35);
+    --motion-light-transparent: hsla(203, 100%, 17%, 0.15);
+
+    --paint-motion-primary: #625e97;
+    --paint-motion-tertiary: hsla(203, 100%, 17%, 1);
+    --paint-motion-transparent: hsla(215, 100%, 11%, 0.35);
+
+    --motion-primary-dark: #2a293f;
+    --motion-dark-transparent: #2a293f57;
+
+    --extensions-primary: hsla(194, 100%, 50%, 1);
+    --extensions-tertiary: hsla(203, 100%, 39%, 1);
+    --extensions-transparent: hsla(194, 100%, 50%, 0.35);
+    --extensions-light: hsla(203, 100%, 39%, 1);
+    
+    --drop-highlight: hsla(240, 100%, 77%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+body[coloraccent="Scratch"] {
+    --motion-primary: hsla(260, 60%, 60%, 1);
+    --motion-tertiary: hsla(260, 42%, 51%, 1);
+    --motion-transparent: hsla(260, 60%, 60%, 0.35);
+    --motion-light-transparent: hsla(260, 42%, 51%, 0.15);
+
+    --paint-motion-primary: hsla(260, 60%, 60%, 1);
+    --paint-motion-tertiary: hsla(260, 42%, 51%, 1);
+    --paint-motion-transparent: hsla(260, 60%, 60%, 0.35);
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: hsla(163, 85%, 40%, 1);
+    --extensions-tertiary: hsla(163, 85%, 30%, 1);
+    --extensions-transparent: hsla(163, 85%, 40%, 0.35);
+    --extensions-light: hsla(163, 57%, 85%, 1);
+    
+    --drop-highlight: hsla(215, 100%, 77%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+body[coloraccent="Magenta"] {
+    --motion-primary: hsla(289, 100%, 54%, 1);
+    --motion-tertiary: hsla(289, 100%, 39%, 1);
+    --motion-transparent: hsla(289, 100%, 54%, 0.35);
+    --motion-light-transparent: hsla(289, 100%, 39%, 0.15);
+
+    --paint-motion-primary: hsla(289, 100%, 54%, 1);
+    --paint-motion-tertiary: hsla(289, 100%, 39%, 1);
+    --paint-motion-transparent: hsla(289, 100%, 54%, 0.35);
+
+    --motion-primary-dark: #57039c;
+    --motion-dark-transparent: #57039c57;
+
+    --extensions-primary: hsla(289, 100%, 50%, 1);
+    --extensions-tertiary: hsla(289, 100%, 39%, 1);
+    --extensions-transparent: hsla(289, 100%, 50%, 0.35);
+    --extensions-light: hsla(289, 100%, 39%, 1);
+    
+    --drop-highlight: hsla(289, 100%, 64%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Pink"] {
+    --motion-primary: hsla(325, 60%, 60%, 1);
+    --motion-tertiary: hsla(325, 60%, 40%, 0.9);
+    --motion-transparent: hsla(325, 42%, 51%, 0.35);
+    --motion-light-transparent: hsla(325, 60%, 83%, 0.15);
+
+    --paint-motion-primary: hsla(289, 100%, 54%, 1);
+    --paint-motion-tertiary: hsla(289, 100%, 39%, 1);
+    --paint-motion-transparent: hsla(289, 100%, 54%, 0.35);
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: hsla(325, 60%, 60%, 1);
+    --extensions-tertiary: hsla(325, 60%, 60%, 1);
+    --extensions-transparent: hsla(325, 42%, 51%, 0.35);
+    --extensions-light: hsla(325, 60%, 83%, 1);
+    
+    --drop-highlight: hsla(325, 60%, 64%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Serene Blue"] {
+    --motion-primary: hsla(261, 100%, 50%, 1);
+    --motion-tertiary: hsla(261, 100%, 39%, 1);
+    --motion-transparent: hsla(261, 100%, 50%, 0.35);
+    --motion-light-transparent: hsla(261, 100%, 50%, 0.15);
+
+    --motion-primary-dark: rgba(89, 0, 255);
+    --motion-dark-transparent: rgba(89, 0, 255, 57);
+
+    --extensions-primary: hsla(261, 100%, 50%, 1));
+    --extensions-tertiary: hsla(261, 100%, 39%, 1);
+    --extensions-transparent: hsla(261, 100%, 50%, 0.35);
+    --extensions-light: hsla(261, 100%, 50%, 1);
+    
+    --drop-highlight: hsla(261, 100%, 77%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Gray Purple"] {
+    --motion-primary: hsla(244, 23%, 48%, 1);
+    --motion-tertiary: hsla(244, 23%, 38%, 0.9);
+    --motion-transparent: hsla(244, 23%, 48%, 0.35);
+    --motion-light-transparent: hsla(262, 22%, 59%, 0.15);
+
+    --paint-motion-primary: hsla(244, 23%, 48%, 1);
+    --paint-motion-tertiary: hsla(244, 23%, 39%, 1);
+    --paint-motion-transparent: hsla(244, 23%, 54%, 0.35);
+
+    --motion-primary-dark: hsla(243, 21%, 20%, 1);
+    --motion-dark-transparent: hsla(243, 21%, 20%, 0.40);
+
+    --extensions-primary: hsla(244, 23%, 48%, 1);
+    --extensions-tertiary: hsla(244, 23%, 38%, 0.9);
+    --extensions-transparent: hsla(244, 23%, 48%, 0.35);
+    --extensions-light: hsla(262, 22%, 59%, 1);
+    
+    --drop-highlight: hsla(262, 25%, 58%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Gold"] {
+    --motion-primary: hsla(46, 100%, 64%, 1);
+    --motion-tertiary: hsla(46, 100%, 50%, 0.9);
+    --motion-transparent: hsla(46, 100%, 64%, 0.35);
+    --motion-light-transparent: hsla(46, 100%, 83%, 0.15);
+
+    --motion-primary-dark: hsla(46, 100%, 42%, 1);
+    --motion-dark-transparent: hsla(46, 100%, 42%, 0.40);
+
+    --extensions-primary: hsla(46, 100%, 60%, 1);
+    --extensions-tertiary: hsla(46, 100%, 50%, 1);
+    --extensions-transparent: hsla(46, 100%, 64%, 0.35);
+    --extensions-light: hsla(46, 100%, 83%, 1);
+    
+    --drop-highlight: hsla(46, 100%, 64%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Silver"] {
+    --motion-primary: hsla(268, 0%, 73%, 1);
+    --motion-tertiary: hsla(268, 0%, 50%, 0.9);
+    --motion-transparent: hsla(268, 0%, 64%, 0.35);
+    --motion-light-transparent: hsla(268, 0%, 83%, 0.15);
+
+    --motion-primary-dark: hsla(268, 0%, 42%, 1);
+    --motion-dark-transparent: hsla(268, 0%, 42%, 0.40);
+
+    --extensions-primary: hsla(268, 0%, 60%, 1);
+    --extensions-tertiary: hsla(268, 0%, 50%, 1);
+    --extensions-transparent: hsla(268, 0%, 64%, 0.35);
+    --extensions-light: hsla(268, 0%, 83%, 1);
+    
+    --drop-highlight: hsla(268, 0%, 64%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Black"] {
+    --motion-primary: hsla(268, 0%, 24%, 1);
+    --motion-tertiary: hsla(268, 0%, 20%, 0.9);
+    --motion-transparent: hsla(268, 0%, 23%, 0.35);
+    --motion-light-transparent: hsla(268, 0%, 30% 0.15);
+
+    --motion-primary-dark: hsla(268, 0%, 10%, 1);
+    --motion-dark-transparent: hsla(268, 0%, 10%, 0.40);
+
+    --extensions-primary: hsla(268, 0%, 24%, 1);
+    --extensions-tertiary: hsla(268, 0%, 20%, 1);
+    --extensions-transparent: hsla(268, 0%, 23%, 0.35);
+    --extensions-light: hsla(268, 0%, 30%, 1);
+    
+    --drop-highlight: hsla(268, 0%, 28%, 1);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Rainbow"] {
+    --motion-primary: #ff4c4c;
+    --motion-tertiary: #cc3333;
+    --motion-transparent: #ff4c4c57;
+    --motion-light-transparent: #cc333326;
+
+    --paint-motion-primary: #ff4c4c;
+    --paint-motion-tertiary: #cc3333;
+    --paint-motion-transparent: #ff4c4c57;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: hsla(10, 85%, 65%, 1);
+    --extensions-tertiary: hsla(10, 85%, 40%, 1);
+    --extensions-transparent: hsla(10, 85%, 65%, 0.35);
+    --extensions-light: hsla(10, 57%, 85%, 1);
+    
+    --drop-highlight: #ff8c8c;
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: linear-gradient(90deg, rgba(255, 0, 0, 0.75) 0%, rgba(255, 154, 0, 0.75) 10%, rgba(208, 222, 33, 0.75) 20%, rgba(79, 220, 74, 0.75) 30%, rgba(63, 218, 216, 0.75) 40%, rgba(47, 201, 226, 0.75) 50%, rgba(28, 127, 238, 0.75) 60%, rgba(95, 21, 242, 0.75) 70%, rgba(186, 12, 248, 0.75) 80%, rgba(251, 7, 217, 0.75) 90%, rgba(255, 0, 0, 0.75) 100%);
+}
+
+body[coloraccent="Cotton Candy"] {
+    --motion-primary: #FF80C4;
+    --motion-tertiary: #DB61A2;
+    --motion-transparent: #FF80C4e6;
+    --motion-light-transparent: #FF73B026;
+
+    --paint-motion-primary: #FF80C4;
+    --paint-motion-tertiary: #DB61A2;
+    --paint-motion-transparent: #FF80C4e6;
+
+    --motion-primary-dark: #BF4888;
+    --motion-dark-transparent: #BF488857;
+
+    --extensions-primary: #88D4F2;
+    --extensions-tertiary: #6C97D4;
+    --extensions-transparent: #74D3F235;
+    --extensions-light: #BAE2F2;
+    
+    --drop-highlight: #FF94DA;
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: linear-gradient(to right, #91d3ff 0%, #ff91e2 100%);
+}
+
+body[coloraccent="Nebula"] {
+    --motion-primary: oklab(0.55 0.08 -0.12);
+    --motion-tertiary: oklab(0.60 0.06 -0.10);
+    --motion-transparent: oklab(0.60 0.06 -0.12 / 0.75);
+    --motion-light-transparent: oklab(0.66 0.08 -0.12 / 0.75);
+
+    --paint-motion-primary: #865AF8;
+    --paint-motion-tertiary: #693FD6;
+    --paint-motion-transparent: #865AF857;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: oklab(0.60 0.06 -0.10);
+    --extensions-tertiary: oklab(0.50 0.12 0.04);
+    --extensions-transparent: oklab(0.60 0.06 -0.10 / 0.35);
+    --extensions-light: oklab(0.70 0.04 -0.08);
+    
+    --drop-highlight: oklab(0.55 0.08 -0.12);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: linear-gradient(90deg, oklab(0.25 0.02 -0.08 / 0.9) 0%, oklab(0.35 0.08 -0.12 / 0.85) 15%, oklab(0.45 0.12 -0.08 / 0.8) 30%, oklab(0.55 0.15 0.02 / 0.8) 50%, oklab(0.65 0.08 0.08 / 0.8) 70%, oklab(0.75 0.02 0.12 / 0.8) 85%, oklab(0.85 -0.02 0.08 / 0.8) 100%);
+}
+
+body[coloraccent="Cosmic"] {
+    --motion-primary: oklab(0.68 0.15 -0.08);
+    --motion-tertiary: oklab(0.72 0.12 -0.06);
+    --motion-transparent: oklab(0.68 0.15 -0.08 / 0.75);
+    --motion-light-transparent: oklab(0.78 0.15 -0.08 / 0.75);
+
+    --paint-motion-primary: #D36CC6;
+    --paint-motion-tertiary: #A8459C;
+    --paint-motion-transparent: #D36CC657;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: oklab(0.72 0.12 -0.06);
+    --extensions-tertiary: oklab(0.65 0.08 -0.12);
+    --extensions-transparent: oklab(0.72 0.12 -0.06 / 0.35);
+    --extensions-light: oklab(0.78 0.08 -0.04);
+    
+    --drop-highlight: oklab(0.68 0.15 -0.08);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: linear-gradient(90deg, oklab(0.45 0.08 -0.15 / 0.8) 0%, oklab(0.55 0.12 -0.12 / 0.8) 20%, oklab(0.65 0.15 -0.08 / 0.8) 40%, oklab(0.70 0.12 -0.04 / 0.8) 60%, oklab(0.65 0.05 -0.10 / 0.8) 80%, oklab(0.60 -0.02 -0.12 / 0.8) 100%);
+}
+
+body[coloraccent="Aurora"] {
+    --motion-primary: oklab(0.70 -0.10 0.08);
+    --motion-primary-transparent: oklab(0.70 -0.10 0.08 / 0.75);
+    --motion-tertiary: oklab(0.75 -0.08 0.06);
+	--motion-light-transparent: oklab(0.80 -0.10 0.08 / 0.75);
+
+    --paint-motion-primary: #6FB265;
+    --paint-motion-tertiary: #4B8C41;
+    --paint-motion-transparent: #6FB26557;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: oklab(0.75 -0.08 0.06);
+    --extensions-tertiary: oklab(0.65 -0.06 -0.08);
+    --extensions-transparent: oklab(0.75 -0.08 0.06 / 0.35);
+    --extensions-light: oklab(0.80 -0.04 0.04);
+    
+    --drop-highlight: oklab(0.70 -0.10 0.08);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: linear-gradient(90deg, oklab(0.65 -0.12 0.10 / 0.8) 0%, oklab(0.70 -0.10 0.05 / 0.8) 20%, oklab(0.65 -0.08 -0.05 / 0.8) 40%, oklab(0.60 -0.06 -0.10 / 0.8) 60%, oklab(0.55 0.02 -0.12 / 0.8) 80%, oklab(0.60 0.08 -0.08 / 0.8) 100%);
+}
+
+body[coloraccent="Mint"] {
+    --motion-primary: oklab(0.78 -0.12 0.08);
+    --motion-primary-transparent: oklab(0.78 -0.12 0.08 / 0.75);
+    --motion-tertiary: oklab(0.80 -0.10 0.06);
+	--motion-light-transparent: oklab(0.85 -0.12 0.08 / 0.75);
+
+    --paint-motion-primary: #75D07E;
+    --paint-motion-tertiary: #50A859;
+    --paint-motion-transparent: #75D07E57;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: oklab(0.80 -0.10 0.06);
+    --extensions-tertiary: oklab(0.75 -0.08 -0.02);
+    --extensions-transparent: oklab(0.80 -0.10 0.06 / 0.35);
+    --extensions-light: oklab(0.85 -0.06 0.04);
+    
+    --drop-highlight: oklab(0.78 -0.12 0.08);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: linear-gradient(90deg, oklab(0.75 -0.14 0.10 / 0.8) 0%, oklab(0.78 -0.12 0.08 / 0.8) 20%, oklab(0.80 -0.10 0.04 / 0.8) 40%, oklab(0.82 -0.08 0.00 / 0.8) 60%, oklab(0.80 -0.06 -0.04 / 0.8) 80%, oklab(0.75 -0.04 -0.08 / 0.8) 100%);
+}
+
+body[coloraccent="Cherry"] {
+    --motion-primary: oklab(0.70 0.18 0.08);
+    --motion-primary-transparent: oklab(0.70 0.18 0.08 / 0.75);
+    --motion-tertiary: oklab(0.72 0.16 0.10);
+	--motion-light-transparent: oklab(0.82 0.18 0.08 / 0.75);
+
+    --paint-motion-primary: #FF605F;
+    --paint-motion-tertiary: #C43130;
+    --paint-motion-transparent: #FF605F57;
+
+    --motion-primary-dark: #333333;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: oklab(0.72 0.16 0.10);
+    --extensions-tertiary: oklab(0.68 0.14 0.04);
+    --extensions-transparent: oklab(0.72 0.16 0.10 / 0.35);
+    --extensions-light: oklab(0.78 0.12 0.12);
+    
+     --drop-highlight: oklab(0.70 0.18 0.08);
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image:
+        linear-gradient(90deg, oklab(0.65 0.20 0.06 / 0.8) 0%, oklab(0.70 0.18 0.08 / 0.8) 20%, oklab(0.72 0.16 0.12 / 0.8) 40%, oklab(0.75 0.14 0.14 / 0.8) 60%, oklab(0.78 0.12 0.08 / 0.8) 80%, oklab(0.80 0.08 0.04 / 0.8) 100%);
+}
+
+body[coloraccent="NIGHTMARE"] {
+--motion-primary: #5E0000;
+--motion-tertiary: #470000; /* #007bc7 */
+--motion-transparent: #540000; /* 35% transparent version of motion-primary */
+--motion-light-transparent: #8F0000; /* 15% transparent version of motion-primary */
+
+    --paint-motion-primary: #ff0000;
+    --paint-motion-tertiary: #d60000;
+    --paint-motion-transparent: #ff000057;
+
+    --motion-primary-dark: #3D0000;
+    --motion-dark-transparent: #33333357;
+
+    --extensions-primary: rgb(0, 0, 0);
+    --extensions-tertiary: rgb(47, 8, 0);
+    --extensions-transparent: hsla(0, 0%, 0%, 0.35);
+    --extensions-light: rgb(255, 141, 119);
+    
+    --drop-highlight: #000000;
+
+    --menu-bar-background: var(--motion-primary);
+    --menu-bar-background-dark: var(--motion-primary-dark);
+
+    --menu-bar-background-image: none;
+}
+
+body[coloraccent="Partytime"] {
+--ui-modal-overlay: #FF5EFC90; /* 90% transparent version of motion-primary */
+
+--motion-primary: #CAB5F5; /* #00c3ff */
+--motion-tertiary: #9E7FDE; /* #007bc7 */
+--motion-transparent: #CAB5F535; /* 35% transparent version of motion-primary */
+--motion-light-transparent: #DFD4F515; /* 15% transparent version of motion-primary */
+
+/* opt-in theme overrides */
+--motion-primary-dark: #866ABF; /*top bar color when in dark mode*/
+--motion-dark-transparent: #866ABF40; /*top bar color when in dark mode*/
+
+--red-primary: #CAB5F5; /* #00c3ff */
+--red-tertiary: #9E7FDE; /* #007bc7 */
+
+--extensions-primary: #FF00CC;
+--extensions-tertiary: #CC009E;
+--extensions-transparent: #FF00CC35; /* 35% transparent version of extensions-primary */
+--extensions-light: #FF73E3; /* opaque version of extensions-transparent, on white bg */
+
+--drop-highlight: #DFD4F5; /* lighter than motion-primary */
+
+--menu-bar-background: var(--motion-primary);
+--menu-bar-background-dark: var(--motion-primary-dark);
+
+--menu-bar-background-image: none;
+}
+
+
+body[coloraccent="custom"] {
+    
+}
+
 $ui-primary: var(--ui-primary, hsla(215, 100%, 95%, 1)); /* #E5F0FF */
 $ui-secondary: var(--ui-secondary, hsla(215, 75%, 95%, 1)); /* #E9F1FC */
 $ui-tertiary: var(--ui-tertiary, hsla(215, 50%, 90%, 1)); /* #D9E3F2 */
 
-$ui-modal-overlay: var(--ui-modal-overlay, hsla(194, 100%, 65%, 0.9)); /* 90% transparent version of motion-primary */
+$ui-modal-overlay: var(--ui-modal-overlay, hsla(240, 100%, 65%, 0.9)); /* 90% transparent version of motion-primary */
 
 $ui-white: hsla(0, 100%, 100%, 1); /* #FFFFFF */
 $ui-white-dim: hsla(0, 100%, 100%, 0.75); /* 25% transparent version of ui-white */
 $ui-white-transparent: hsla(0, 100%, 100%, 0.25); /* 25% transparent version of ui-white */
 $ui-transparent: hsla(0, 100%, 100%, 0); /* 25% transparent version of ui-white */
 
+$ui-black: hsla(0, 0%, 0%, 1); /* #FFFFFF */
+$ui-black-dim: hsla(0, 0%, 0%, 0.75); /* #FFFFFF */
 $ui-black-transparent-default: hsla(0, 0%, 0%, 0.15); /* 15% transparent version of black */
 $ui-black-transparent: var(--ui-black-transparent, $ui-black-transparent-default);
+
+$ui-dark: hsla(0, 50%, 50%, 1); /* #FFFFFF */
+$ui-dark-dim: hsla(0, 50%, 50%, 0.75); /* #FFFFFF */
+$ui-dark-transparent-default: hsla(0, 50%, 50%, 0.15); /* 15% transparent version of black */
+$ui-dark-transparent: var(--ui-dark-transparent, $ui-dark-transparent-default);
 
 $text-primary: var(--text-primary, hsla(225, 15%, 40%, 1)); /* #575E75 */
 $text-primary-transparent: hsla(225, 15%, 40%, 0.75);
 
-$motion-primary: hsla(194, 100%, 50%, 1); /* #00c3ff */
-$motion-tertiary: hsla(203, 100%, 39%, 1); /* #007bc7 */
-$motion-transparent: hsla(194, 100%, 50%, 0.35); /* 35% transparent version of motion-primary */
-$motion-light-transparent: hsla(203, 100%, 39%, 0.15); /* 15% transparent version of motion-primary */
+$motion-primary: var(--motion-primary, #8cafff);
+$motion-tertiary: var(--motion-tertiary, hsla(240, 65%, 30%, 1)); /* #007bc7 */
+$motion-transparent: var(--motion-transparent, hsla(240, 100%, 50%, 0.35)); /* 35% transparent version of motion-primary */
+$motion-light-transparent: var(--motion-light-transparent, hsla(237, 100%, 39%, 0.15)); /* 15% transparent version of motion-primary */
 
 /* opt-in theme overrides */
-$motion-primary-dark: #009CCC; /*top bar color when in dark mode*/
+$motion-primary-dark: var(--motion-primary-dark, #8cafff);
+$motion-dark-transparent: var(--motion-dark-transparent, hsla(240, 65%, 40%, 0.40)); /*top bar color when in dark mode*/ /*when it doesn't work. change back: hsla(92, 91%, 53%, 1)*/
 $ui-primary-light: hsla(215, 100%, 95%, 1);
 $ui-secondary-light: hsla(215, 75%, 95%, 1);
 $ui-tertiary-light: hsla(215, 50%, 90%, 1);
 $text-primary-light: hsla(225, 15%, 40%, 1);
+$text-primary-light-transparent: hsla(225, 15%, 40%, 0.75);
 
-$red-primary: hsla(194, 100%, 50%, 1); /* #00c3ff */
-$red-tertiary: hsla(203, 100%, 39%, 1); /* #007bc7 */
+$menu-bar-background: var(--menu-bar-background, $motion-primary);
+$menu-bar-background-dark: var(--menu-bar-background-dark, $motion-primary-dark);
+
+$menu-bar-background-image: var(--menu-bar-background-image, none);
+
+$red-primary: hsla(240, 65%, 50%, 1); /* #00c3ff */
+$red-tertiary: hsla(240, 65%, 30%, 1); /* #007bc7 */
 
 $sound-primary: hsla(300, 53%, 60%, 1); /* #CF63CF */
 $sound-tertiary: hsla(300, 48%, 50%, 1); /* #BD42BD */
@@ -44,9 +646,9 @@ $error-primary: hsla(30, 100%, 55%, 1); /* #FF8C1A */
 $error-light: hsla(30, 100%, 70%, 1); /* #FFB366 */
 $error-transparent: hsla(30, 100%, 55%, 0.25); /* #FF8C1A */
 
-$extensions-primary: hsla(194, 100%, 50%, 1);
-$extensions-tertiary: hsla(203, 100%, 39%, 1);
-$extensions-transparent: hsla(194, 100%, 50%, 0.35); /* 35% transparent version of extensions-primary */
-$extensions-light: hsla(203, 100%, 39%, 1); /* opaque version of extensions-transparent, on white bg */
+$extensions-primary: var(--extensions-primary, hsla(240, 100%, 50%, 1));
+$extensions-tertiary: var(--extensions-tertiary, hsla(237, 100%, 39%, 1));
+$extensions-transparent: var(--extensions-transparent, hsla(240, 100%, 50%, 0.35)); /* 35% transparent version of extensions-primary */
+$extensions-light: var(--extensions-light, hsla(237, 100%, 39%, 1)); /* opaque version of extensions-transparent, on white bg */
 
-$drop-highlight: hsla(194, 100%, 77%, 1); /* lighter than motion-primary */
+$drop-highlight: var(--drop-highlight, hsla(240, 100%, 77%, 1)); /* lighter than motion-primary */

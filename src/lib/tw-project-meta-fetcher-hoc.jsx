@@ -57,7 +57,15 @@ const TWProjectMetaFetcherHOC = function (WrappedComponent) {
         shouldComponentUpdate(nextProps) {
             return this.props.projectId !== nextProps.projectId;
         }
-        componentDidUpdate() {
+        componentDidMount() {
+            this.fetchProjectMeta();
+        }
+        componentDidUpdate(prevProps) {
+            if (this.props.projectId !== prevProps.projectId) {
+                this.fetchProjectMeta();
+            }
+        }
+        fetchProjectMeta() {
             // project title resetting is handled in titled-hoc.jsx
             if (this.props.vm.runtime.renderer?.setPrivateSkinAccess)
                 this.props.vm.runtime.renderer.setPrivateSkinAccess(true);

@@ -19,6 +19,7 @@ import {BLOCKS_DEFAULT_SCALE, STAGE_DISPLAY_SIZES} from '../lib/layout-constants
 import DropAreaHOC from '../lib/drop-area-hoc.jsx';
 import DragConstants from '../lib/drag-constants';
 import defineDynamicBlock from '../lib/define-dynamic-block';
+import filterToolboxXML from '../lib/filter-toolbox-xml';
 import AddonHooks from '../addons/hooks';
 import LoadScratchBlocksHOC from '../lib/tw-load-scratch-blocks-hoc.jsx';
 import uid from "../lib/uid.js";
@@ -43,6 +44,16 @@ import {
 
 // TW: Strings we add to scratch-blocks are localized here
 const messages = defineMessages({
+    SEARCH: {
+        defaultMessage: 'Search...',
+        description: 'Placeholder text for searching blocks in the Code tab.',
+        id: 'gui.blocks.search'
+    },
+    NO_SEARCH_RESULTS: {
+        defaultMessage: 'No blocks found',
+        description: 'Message shown in the block flyout when a block search has no results.',
+        id: 'gui.blocks.search.noResults'
+    },
     PROCEDURES_RETURN: {
         defaultMessage: 'return {v}',
         // eslint-disable-next-line max-len
@@ -96,7 +107,14 @@ class Blocks extends React.Component {
             {
                 text: 'Remove Unused Extensions',
                 enabled: true,
-                callback: () => props.vm.extensionManager.removeUnusedExtensions()
+                callback: () => {
+                    const extensionManager = props.vm.extensionManager;
+                    const usedExtensions = extensionManager.findUsedExtensions();
+                    const unusedExtensions = [...extensionManager._loadedExtensions.keys()]
+                        .filter(extensionId => extensionId !== 'debug' &&
+                            !usedExtensions.includes(extensionId));
+                    unusedExtensions.forEach(extensionId => extensionManager.removeExtension(extensionId));
+                }
             },
             {
                 text: 'Replace Extension',
@@ -139,7 +157,8 @@ class Blocks extends React.Component {
             'setBlocks',
             'setLocale',
             'handleEnableProcedureReturns',
-            'handleFieldBoxChange'
+            'handleFieldBoxChange',
+            'handleSearchChange'
         ]);
         this.ScratchBlocks.prompt = this.handlePromptStart;
         this.ScratchBlocks.customPrompt = this.handleCustomPrompt;
@@ -149,6 +168,7 @@ class Blocks extends React.Component {
         this.state = {
             prompt: null,
             customPrompts: [],
+            searchQuery: ''
         };
         this.onTargetsUpdate = debounce(this.onTargetsUpdate, 100);
         this.toolboxUpdateQueue = [];
@@ -243,6 +263,7 @@ class Blocks extends React.Component {
         return (
             this.state.prompt !== nextState.prompt ||
             this.state.customPrompts !== nextState.customPrompts ||
+            this.state.searchQuery !== nextState.searchQuery ||
             (nextState.customPrompts && this.state.customPrompts.length !== nextState.customPrompts.length) ||
             this.props.isVisible !== nextProps.isVisible ||
             this._renderedToolboxXML !== nextProps.toolboxXML ||
@@ -254,7 +275,7 @@ class Blocks extends React.Component {
             this.props.customStageSize !== nextProps.customStageSize
         );
     }
-    componentDidUpdate (prevProps) {
+    componentDidUpdate (prevProps, prevState) {
         // If any modals are open, call hideChaff to close z-indexed field editors
         if (this.props.anyModalVisible && !prevProps.anyModalVisible) {
             this.ScratchBlocks.hideChaff();
@@ -263,7 +284,10 @@ class Blocks extends React.Component {
         // Only rerender the toolbox when the blocks are visible and the xml is
         // different from the previously rendered toolbox xml.
         // Do not check against prevProps.toolboxXML because that may not have been rendered.
-        if (this.props.isVisible && this.props.toolboxXML !== this._renderedToolboxXML) {
+        if (this.props.isVisible && (
+            this.props.toolboxXML !== this._renderedToolboxXML ||
+            this.state.searchQuery !== prevState.searchQuery
+        )) {
             this.requestToolboxUpdate();
         }
 
@@ -323,22 +347,39 @@ class Blocks extends React.Component {
     updateToolbox () {
         this.toolboxUpdateTimeout = false;
 
-        const categoryId = this.workspace.toolbox_.getSelectedCategoryId();
-        const offset = this.workspace.toolbox_.getCategoryScrollOffset();
-        this.workspace.updateToolbox(this.props.toolboxXML);
-        this._renderedToolboxXML = this.props.toolboxXML;
+        const toolboxChanged = this.props.toolboxXML !== this._renderedToolboxXML;
+        if (toolboxChanged) {
+            const categoryId = this.workspace.toolbox_.getSelectedCategoryId();
+            const offset = this.workspace.toolbox_.getCategoryScrollOffset();
+            this.workspace.updateToolbox(this.props.toolboxXML);
+            this._renderedToolboxXML = this.props.toolboxXML;
+            this.workspace.toolboxRefreshEnabled_ = true;
 
-        // In order to catch any changes that mutate the toolbox during "normal runtime"
-        // (variable changes/etc), re-enable toolbox refresh.
-        // Using the setter function will rerender the entire toolbox which we just rendered.
-        this.workspace.toolboxRefreshEnabled_ = true;
+            this.workspace.toolbox_.setSelectedCategoryById(categoryId);
+            const currentCategoryPos = this.workspace.toolbox_.getCategoryPositionById(categoryId);
+            const currentCategoryLen = this.workspace.toolbox_.getCategoryLengthById(categoryId);
+            if (offset < currentCategoryLen) {
+                this.workspace.toolbox_.setFlyoutScrollPos(currentCategoryPos + offset);
+            } else {
+                this.workspace.toolbox_.setFlyoutScrollPos(currentCategoryPos);
+            }
+        }
 
-        const currentCategoryPos = this.workspace.toolbox_.getCategoryPositionById(categoryId);
-        const currentCategoryLen = this.workspace.toolbox_.getCategoryLengthById(categoryId);
-        if (offset < currentCategoryLen) {
-            this.workspace.toolbox_.setFlyoutScrollPos(currentCategoryPos + offset);
+        if (this.state.searchQuery) {
+            const searchResultsXML = filterToolboxXML(
+                this.props.toolboxXML,
+                this.state.searchQuery,
+                this.getSearchVariables(),
+                this.props.intl.formatMessage(messages.NO_SEARCH_RESULTS)
+            );
+            const searchResultsDocument = new DOMParser().parseFromString(searchResultsXML, 'text/xml');
+            const searchCategory = searchResultsDocument.querySelector('category[id="searchResults"]');
+            if (!searchCategory) {
+                throw new Error('Unable to find block search results.');
+            }
+            this.workspace.getFlyout().show(Array.from(searchCategory.children));
         } else {
-            this.workspace.toolbox_.setFlyoutScrollPos(currentCategoryPos);
+            this.workspace.toolbox_.refreshSelection();
         }
 
         const queue = this.toolboxUpdateQueue;
@@ -468,7 +509,13 @@ class Blocks extends React.Component {
             const stageCostumes = stage.getCostumes();
             const targetCostumes = target.getCostumes();
             const targetSounds = target.getSounds();
-            const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML(target);
+            const dynamicBlocksXML = this.props.vm.runtime.getBlocksXML(target).map(category => {
+                if (category.id !== 'debug') return category;
+                return {
+                    ...category,
+                    xml: category.xml.replace(' options="extensionControls"', '')
+                };
+            });
             return makeToolboxXML(false, target.isStage, target.id, dynamicBlocksXML,
                 targetCostumes[targetCostumes.length - 1].name,
                 stageCostumes[stageCostumes.length - 1].name,
@@ -596,9 +643,19 @@ class Blocks extends React.Component {
         if (extension && extension.launchPeripheralConnectionFlow) {
             this.handleConnectionModalStart(categoryId);
         }
-
         this.withToolboxUpdates(() => {
             this.workspace.toolbox_.setSelectedCategoryById(categoryId);
+        });
+    }
+    handleSearchChange (event) {
+        this.setState({searchQuery: event.target.value});
+    }
+    getSearchVariables () {
+        const target = this.props.vm.editingTarget;
+        const stage = this.props.vm.runtime.getTargetForStage();
+        return Object.values({
+            ...(stage ? stage.variables : {}),
+            ...(target ? target.variables : {})
         });
     }
     setBlocks (blocks) {
@@ -809,6 +866,9 @@ class Blocks extends React.Component {
                 <DroppableBlocks
                     componentRef={this.setBlocks}
                     onDrop={this.handleDrop}
+                    searchPlaceholder={this.props.intl.formatMessage(messages.SEARCH)}
+                    searchQuery={this.state.searchQuery}
+                    onSearchChange={this.handleSearchChange}
                     {...props}
                 />
                 {this.state.prompt ? (

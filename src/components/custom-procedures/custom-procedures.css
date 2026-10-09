@@ -136,6 +136,73 @@
     transition-property: transform;
 }
 
+.icon-picker {
+    margin: 15px 0;
+    padding: 8px;
+    border: 2px solid var(--ui-black-transparent, hsla(0, 0%, 0%, 0.15));
+    border-radius: 10px;
+}
+
+.icon-picker-label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.icon-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.icon-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 72px;
+    min-height: 72px;
+    padding: 4px;
+    border: 2px solid $ui-black-transparent;
+    border-radius: 6px;
+    background: $ui-white;
+    cursor: pointer;
+}
+
+.icon-option img {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-option-label {
+    text-align: center;
+}
+
+.icon-command {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.icon-command input {
+    margin-top: 4px;
+    padding: 6px;
+    border: 1px solid $ui-black-transparent;
+    border-radius: 4px;
+    font: inherit;
+}
+
+.icon-command-help,
+.icon-command-error {
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+.icon-command-error {
+    color: #c00;
+}
+
 /* Blocks workspace for custom procedure declaration editor */
 .workspace {
     min-height: 200px;

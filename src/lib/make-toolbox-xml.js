@@ -30,6 +30,20 @@ const motion = function (isInitialSetup, isStage, targetId) {
                 </shadow>
             </value>
         </block>
+        <block type="motion_movebacksteps">
+            <value name="STEPS">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motion_moveupdownsteps">
+            <value name="STEPS">
+                <shadow type="math_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
         <block type="motion_turnright">
             <value name="DEGREES">
                 <shadow type="math_number">
@@ -168,7 +182,38 @@ const motion = function (isInitialSetup, isStage, targetId) {
         ${blockSeparator}
         <block type="motion_setrotationstyle"/>
         <block type="motion_move_sprite_to_scene_side"/>
+        <block type="motion_turnrightaroundxy">
+            <value name="DEGREES">
+                <shadow type="math_number"><field name="NUM">15</field></shadow>
+            </value>
+            <value name="X">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
+            <value name="Y">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
+        </block>
+        <block type="motion_turnleftaroundxy">
+            <value name="DEGREES">
+                <shadow type="math_number"><field name="NUM">15</field></shadow>
+            </value>
+            <value name="X">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
+            <value name="Y">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
+        </block>
+        <block type="motion_turnaround"/>
         ${blockSeparator}
+        <block type="motion_ifonxybounce">
+            <value name="X">
+                <shadow type="math_number"><field name="NUM">10</field></shadow>
+            </value>
+            <value name="Y">
+                <shadow type="math_number"><field name="NUM">10</field></shadow>
+            </value>
+        </block>
         <block id="${targetId}_xposition" type="motion_xposition"/>
         <block id="${targetId}_yposition" type="motion_yposition"/>
         <block id="${targetId}_direction" type="motion_direction"/>`}
@@ -208,6 +253,13 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
             </value>
         </block>
         <block type="looks_say">
+            <value name="MESSAGE">
+                <shadow type="text">
+                    <field name="TEXT">${hello}</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="looks_tutorialmod_alert">
             <value name="MESSAGE">
                 <shadow type="text">
                     <field name="TEXT">${hello}</field>
@@ -281,6 +333,7 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
                 </value>
             </block>
             <block type="looks_nextbackdrop"/>
+            <block type="looks_previousbackdrop"/>
             <block type="looks_getinputofcostume">
                 <value name="INPUT">
                     <shadow type="looks_getinput_menu"/>
@@ -300,6 +353,7 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
                 </value>
             </block>
             <block type="looks_nextcostume"/>
+            <block type="looks_previouscostume"/>
             <block type="looks_getinputofcostume">
                 <value name="INPUT">
                     <shadow type="looks_getinput_menu"/>
@@ -319,6 +373,7 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
                 </value>
             </block>
             <block type="looks_nextbackdrop"/>
+            <block type="looks_previousbackdrop"/>
             ${blockSeparator}
             <block type="looks_changesizeby">
                 <value name="CHANGE">
@@ -436,6 +491,28 @@ const looks = function (isInitialSetup, isStage, targetId, costumeName, backdrop
             <block id="${targetId}_costumenumbername" type="looks_costumenumbername"/>
             <block id="backdropnumbername" type="looks_backdropnumbername"/>
             <block id="${targetId}_size" type="looks_size"/>
+        `}
+        ${isStage ? '' : `
+            ${blockSeparator}
+            <block type="looks_whisper">
+                <value name="MESSAGE">
+                    <shadow type="text">
+                        <field name="TEXT">ssshhh</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="looks_whisperforsecs">
+                <value name="MESSAGE">
+                    <shadow type="text">
+                        <field name="TEXT">ssshhh</field>
+                    </shadow>
+                </value>
+                <value name="SECS">
+                    <shadow type="math_number">
+                        <field name="NUM">2</field>
+                    </shadow>
+                </value>
+            </block>
         `}
         ${categorySeparator}
     </category>
@@ -562,10 +639,11 @@ const sound = function (isInitialSetup, isStage, targetId, soundName) {
 const events = function (isInitialSetup, isStage) {
     return `
     <category name="%{BKY_CATEGORY_EVENTS}" id="events" colour="#FFD500" secondaryColour="#CC9900">
-        <block type="event_whenflagclicked"/>
         <block type="event_whenstopclicked"/>
         ${blockSeparator}
         <block type="event_always"></block>
+        <block type="event_whentouchingobject"/>
+        <block type="event_touchingobjectmenu"/>
         <block type="event_whenanything">
             <value name="ANYTHING">
                 <shadow type="checkbox" />
@@ -580,8 +658,7 @@ const events = function (isInitialSetup, isStage) {
         ` : `
             <block type="event_whenthisspriteclicked"/>
         `}
-        <block type="event_whenbackdropswitchesto">
-        </block>
+        <block type="event_whenbackdropswitchesto"/>
         ${blockSeparator}
         <block type="event_whengreaterthan">
             <value name="VALUE">
@@ -598,11 +675,16 @@ const events = function (isInitialSetup, isStage) {
                 <shadow type="event_broadcast_menu"></shadow>
             </value>
         </block>
+        <block type="event_broadcast_menu"/>
         <block type="event_broadcastandwait">
             <value name="BROADCAST_INPUT">
               <shadow type="event_broadcast_menu"></shadow>
             </value>
         </block>
+        ${isStage ? '' : `
+            ${blockSeparator}
+            <block type="event_whencostumeswitchesto"/>
+        `}
         ${categorySeparator}
     </category>
     `;
@@ -636,27 +718,14 @@ const control = function (isInitialSetup, isStage) {
                 </shadow>
             </value>
         </block>
+        <block type="control_if"/>
+        <block type="control_if_else"/>
         <block id="forever" type="control_forever"/>
         <block id="for_each" type="control_for_each">
             <value name="VALUE">
                 <shadow type="math_whole_number">
                     <field name="NUM">10</field>
                 </shadow>
-            </value>
-        </block>
-        <block type="control_from_to">
-            <value name="FROM">
-                <shadow type="math_integer">
-                    <field name="NUM">1</field>
-                </shadow>
-            </value>
-            <value name="TO">
-                <shadow type="math_integer">
-                    <field name="NUM">10</field>
-                </shadow>
-            </value>
-            <value name="SHADOW">
-                <shadow type="control_from_to_index" />
             </value>
         </block>
         <block type="control_exitLoop"/>
@@ -742,6 +811,7 @@ const control = function (isInitialSetup, isStage) {
         <block type="control_error"/>
         ${blockSeparator}
         <block type="control_backToGreenFlag"></block>
+        ${blockSeparator}
         <block type="control_stop_sprite">
             <value name="STOP_OPTION">
                 <shadow type="control_stop_sprite_menu"/>
@@ -776,6 +846,32 @@ const control = function (isInitialSetup, isStage) {
             <block type="control_is_clone"/>
         `}
         ${LazyScratchBlocks.isNameUrMom() ? '<block type="your_mom"/>' : ''}
+        <block type="control_get_counter"/>
+        <block type="control_incr_counter"/>
+        <block type="control_decr_counter"/>
+        <block type="control_set_counter">
+            <value name="VALUE">
+                <shadow type="math_whole_number">
+                    <field name="NUM">10</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="control_clear_counter"/>
+        ${blockSeparator}
+        <block type="control_waitunit">
+            <value name="DURATION">
+                <shadow type="math_positive_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="control_repeatForSeconds">
+            <value name="TIMES">
+                <shadow type="math_positive_number">
+                    <field name="NUM">1</field>
+                </shadow>
+            </value>
+        </block>
         ${categorySeparator}
     </category>
     `;
@@ -889,6 +985,7 @@ const sensing = function (isInitialSetup, isStage, targetId) {
             </block>
         `}
         <block id="answer" type="sensing_answer"/>
+        <block id="question" type="sensing_question"/>
         <block type="sensing_thing_is_text">
             <value name="TEXT1">
                 <shadow type="text">
@@ -933,6 +1030,25 @@ const sensing = function (isInitialSetup, isStage, targetId) {
             </value>
         </block>
         <block type="sensing_getclipboard"/>
+        <block type="sensing_savedata">
+            <value name="VALUE">
+                <shadow type="text">
+                    <field name="TEXT">apple</field>
+                </shadow>
+            </value>
+            <value name="NAME">
+                <shadow type="text">
+                    <field name="TEXT">banana</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sensing_getdata">
+            <value name="NAME">
+                <shadow type="text">
+                    <field name="TEXT">banana</field>
+                </shadow>
+            </value>
+        </block>
         ${isStage ? '' : `
             ${blockSeparator}
             <block type="sensing_setdragmode" id="sensing_setdragmode"></block>
@@ -964,6 +1080,7 @@ const sensing = function (isInitialSetup, isStage, targetId) {
         ${blockSeparator}
         <block id="current" type="sensing_current"/>
         <block type="sensing_dayssince2000"/>
+        <block type="sensing_unix"/>
         ${blockSeparator}
         <block type="sensing_mobile"></block>
         <block type="sensing_fingerdown">
@@ -990,6 +1107,18 @@ const sensing = function (isInitialSetup, isStage, targetId) {
         <button text="${helpManual}" callbackKey="OPEN_USERNAME_DOCS" isLaterDefined="true" />
         <block type="sensing_username"/>
         <block type="sensing_loggedin"/>
+        ${blockSeparator}
+        <block type="sensing_currentkeypressed"/>
+        <block type="sensing_userid"/>
+        ${blockSeparator}
+        <block type="sensing_dayssinceyear">
+            <value name="YEAR">
+                <shadow type="math_integer">
+                    <field name="NUM">2030</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="sensing_isleapyear"/>
         ${categorySeparator}
     </category>
     `;
@@ -1086,6 +1215,15 @@ const operators = function (isInitialSetup) {
                 <shadow type="math_number">
                     <field name="NUM">16</field>
                 </shadow>
+            </value>
+        </block>
+        <block type="operator_advMath">
+            <value name="ONE">
+                <shadow type="math_number"><field name="NUM">1</field></shadow>
+            </value>
+            <field name="OPTION">^</field>
+            <value name="TWO">
+                <shadow type="math_number"><field name="NUM">2</field></shadow>
             </value>
         </block>
         ${blockSeparator}
@@ -1268,6 +1406,17 @@ const operators = function (isInitialSetup) {
                     </shadow>
                 </value>
             </block>
+            <block type="operator_join3">
+                <value name="STRING1">
+                    <shadow type="text"><field name="TEXT">${apple} </field></shadow>
+                </value>
+                <value name="STRING2">
+                    <shadow type="text"><field name="TEXT">${banana} </field></shadow>
+                </value>
+                <value name="STRING3">
+                    <shadow type="text"><field name="TEXT">pear</field></shadow>
+                </value>
+            </block>
             <block type="operator_expandablejoininputs">
                 <mutation inputcount="2"></mutation>
                 <value name="INPUT1">
@@ -1317,6 +1466,17 @@ const operators = function (isInitialSetup) {
                     <shadow type="text">
                         <field name="TEXT">${apple}</field>
                     </shadow>
+                </value>
+            </block>
+            <block type="operator_getLettersFromIndexToIndexInText">
+                <value name="INDEX1">
+                    <shadow type="math_number"><field name="NUM">2</field></shadow>
+                </value>
+                <value name="INDEX2">
+                    <shadow type="math_number"><field name="NUM">3</field></shadow>
+                </value>
+                <value name="TEXT">
+                    <shadow type="text"><field name="TEXT">Hello!</field></shadow>
                 </value>
             </block>
             <block type="operator_getLettersFromIndexToIndexInTextFixed">
@@ -1526,6 +1686,16 @@ const liveTests = function () {
         ${blockSeparator}
         <block type="control_dualblock"></block>
         <block type="test_spread"></block>
+        <block type="looks_setVertTransform">
+            <value name="PERCENT">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
+        </block>
+        <block type="looks_setHorizTransform">
+            <value name="PERCENT">
+                <shadow type="math_number"><field name="NUM">0</field></shadow>
+            </value>
+        </block>
     </category>
     `;
 };
@@ -1570,11 +1740,51 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
         }
         // return `undefined`
     };
+    const mergeCategory = categoryId => {
+        const matchingCategories = categoriesXML.filter(categoryInfo => categoryInfo.id === categoryId);
+        categoriesXML = categoriesXML.filter(categoryInfo => categoryInfo.id !== categoryId);
+        if (matchingCategories.length === 0) return undefined;
+
+        let mergedXML = matchingCategories[0].xml;
+        const additionalContents = matchingCategories.slice(1).map(categoryInfo => {
+            const openingTagEnd = categoryInfo.xml.indexOf('>');
+            const closingTagStart = categoryInfo.xml.lastIndexOf('</category>');
+            if (openingTagEnd < 0 || closingTagStart < openingTagEnd) return '';
+            return categoryInfo.xml.slice(openingTagEnd + 1, closingTagStart);
+        }).join('');
+        if (additionalContents) {
+            mergedXML = mergedXML.replace('</category>', `${additionalContents}</category>`);
+        }
+        return mergedXML;
+    };
     const motionXML = moveCategory('motion') || motion(isInitialSetup, isStage, targetId);
     const looksXML = moveCategory('looks') || looks(isInitialSetup, isStage, targetId, costumeName, backdropName);
     const soundXML = moveCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
-    const eventsXML = moveCategory('event') || events(isInitialSetup, isStage, targetId);
-    const controlXML = moveCategory('control') || control(isInitialSetup, isStage, targetId);
+    let eventsXML = moveCategory('event') || events(isInitialSetup, isStage, targetId);
+    const eventBlocks = [
+        'event_whenflagclicked',
+        'event_whenpausebuttonclicked',
+        'event_whenplaybuttonclicked'
+    ].filter(opcode => !new RegExp(`<block\\b[^>]*\\btype="${opcode}"`).test(eventsXML))
+        .map(opcode => `<block type="${opcode}"/>`)
+        .join('');
+    const eventsOpeningTagEnd = eventsXML.indexOf('>');
+    if (eventsOpeningTagEnd >= 0) {
+        const eventsOpeningTag = eventsXML.slice(0, eventsOpeningTagEnd + 1);
+        const eventsContents = eventsXML.slice(eventsOpeningTagEnd + 1);
+        eventsXML = `${eventsOpeningTag}${eventBlocks}${eventsContents}`;
+    }
+    let controlXML = mergeCategory('control') || control(isInitialSetup, isStage, targetId);
+    const controlBlocks = [
+        'control_pause',
+        'control_resume'
+    ].filter(opcode => !new RegExp(`<block\\b[^>]*\\btype="${opcode}"`).test(controlXML))
+        .map(opcode => `<block type="${opcode}"/>`)
+        .join('');
+    const controlOpeningTagEnd = controlXML.indexOf('>');
+    if (controlOpeningTagEnd >= 0) {
+        controlXML = `${controlXML.slice(0, controlOpeningTagEnd + 1)}${controlBlocks}${controlXML.slice(controlOpeningTagEnd + 1)}`;
+    }
     const sensingXML = moveCategory('sensing') || sensing(isInitialSetup, isStage, targetId);
     const operatorsXML = moveCategory('operators') || operators(isInitialSetup, isStage, targetId);
     const variablesXML = moveCategory('variables') || variables(isInitialSetup, isStage, targetId);

@@ -4,6 +4,37 @@
 
 .blocks {
     height: 100%;
+    position: relative;
+}
+
+.search {
+    position: absolute;
+    z-index: 2;
+    top: 0.25rem;
+    left: 0.75rem;
+    box-sizing: border-box;
+    width: 12rem;
+    max-width: calc(100% - 1.5rem);
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    border: 1px solid $ui-black-transparent-default;
+    border-radius: 0.5rem;
+    background-color: $ui-primary;
+    color: $text-primary;
+    font: inherit;
+    font-size: 0.875rem;
+    box-shadow: 0 1px 3px $ui-black-transparent-default;
+}
+
+.search:focus {
+    border-color: $motion-primary;
+    outline: 2px solid $motion-transparent;
+    outline-offset: 1px;
+}
+
+[dir="rtl"] .search {
+    right: 0.75rem;
+    left: auto;
 }
 
 .drag-over:after {
@@ -20,7 +51,7 @@
 
 .blocks :global(.injectionDiv){
     position: absolute;
-    top: 0;
+    top: 2.75rem;
     right: 0;
     bottom: 0;
     left: 0;
@@ -44,7 +75,7 @@
     border-right: 1px solid $ui-black-transparent;
     border-bottom: 1px solid $ui-black-transparent;
     box-sizing: content-box;
-    height: calc(100% - 3.25rem) !important;
+    height: calc(100% - 2.75rem) !important;
     overflow-x: hidden;
 
     /*

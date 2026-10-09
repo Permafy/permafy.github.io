@@ -16,6 +16,7 @@ import largeStageIcon from './icon--large-stage.svg';
 import smallStageIcon from './icon--small-stage.svg';
 import unFullScreenIcon from './icon--unfullscreen.svg';
 import settingsIcon from './icon--settings.svg';
+import screenshotIcon from '../../controls/screenshot.png';
 
 // import popoutIcon from './icon--popout.svg';
 // import bringBackIcon from './icon--popin.svg';
@@ -55,6 +56,11 @@ const messages = defineMessages({
         defaultMessage: 'Open gameplay settings',
         description: 'Button to open gameplay settings in embeds',
         id: 'pm.openGameplay'
+    },
+    screenshotMessage: {
+        defaultMessage: 'Take screenshot',
+        description: 'Button to save a PNG screenshot of the current stage',
+        id: 'pm.takeScreenshot'
     }
 });
 
@@ -73,8 +79,63 @@ const StageHeaderComponent = function (props) {
         onOpenSettings,
         isEmbedded,
         stageSizeMode,
-        vm
+        vm,
+        isStarted,
+        projectTitle
     } = props;
+
+    const takeScreenshot = function () {
+        if (!vm || !vm.renderer || !isStarted) return;
+
+        const snapshot = function (uri) {
+            const filename = `${(projectTitle || 'Project').trim() || 'Project'}-PermafyScreenshot.png`;
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = uri;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        if (typeof vm.renderer.requestSnapshot === 'function') {
+            vm.renderer.draw();
+            vm.renderer.requestSnapshot(snapshot);
+            return;
+        }
+
+        const rendererCanvas = vm.renderer._gl && vm.renderer._gl.canvas ? vm.renderer._gl.canvas : vm.renderer.canvas;
+        const sourceCanvas = rendererCanvas || document.querySelector('canvas');
+        if (!sourceCanvas || sourceCanvas.width === 0 || sourceCanvas.height === 0) return;
+        vm.renderer.draw();
+
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = sourceCanvas.width;
+        exportCanvas.height = sourceCanvas.height;
+
+        const context = exportCanvas.getContext('2d');
+        if (!context) return;
+
+        context.clearRect(0, 0, exportCanvas.width, exportCanvas.height);
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+        context.drawImage(sourceCanvas, 0, 0);
+        snapshot(exportCanvas.toDataURL('image/png'));
+    };
+
+    const screenshotButton = (
+        <Button
+            className={classNames(styles.stageButton, {[styles.stageButtonDisabled]: !isStarted})}
+            onClick={isStarted ? takeScreenshot : null}
+        >
+            <img
+                alt={props.intl.formatMessage(messages.screenshotMessage)}
+                className={styles.stageButtonIcon}
+                draggable={false}
+                src={screenshotIcon}
+                title={props.intl.formatMessage(messages.screenshotMessage)}
+            />
+        </Button>
+    );
 
     let header = null;
 
@@ -148,6 +209,7 @@ const StageHeaderComponent = function (props) {
                     <Controls vm={vm} />
                     <div className={styles.embedButtons}>
                         {settingsButton}
+                        {screenshotButton}
                         {/* {popoutWindowButton} */}
                         {fullscreenButton}
                     </div>
@@ -207,6 +269,7 @@ const StageHeaderComponent = function (props) {
                         {stageControls}
                         <div className={styles.embedButtons}>
                             {/* {popoutWindowButton} */}
+                            {screenshotButton}
                             <Button
                                 className={styles.stageButton}
                                 onClick={onSetStageFull}
@@ -232,7 +295,9 @@ const StageHeaderComponent = function (props) {
 const mapStateToProps = state => ({
     customStageSize: state.scratchGui.customStageSize,
     // This is the button's mode, as opposed to the actual current state
-    stageSizeMode: state.scratchGui.stageSize.stageSize
+    stageSizeMode: state.scratchGui.stageSize.stageSize,
+    isStarted: state.scratchGui.vmStatus.started,
+    projectTitle: state.scratchGui.projectTitle
 });
 
 StageHeaderComponent.propTypes = {
@@ -251,7 +316,9 @@ StageHeaderComponent.propTypes = {
     onOpenSettings: PropTypes.func.isRequired,
     isEmbedded: PropTypes.bool.isRequired,
     stageSizeMode: PropTypes.oneOf(Object.keys(STAGE_SIZE_MODES)),
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    isStarted: PropTypes.bool,
+    projectTitle: PropTypes.string
 };
 
 StageHeaderComponent.defaultProps = {

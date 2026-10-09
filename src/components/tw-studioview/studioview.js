@@ -11,10 +11,25 @@ import classNames from 'classnames';
 /**
  * @class
  */
-var StudioView = function () {
+var StudioView = function (options) {
+    options = options || {};
+    this.source = options.source || 'penguinmod';
+    this.customProjectIds = Array.isArray(options.customProjectIds) ? options.customProjectIds.slice() : null;
+    this.studioApi = this.source === 'scratch' ?
+        'https://trampoline.turbowarp.org/proxy/studios/51930360/projects' :
+        'https://projects.penguinmod.com/api/v1/projects/getprojects';
+    this.thumbnailSource = this.source === 'scratch' ?
+        'https://uploads.scratch.mit.edu/projects/thumbnails/$id.png' :
+        'https://projects.penguinmod.com/api/v1/projects/getproject?projectID=$id&requestType=thumbnail';
+    this.projectPage = this.source === 'scratch' ?
+        'https://scratch.mit.edu/projects/$id/' :
+        'https://studio.penguinmod.com/#$id';
+    this.page = 0;
+    this.seenProjectIds = {};
     this.offset = 0;
     this.ended = false;
     this.loadingPage = false;
+    this.retryCount = 0;
     this.unusedPlaceholders = [];
 
     this.root = document.createElement('div');
@@ -55,7 +70,14 @@ StudioView.prototype.addProject = function (details) {
         el = this.createPlaceholder();
         this.projectList.appendChild(el);
     }
-    this.placeholderToProject(el, details.id, details.title, details.author, details.featured);
+    this.placeholderToProject(
+        el,
+        details.id,
+        details.title,
+        details.author,
+        details.featured,
+        details.thumbnail
+    );
 };
 
 /**
@@ -103,7 +125,7 @@ StudioView.prototype.createPlaceholder = function () {
 /**
  * Convert a placeholder element made by createPlaceholder to a project element.
  */
-StudioView.prototype.placeholderToProject = function (el, id, title, author, featured) {
+StudioView.prototype.placeholderToProject = function (el, id, title, author, featured, thumbnail) {
     el.className = classNames(styles.studioviewProject, styles.studioviewLoaded);
     if (featured == true) {
         el.className = classNames(styles.studioviewProject, styles.studioviewLoaded, styles.featuredStudioviewProject);
@@ -112,9 +134,9 @@ StudioView.prototype.placeholderToProject = function (el, id, title, author, fea
     el.dataset.title = title;
     el.dataset.author = author;
     el.title = this.messages.PROJECT_HOVER_TEXT.replace('$author', author).replace('$title', title);
-    el.href = StudioView.PROJECT_PAGE.replace('$id', id);
+    el.href = this.projectPage.replace('$id', id);
 
-    var thumbnailSrc = StudioView.THUMBNAIL_SRC.replace('$id', id);
+    var thumbnailSrc = (thumbnail || this.thumbnailSource).replace('$id', id);
     var thumbnailImg = this.createLazyImage(thumbnailSrc);
     el.thumbnailEl.appendChild(thumbnailImg);
 
@@ -148,12 +170,15 @@ StudioView.prototype.handleLoadNextPageIntersection = function (e) {
 
 // Click a project element or a child of a project element
 StudioView.prototype.clickProject = function (el) {
-    while (!el.classList.contains(styles.studioviewProject)) {
+    while (el && !el.classList.contains(styles.studioviewProject)) {
         el = el.parentNode;
+    }
+    if (!el || !el.dataset || !el.dataset.id) {
+        return;
     }
     var id = el.dataset.id;
     this.onselect(id, el);
-}
+};
 
 // Called when click is fired on a project element
 StudioView.prototype.handleClick = function (e) {
@@ -222,7 +247,94 @@ StudioView.prototype.shuffler = function (projects) {
 /**
  * Begins loading the next page.
  */
+StudioView.prototype.loadCustomProjectIds = function () {
+    if (this.loadingPage) {
+        throw new Error('Already loading the next page');
+    }
+    if (this.ended) {
+        throw new Error('There are no more pages to load');
+    }
+
+    if (this.unusedPlaceholders.length === 0) {
+        this.addPlaceholders();
+    }
+    if (this.loadNextPageObserver) {
+        this.loadNextPageObserver.disconnect();
+    }
+    this.root.setAttribute('loading', '');
+    this.loadingPage = true;
+
+    var projectIds = this.customProjectIds.filter(function (id) {
+        return id && !this.seenProjectIds[id];
+    }, this);
+
+    if (projectIds.length === 0) {
+        this.root.removeAttribute('loading');
+        this.loadingPage = false;
+        this.ended = true;
+        this.onend();
+        return;
+    }
+
+    var requestCount = projectIds.length;
+    var loadedProjects = [];
+
+    projectIds.forEach(function (id) {
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300 && xhr.response) {
+                var p = xhr.response;
+                this.seenProjectIds[p.id] = true;
+                loadedProjects.push({
+                    id: p.id,
+                    title: p.title,
+                    author: p.author && p.author.username ? p.author.username : 'Unknown',
+                    featured: p.featured,
+                    thumbnail: p.thumbnail_url ? `https:${p.thumbnail_url}` : null
+                });
+            }
+
+            requestCount -= 1;
+            if (requestCount === 0) {
+                this.page += 1;
+                this.offset += loadedProjects.length;
+                this.loadingPage = false;
+                this.root.removeAttribute('loading');
+                this.cleanupPlaceholders();
+
+                loadedProjects = this.shuffler(loadedProjects);
+                for (var i = 0; i < loadedProjects.length; i++) {
+                    this.addProject(loadedProjects[i]);
+                }
+
+                this.ended = true;
+                this.onend();
+                this.onpageload();
+            }
+        }.bind(this);
+        xhr.onerror = function () {
+            requestCount -= 1;
+            if (requestCount === 0) {
+                this.root.setAttribute('error', '');
+                this.cleanupPlaceholders();
+                this.addErrorElement();
+                this.ended = true;
+                this.loadingPage = false;
+                this.root.removeAttribute('loading');
+            }
+        }.bind(this);
+        xhr.open('GET', `https://projects.penguinmod.com/api/v1/projects/getproject?projectID=${id}&requestType=metadata`);
+        xhr.send();
+    }, this);
+};
+
 StudioView.prototype.loadNextPage = function () {
+    if (this.customProjectIds && this.customProjectIds.length > 0) {
+        this.loadCustomProjectIds();
+        return;
+    }
+
     if (this.loadingPage) {
         throw new Error('Already loading the next page');
     }
@@ -242,6 +354,11 @@ StudioView.prototype.loadNextPage = function () {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.onload = function () {
+        if (xhr.status < 200 || xhr.status >= 300 || !xhr.response) {
+            xhr.onerror();
+            return;
+        }
+        this.retryCount = 0;
         var rawProjects = xhr.response;
         if (!Array.isArray(rawProjects)) {
             xhr.onerror();
@@ -250,11 +367,15 @@ StudioView.prototype.loadNextPage = function () {
         var projects = [];
         for (var i = 0; i < rawProjects.length; i++) {
             var p = rawProjects[i];
+            if (this.seenProjectIds[p.id]) continue;
+            this.seenProjectIds[p.id] = true;
             projects.push({
                 id: p.id,
                 title: p.title,
-                author: p.author.username,
+                author: this.source === 'scratch' ? p.username : p.author.username,
                 featured: p.featured,
+                thumbnail: this.source === 'scratch' ? p.image :
+                    (p.thumbnail_url ? `https:${p.thumbnail_url}` : null),
             });
         }
         projects = this.shuffler(projects);
@@ -263,7 +384,8 @@ StudioView.prototype.loadNextPage = function () {
         }
         this.cleanupPlaceholders();
 
-        if (rawProjects.length === 40) {
+        this.page += 1;
+        if (this.source === 'scratch' && rawProjects.length === 40) {
             if (this.loadNextPageObserver) {
                 this.loadNextPageObserver.observe(this.projectList.lastChild);
             }
@@ -280,13 +402,19 @@ StudioView.prototype.loadNextPage = function () {
     }.bind(this);
 
     xhr.onerror = function () {
+        if (this.source === 'scratch' && this.retryCount < 2) {
+            this.retryCount += 1;
+            this.loadingPage = false;
+            setTimeout(this.loadNextPage.bind(this), 1000);
+            return;
+        }
         this.root.setAttribute('error', '');
         this.cleanupPlaceholders();
         this.addErrorElement();
         this.ended = true;
     }.bind(this);
 
-    var url = StudioView.STUDIO_API + "/projects/getprojects"
+    var url = `${this.studioApi}?offset=${this.offset}`;
     xhr.open('GET', url);
     xhr.send();
 };
@@ -300,6 +428,13 @@ StudioView.prototype.onpageload = function () { };
 StudioView.prototype.onend = function () { };
 
 StudioView.STUDIO_API = 'https://projects.penguinmod.com/api/v1';
+StudioView.prototype.scratchSections = [
+    'scratch_design_studio',
+    'community_featured_projects',
+    'community_most_loved_projects',
+    'community_most_remixed_projects',
+    'community_newest_projects'
+];
 
 // The URL to download thumbnails from.
 // $id is replaced with the project's ID.
@@ -307,8 +442,6 @@ StudioView.THUMBNAIL_SRC = 'https://projects.penguinmod.com/api/v1/projects/getp
 
 // The URL for project pages.
 // $id is replaced with the project ID.
-StudioView.PROJECT_PAGE = 'https://studio.penguinmod.com/#$id';
-
 // The amount of "placeholders" to insert before the next page loads.
 StudioView.PLACEHOLDER_COUNT = 9;
 

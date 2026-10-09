@@ -1,12 +1,12 @@
 /* GUI */
 :root {
-    background: #111;
+    background: #0d1117;
     color: #eee;
     color-scheme: dark;
     /* see colors.csss */
-    --ui-primary: rgb(17, 17, 17);
-    --ui-secondary: rgb(30, 30, 30);
-    --ui-tertiary: rgb(46, 46, 46);
+    --ui-primary: #0d1117;
+    --ui-secondary: #121824;
+    --ui-tertiary: #1b2433;
     --ui-modal-overlay: #333a;
     --ui-black-transparent: rgba(255, 255, 255, 0.15);
     --text-primary: #eee;

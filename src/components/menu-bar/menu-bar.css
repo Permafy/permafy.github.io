@@ -27,11 +27,41 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: $menu-bar-standard-font-size;
     font-weight: bold;
-    background-color: $motion-primary;
+    background-color: $menu-bar-background;
+    background-image: $menu-bar-background-image;
     color: $ui-white;
 }
+
+.menu-bar :global(.menu) {
+    background-color: $menu-bar-background;
+}
+
+[theme="dark"] .menu-bar :global(.menu) {
+    background-color: $menu-bar-background-dark;
+}
+
 [theme="dark"] .menu-bar {
-    background-color: $motion-primary-dark;
+    background-color: $menu-bar-background-dark;
+}
+
+.menu-bar.topbar-permafy {
+    background-color: #8cafff;
+    background-image: none;
+}
+
+.menu-bar.topbar-permafy :global(.menu),
+[theme="dark"] .menu-bar.topbar-permafy :global(.menu) {
+    background-color: #8cafff;
+}
+
+.menu-bar.topbar-turbo-gray {
+    background-color: #333333;
+    background-image: none;
+}
+
+.menu-bar.topbar-turbo-gray :global(.menu),
+[theme="dark"] .menu-bar.topbar-turbo-gray :global(.menu) {
+    background-color: #333333;
 }
 
 .main-menu {
@@ -43,13 +73,35 @@
     flex-grow: 1;
 }
 
+/* Menu bar alignment options */
+.main-menu-align-left {
+    justify-content: flex-start;
+}
+.main-menu-align-center {
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: 100%;
+    width: max-content
+}
+.main-menu-align-right {
+    justify-content: flex-end;
+}
+
 .scratch-logo {
-    height:  1.6rem;
+    height:  2.6rem;
     vertical-align: middle;
+    transition: filter 0.25s ease;
 }
 
 .scratch-logo.clickable {
     cursor: pointer;
+}
+
+.scratch-logo.clickable:hover {
+    filter: brightness(1.12) drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
 }
 
 .language-icon {
@@ -69,9 +121,7 @@
 
 .menu-bar-item {
     display: flex;
-    padding: 0 0.25rem;
     text-decoration: none;
-    color: $ui-white;
     user-select: none;
     align-self: center;
     position: relative;
@@ -80,8 +130,36 @@
     height: $menu-bar-height;
 }
 
+.menu-bar-action {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
 .menu-bar-item.hoverable {
     cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+.menu-bar-item.hoverable:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.menu-bar-action.hoverable {
+    cursor: pointer;
+}
+
+.menu-bar-icon {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin-right: 0.4rem;
+}
+
+[dir="rtl"] .menu-bar-icon {
+    margin-right: 0;
+    margin-left: 0.4rem;
 }
 
 .menu-bar-item.active,
@@ -122,6 +200,25 @@
     color: $motion-primary !important;
     text-decoration: none;
 }
+
+.back-to-home-item {
+    margin-left: 0.5rem;
+}
+
+.new-project-item {
+    margin-right: 0.5rem;
+}
+
+[dir="rtl"] .new-project-item {
+    margin-right: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="rtl"] .back-to-home-item {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
 [theme="dark"] .feedback-link {
     color: $motion-primary-dark !important;
 }
@@ -235,4 +332,60 @@
 .menu-item-link {
     color: $ui-white !important;
     text-decoration: none;
+}
+
+.moon-icon {
+    display: block; /* Afficher l'icône de la lune par défaut */
+}
+
+.sun-icon {
+    display: none; /* Masquer l'icône du soleil par défaut */
+}
+
+.midnight-icon {
+    display: none; /* Masquer l'icône du soleil par défaut */
+}
+
+/* Lorsque le thème est sombre */
+[theme="dark"] .moon-icon {
+    display: none; /* Masquer l'icône de la lune */
+}
+
+[theme="dark"] .sun-icon {
+    display: block; /* Afficher l'icône du soleil */
+}
+
+[theme="midight"] .sun-icon {
+    display: block; /* Afficher l'icône du soleil */
+}
+
+
+@media only screen and (max-width: 1124px) {
+    .tutorials-label, .collapsible-label {
+        display: none;
+    }
+
+    .help-icon {
+        margin-right: 0;
+    }
+}
+
+.submenu-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.submenu-row-label {
+    flex: 1;
+}
+
+.submenu-caret {
+    margin-left: 0.5rem;
+    opacity: 0.8;
+    transform: rotate(-90deg);
+}
+
+[dir="rtl"] .submenu-caret {
+    transform: rotate(90deg);
 }

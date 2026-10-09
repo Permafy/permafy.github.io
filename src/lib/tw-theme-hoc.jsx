@@ -7,14 +7,11 @@ const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
 export const getInitialDarkMode = () => {
     try {
-        const item = localStorage.getItem(THEME_KEY);
-        if (item !== null) {
-            return item === 'dark';
-        }
+        localStorage.setItem(THEME_KEY, 'dark');
     } catch (e) {
         // ignore
     }
-    return darkMediaQuery.matches;
+    return true;
 };
 
 const darkModeStylesheet = document.createElement('style');
@@ -52,7 +49,7 @@ const ThemeHOC = function (WrappedComponent) {
             }
         }
         updateDark () {
-            const dark = this.state.dark;
+            const dark = true;
             document.body.setAttribute('theme', dark ? 'dark' : 'light');
             if (dark && !darkModeStylesheet.parentNode) {
                 // Append at the start of <body> we override scratch-gui styles in <head>
@@ -61,16 +58,21 @@ const ThemeHOC = function (WrappedComponent) {
             } else if (!dark && darkModeStylesheet.parentNode) {
                 darkModeStylesheet.parentNode.removeChild(darkModeStylesheet);
             }
+            try {
+                localStorage.setItem(THEME_KEY, 'dark');
+            } catch (e) {
+                // ignore
+            }
         }
         handleQueryChange () {
             this.setState({
-                dark: darkMediaQuery.matches
+                dark: true
             });
         }
         handleClickTheme () {
-            this.setState(state => ({
-                dark: !state.dark
-            }));
+            this.setState({
+                dark: true
+            });
         }
         render () {
             return (

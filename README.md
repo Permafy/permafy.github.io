@@ -1,12 +1,39 @@
-scratch-gui modified for use in [TurboWarp](https://turbowarp.org/) then modified for use in [PenguinMod](https://studio.penguinmod.com) 😀
+## Permafy
 
-## Setup
+hello idk
+<p align="center">
+	<img src="/title.png" />
+	<h3 align="center">
+		<a href="https://permafy.github.io">website :D</a>
+	</h3>
+</p>
+
+# Cool Info
+
+[scratch-gui](https://github.com/scratchfoundation/scratch-gui) modified for use in [TurboWarp](https://turbowarp.org/) then modified for use in [PenguinMod](https://studio.penguinmod.com) and modified again for use in [Permafy](https://permafy.github.io) 😀
+
+so basically:
+
+[penguinmod.github.io](https://github.com/PenguinMod/penguinmod.github.io) modified for use in [Permafy](https://permafy.github.io) 😀
+
+## Additional things
+
+yeah for some reason it added 5500 commits to my repo, to calculate the commits you just subtract 5500 to the commits ahead thing.
+example: it's 7823 commits ahead, 7823 - 5500 equals 2323 so 2323 commits ahead of upstream penguinmod.github.io.
+
+
+it's better to use Permafy on English as on other languages it just doesn't work very well and i am too lazy to fix it.
+more languages coming soon btw, working on Spanish soon
+
+have fun playing with the code! (or seeing it, it's pretty messy though)
+
+# Setup
 
 See https://docs.turbowarp.org/development/getting-started to setup the complete TurboWarp environment.
 
 If you just want to play with the GUI then it's the same process as upstream scratch-gui.
 
-## License
+# License
 
 TurboWarp's modifications to Scratch are licensed under the GNU General Public License v3.0. See LICENSE or https://www.gnu.org/licenses/ for details.
 
@@ -28,6 +55,43 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 ```
 
 src/lib/default-project/dango.svg is based on [Twemoji](https://twemoji.twitter.com/) and is licensed under CC BY 4.0 https://creativecommons.org/licenses/by/4.0/
+
+## default_project.pmf's README
+Welcome to Permafy, a PenguinMod fork with some other Scratch Mods features!! :D we're glad to have you here!
+
+See https://permafy.github.io/docs for the documentation and how to get started.
+
+Have so much fun playing around w/ the editor!
+(scroll down for way more information)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--- additional information ---
+
+Found a Bug? Tell me! https://github.com/Permafy/permafy.github.io/issues/
+
+Wanna play around with the source code?
+https://github.com/Permafy/
+
+--- supporting ---
+
+Permafy is made by only one people and its alts.
+Wanna support him? Sorry, there is no pay method for him...
+
+--- last thing xd ---
+
+Here, we put this comment here since we got inspired by Astra Editor's default README feature and GaiaMod's (https://gaiamod-main.github.io).
 
 <!--
 

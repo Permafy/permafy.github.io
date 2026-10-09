@@ -5,6 +5,7 @@ import Menu from '../../containers/menu.jsx';
 const MenuBarMenu = ({
     children,
     className,
+    ignoreClickOutsideSelector,
     onRequestClose,
     open,
     place = 'right'
@@ -13,6 +14,7 @@ const MenuBarMenu = ({
         <Menu
             open={open}
             place={place}
+            ignoreClickOutsideSelector={ignoreClickOutsideSelector}
             onRequestClose={onRequestClose}
         >
             {children}
@@ -23,6 +25,7 @@ const MenuBarMenu = ({
 MenuBarMenu.propTypes = {
     children: PropTypes.node,
     className: PropTypes.string,
+    ignoreClickOutsideSelector: PropTypes.string,
     onRequestClose: PropTypes.func,
     open: PropTypes.bool,
     place: PropTypes.oneOf(['left', 'right'])

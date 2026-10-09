@@ -30,11 +30,15 @@ class StudioViewComponent extends React.Component {
         super(props);
         bindAll(this, [
             'handleSelect',
-            'ref'
+            'ref',
+            'handleLoadMore'
         ]);
     }
     componentDidMount () {
-        this.studioView = new StudioView();
+        this.studioView = new StudioView({
+            source: this.props.source,
+            customProjectIds: this.props.customProjectIds
+        });
         this.studioView.messages.AUTHOR_ATTRIBUTION = this.props.intl.formatMessage(messages.authorAttribution, {
             // studioview uses $-based variables
             author: '$author'
@@ -52,19 +56,20 @@ class StudioViewComponent extends React.Component {
         }
         this.studioView.onselect = this.handleSelect;
         this.el.appendChild(this.studioView.root);
+        if (this.props.onReady) this.props.onReady(this.studioView);
     }
     componentDidUpdate (prevProps) {
         if (prevProps.placeholder && !this.props.placeholder) {
             this.studioView.loadNextPage();
         }
     }
+    handleLoadMore () {
+        if (this.studioView && this.studioView.canLoadNext()) {
+            this.studioView.loadNextPage();
+        }
+    }
     handleSelect (id) {
         this.props.onSelect(id);
-        /**
-         * fuck this bullshity ass design paradigm, i cant find where the FUCK this event chain actually ends
-         * implicitly assume that what ever the fuck happens above will synchronously put the id into the url to be used later
-         */
-        window.location.reload();
     }
     ref (el) {
         this.el = el;
@@ -84,7 +89,10 @@ class StudioViewComponent extends React.Component {
 StudioViewComponent.propTypes = {
     intl: intlShape.isRequired,
     placeholder: PropTypes.bool,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
+    onReady: PropTypes.func,
+    source: PropTypes.oneOf(['penguinmod', 'scratch']),
+    customProjectIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
 };
 
 export default injectIntl(StudioViewComponent);

@@ -8,6 +8,9 @@ const BlocksComponent = props => {
     const {
         containerRef,
         dragOver,
+        onSearchChange,
+        searchPlaceholder,
+        searchQuery,
         ...componentProps
     } = props;
     return (
@@ -17,11 +20,23 @@ const BlocksComponent = props => {
             })}
             {...componentProps}
             componentRef={containerRef}
-        />
+        >
+            <input
+                aria-label={searchPlaceholder}
+                className={styles.search}
+                onChange={onSearchChange}
+                placeholder={searchPlaceholder}
+                type="search"
+                value={searchQuery}
+            />
+        </Box>
     );
 };
 BlocksComponent.propTypes = {
     containerRef: PropTypes.func,
-    dragOver: PropTypes.bool
+    dragOver: PropTypes.bool,
+    onSearchChange: PropTypes.func,
+    searchPlaceholder: PropTypes.string,
+    searchQuery: PropTypes.string
 };
 export default BlocksComponent;

@@ -1,6 +1,6 @@
 /**
  * @fileoverview
- * Utility function to detect locale from the browser setting or paramenter on the URL.
+ * Utility function to detect locale from saved settings or a URL parameter.
  */
 
 import queryString from 'query-string';
@@ -9,8 +9,7 @@ import queryString from 'query-string';
 export const LANGUAGE_KEY = 'tw:language';
 
 /**
- * look for language setting in the browser. Check against supported locales.
- * If there's a parameter in the URL, override the browser setting
+ * Look for a saved language setting, then a URL parameter, otherwise use English.
  * @param {Array.string} supportedLocales An array of supported locale codes.
  * @return {string} the preferred locale
  */
@@ -23,19 +22,7 @@ const detectLocale = supportedLocales => {
         }
     } catch (e) { /* ignore */ }
 
-    let locale = 'en'; // default
-    let browserLocale = window.navigator.userLanguage || window.navigator.language;
-    browserLocale = browserLocale.toLowerCase();
-    // try to set locale from browserLocale
-    if (supportedLocales.includes(browserLocale)) {
-        locale = browserLocale;
-    } else {
-        browserLocale = browserLocale.split('-')[0];
-        if (supportedLocales.includes(browserLocale)) {
-            locale = browserLocale;
-        }
-    }
-
+    const locale = 'en';
     const queryParams = queryString.parse(location.search);
     // Flatten potential arrays and remove falsy values
     const potentialLocales = [].concat(queryParams.locale, queryParams.lang).filter(l => l);

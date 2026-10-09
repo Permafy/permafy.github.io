@@ -1,4 +1,9 @@
 import LazyScratchBlocks from './tw-lazy-scratch-blocks';
+import localforage from 'localforage';
+import flagButtonIcon from '../components/stage-header/stagecontrols/flag.png';
+import pauseButtonIcon from '../components/stage-header/stagecontrols/pause.png';
+import playButtonIcon from '../components/stage-header/stagecontrols/play.png';
+import stopButtonIcon from '../components/stage-header/stagecontrols/stop.png';
 
 /**
  * Connect scratch blocks with the vm
@@ -30,8 +35,9 @@ export default function (vm) {
     };
 
     const jsonForHatBlockMenu = function (hatName, name, menuOptionsFn, colors, start) {
+        const safeHatName = hatName || ScratchBlocks.Msg.CONTROL_STARTASCLONE || 'when I start as a clone';
         return {
-            message0: hatName,
+            message0: safeHatName,
             args0: [
                 {
                     type: 'field_dropdown',
@@ -133,6 +139,13 @@ export default function (vm) {
         return [['', '']];
     };
 
+    const costumeNamesMenu = function () {
+        if (vm.editingTarget && vm.editingTarget.getCostumes().length > 0) {
+            return vm.editingTarget.getCostumes().map(costume => [costume.name, costume.name]);
+        }
+        return [['', '']];
+    };
+
     const backdropsMenu = function () {
         const next = ScratchBlocks.ScratchMsgs.translate('LOOKS_NEXTBACKDROP', 'next backdrop');
         const previous = ScratchBlocks.ScratchMsgs.translate('LOOKS_PREVIOUSBACKDROP', 'previous backdrop');
@@ -194,6 +207,342 @@ export default function (vm) {
 
     const eventColors = ScratchBlocks.Colours.event;
 
+    const registerButtonHat = (opcode, icon, alt, colors) => {
+        ScratchBlocks.Blocks[opcode] = {
+            init: function () {
+                this.jsonInit({
+                    message0: 'when %1 clicked',
+                    args0: [{
+                        type: 'field_image',
+                        src: icon,
+                        width: 20,
+                        height: 20,
+                        alt
+                    }],
+                    nextStatement: null,
+                    colour: colors.primary,
+                    colourSecondary: colors.secondary,
+                    colourTertiary: colors.tertiary,
+                    extensions: ['shape_hat']
+                });
+            }
+        };
+
+        if (vm.runtime && vm.runtime._hats && !vm.runtime._hats[opcode]) {
+            vm.runtime._hats[opcode] = {restartExistingThreads: true};
+        }
+    };
+
+    registerButtonHat('event_whenflagclicked', flagButtonIcon, 'Flag', eventColors);
+    registerButtonHat('event_whenstopclicked', stopButtonIcon, 'Stop', eventColors);
+    registerButtonHat('event_whenpausebuttonclicked', pauseButtonIcon, 'Pause', eventColors);
+    registerButtonHat('event_whenplaybuttonclicked', playButtonIcon, 'Play', eventColors);
+
+    ScratchBlocks.Blocks.control_backToGreenFlag.init = function () {
+        this.jsonInit({
+            inputsInline: true,
+            message0: 'stop all and press %1',
+            args0: [{
+                type: 'field_image',
+                src: flagButtonIcon,
+                width: 24,
+                height: 24,
+                alt: 'Flag',
+                flip_rtl: false
+            }],
+            category: ScratchBlocks.Categories.control,
+            extensions: ['colours_control', 'shape_statement']
+        });
+    };
+
+    const registerCustomBlock = (opcode, json) => {
+        ScratchBlocks.Blocks[opcode] = {
+            init: function () {
+                this.jsonInit(json);
+            }
+        };
+    };
+
+    const registerControlButtonBlock = (opcode, label, icon, alt) => {
+        registerCustomBlock(opcode, {
+            message0: `${label} %1`,
+            args0: [{
+                type: 'field_image',
+                src: icon,
+                width: 20,
+                height: 20,
+                alt
+            }],
+            previousStatement: null,
+            nextStatement: null,
+            colour: controlColors.primary,
+            colourSecondary: controlColors.secondary,
+            colourTertiary: controlColors.tertiary,
+            extensions: ['shape_statement']
+        });
+    };
+
+    registerControlButtonBlock('control_pause', 'pause', pauseButtonIcon, 'Pause');
+    registerControlButtonBlock('control_resume', 'resume', playButtonIcon, 'Resume');
+
+    registerCustomBlock('control_waitunit', {
+        message0: 'wait %1 %2',
+        args0: [
+            {type: 'input_value', name: 'DURATION'},
+            {
+                type: 'field_dropdown',
+                name: 'UNIT',
+                options: [
+                    ['minutes', 'minutes'],
+                    ['seconds', 'seconds'],
+                    ['milliseconds', 'milliseconds']
+                ]
+            }
+        ],
+        previousStatement: null,
+        nextStatement: null,
+        colour: controlColors.primary,
+        colourSecondary: controlColors.secondary,
+        colourTertiary: controlColors.tertiary,
+        extensions: ['shape_statement']
+    });
+    registerCustomBlock('control_repeatForSeconds', {
+        message0: 'repeat for %1 seconds %2',
+        args0: [
+            {type: 'input_value', name: 'TIMES'},
+            {type: 'input_statement', name: 'SUBSTACK'}
+        ],
+        previousStatement: null,
+        nextStatement: null,
+        colour: controlColors.primary,
+        colourSecondary: controlColors.secondary,
+        colourTertiary: controlColors.tertiary,
+        extensions: ['shape_loop']
+    });
+    registerCustomBlock('sensing_currentkeypressed', {
+        message0: 'current key pressed',
+        output: 'String',
+        outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary
+    });
+    registerCustomBlock('sensing_dayssinceyear', {
+        message0: 'days since %1',
+        args0: [{type: 'input_value', name: 'YEAR'}],
+        output: 'Number',
+        outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary
+    });
+    registerCustomBlock('sensing_isleapyear', {
+        message0: 'is leap year?',
+        output: 'Boolean',
+        outputShape: ScratchBlocks.OUTPUT_SHAPE_HEXAGONAL,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary
+    });
+    registerCustomBlock('looks_whisper', {
+        message0: 'whisper %1',
+        args0: [{type: 'input_value', name: 'MESSAGE'}],
+        previousStatement: null,
+        nextStatement: null,
+        colour: looksColors.primary,
+        colourSecondary: looksColors.secondary,
+        colourTertiary: looksColors.tertiary,
+        extensions: ['shape_statement']
+    });
+    registerCustomBlock('looks_whisperforsecs', {
+        message0: 'whisper %1 for %2 seconds',
+        args0: [
+            {type: 'input_value', name: 'MESSAGE'},
+            {type: 'input_value', name: 'SECS'}
+        ],
+        previousStatement: null,
+        nextStatement: null,
+        colour: looksColors.primary,
+        colourSecondary: looksColors.secondary,
+        colourTertiary: looksColors.tertiary,
+        extensions: ['shape_statement']
+    });
+
+    registerCustomBlock('looks_tutorialmod_alert', {
+        message0: 'show alert %1',
+        args0: [{type: 'input_value', name: 'MESSAGE'}],
+        previousStatement: null,
+        nextStatement: null,
+        colour: looksColors.primary,
+        colourSecondary: looksColors.secondary,
+        colourTertiary: looksColors.tertiary,
+        extensions: ['shape_statement']
+    });
+    registerCustomBlock('sensing_savedata', {
+        message0: 'save data %1 as %2 locally',
+        args0: [
+            {type: 'input_value', name: 'VALUE'},
+            {type: 'input_value', name: 'NAME'}
+        ],
+        previousStatement: null,
+        nextStatement: null,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary,
+        extensions: ['shape_statement']
+    });
+    registerCustomBlock('sensing_getdata', {
+        message0: 'get local data from %1',
+        args0: [{type: 'input_value', name: 'NAME'}],
+        output: 'String',
+        outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary
+    });
+    registerCustomBlock('sensing_unix', {
+        message0: 'unix timestamp',
+        output: 'Number',
+        outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary
+    });
+    registerCustomBlock('sensing_question', {
+        message0: 'question',
+        output: 'String',
+        outputShape: ScratchBlocks.OUTPUT_SHAPE_ROUND,
+        checkboxInFlyout: true,
+        colour: sensingColors.primary,
+        colourSecondary: sensingColors.secondary,
+        colourTertiary: sensingColors.tertiary
+    });
+
+    if (vm.runtime && vm.runtime._primitives) {
+        const waitUnitMilliseconds = {minutes: 60000, seconds: 1000, milliseconds: 1};
+        vm.runtime._hats.event_whencostumeswitchesto = {restartExistingThreads: true};
+        ['looks_switchcostumeto', 'looks_nextcostume', 'looks_previouscostume'].forEach(opcode => {
+            const originalPrimitive = vm.runtime._primitives[opcode];
+            if (!originalPrimitive) return;
+            vm.runtime._primitives[opcode] = function (args, util) {
+                const target = util.target;
+                const previousCostume = target.currentCostume;
+                const result = originalPrimitive.call(this, args, util);
+                if (target.currentCostume !== previousCostume) {
+                    const costume = target.getCostumes()[target.currentCostume];
+                    if (costume) {
+                        vm.runtime.startHats(
+                            'event_whencostumeswitchesto',
+                            {COSTUME: costume.name}
+                        );
+                    }
+                }
+                return result;
+            };
+        });
+
+        const startControlButtonHat = opcode => {
+            if (!vm.runtime._hats[opcode]) {
+                vm.runtime._hats[opcode] = {restartExistingThreads: true};
+            }
+            return vm.runtime.startHats(opcode) || [];
+        };
+
+        vm.runtime._primitives.control_pause = () => {
+            vm.pause();
+            const pauseHatThreads = startControlButtonHat('event_whenpausebuttonclicked');
+            pauseHatThreads.forEach(thread => thread.play());
+        };
+        vm.runtime._primitives.control_resume = () => {
+            vm.play();
+            startControlButtonHat('event_whenplaybuttonclicked');
+        };
+
+        vm.runtime._primitives.looks_tutorialmod_alert = async args => window.alert(args.MESSAGE);
+        vm.runtime._primitives.sensing_savedata = async args => {
+            const key = `si_ugc_${String(args.NAME)}`;
+            if (args.VALUE === '') return localforage.removeItem(key);
+            return localforage.setItem(key, args.VALUE);
+        };
+        vm.runtime._primitives.sensing_getdata = async args => {
+            const value = await localforage.getItem(`si_ugc_${String(args.NAME)}`);
+            return value ?? '';
+        };
+        vm.runtime._primitives.sensing_unix = () => Math.floor(Date.now() / 1000);
+        vm.runtime._primitives.sensing_currentkeypressed = () => {
+            const keysPressed = vm.runtime.ioDevices.keyboard._keysPressed;
+            return keysPressed.length ? keysPressed[keysPressed.length - 1] : '';
+        };
+        vm.runtime._primitives.sensing_userid = () => vm.runtime._penguinmodUserId || '';
+        vm.runtime._primitives.sensing_dayssinceyear = args => {
+            const year = Number(args.YEAR) || 2030;
+            const today = new Date();
+            const startOfYear = new Date(0);
+            startOfYear.setUTCFullYear(year, 0, 1);
+            const todayAtMidnight = new Date(0);
+            todayAtMidnight.setUTCFullYear(
+                today.getFullYear(),
+                today.getMonth(),
+                today.getDate()
+            );
+            return Math.floor((todayAtMidnight - startOfYear) / (24 * 60 * 60 * 1000));
+        };
+        vm.runtime._primitives.sensing_isleapyear = () => {
+            const year = new Date().getFullYear();
+            return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+        };
+        vm.runtime._primitives.control_waitunit = (args, util) => {
+            const duration = Math.max(0, Number(args.DURATION) || 0);
+            if (util.stackTimerNeedsInit()) {
+                util.startStackTimer(duration * (waitUnitMilliseconds[args.UNIT] || 1000));
+                vm.runtime.requestRedraw();
+                util.yield();
+            } else if (!util.stackTimerFinished()) {
+                util.yield();
+            }
+        };
+        vm.runtime._primitives.looks_whisper = vm.runtime._primitives.looks_say;
+        vm.runtime._primitives.looks_whisperforsecs = vm.runtime._primitives.looks_sayforsecs;
+
+        if (!vm.runtime._permafySensingQuestionRegistered) {
+            const askAndWait = vm.runtime._primitives.sensing_askandwait;
+            vm.runtime._lastQuestion = '';
+            vm.runtime._primitives.sensing_askandwait = function (args, util) {
+                vm.runtime._lastQuestion = String(args.QUESTION);
+                return askAndWait.call(this, args, util);
+            };
+            vm.runtime._primitives.sensing_question = () => vm.runtime._lastQuestion;
+            vm.runtime.on('PROJECT_START', () => {
+                vm.runtime._lastQuestion = '';
+            });
+            vm.runtime._permafySensingQuestionRegistered = true;
+        }
+
+        const clipboardState = {value: '', lastRead: 0};
+        vm.runtime._primitives.sensing_setclipboard = async args => {
+            clipboardState.value = String(args.ITEM);
+            const clipboard = typeof navigator === 'undefined' ? null : navigator.clipboard;
+            if (!clipboard || typeof clipboard.writeText !== 'function') return;
+            try {
+                await clipboard.writeText(clipboardState.value);
+            } catch (error) {
+                return;
+            }
+        };
+        vm.runtime._primitives.sensing_getclipboard = async () => {
+            const clipboard = typeof navigator === 'undefined' ? null : navigator.clipboard;
+            if (!clipboard || typeof clipboard.readText !== 'function') return clipboardState.value;
+            if (Date.now() - clipboardState.lastRead < 250) return clipboardState.value;
+            clipboardState.lastRead = Date.now();
+            try {
+                clipboardState.value = await clipboard.readText();
+            } catch (error) {
+                return clipboardState.value;
+            }
+            return clipboardState.value;
+        };
+    }
+
     ScratchBlocks.Blocks.sound_sounds_menu.init = function () {
         const json = jsonForMenuBlock('SOUND_MENU', soundsMenu, soundColors, []);
         this.jsonInit(json);
@@ -207,6 +556,15 @@ export default function (vm) {
     ScratchBlocks.Blocks.looks_backdrops.init = function () {
         const json = jsonForMenuBlock('BACKDROP', backdropsMenu, looksColors, []);
         this.jsonInit(json);
+    };
+
+    ScratchBlocks.Blocks.event_whencostumeswitchesto = {
+        init: function () {
+            this.jsonInit(jsonForHatBlockMenu(
+                'when costume switches to %1',
+                'COSTUME', costumeNamesMenu, eventColors, []
+            ));
+        }
     };
 
     ScratchBlocks.Blocks.event_whenbackdropswitchesto.init = function () {
