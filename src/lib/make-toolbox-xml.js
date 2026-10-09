@@ -1758,25 +1758,72 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
         }
         return mergedXML;
     };
-    const appendMissingBlocks = (categoryXML, blockGroups) => {
+    const moveBlocksToEnd = (categoryXML, blockGroups) => {
         const closingTag = categoryXML.lastIndexOf('</category>');
         if (closingTag < 0) return categoryXML;
-        const contents = blockGroups.map(group => {
-            const missingBlocks = group.filter(({type}) =>
-                !new RegExp(`<block\\b[^>]*\\btype="${type}"`).test(categoryXML)
-            );
-            return missingBlocks.length > 0
-                ? `${blockSeparator}${missingBlocks.map(({xml}) => xml).join('')}`
-                : '';
-        })
-            .join('');
-        if (!contents) return categoryXML;
-        return `${categoryXML.slice(0, closingTag)}${contents}${categoryXML.slice(closingTag)}`;
+
+        const requestedTypes = new Set();
+        blockGroups.forEach(group => {
+            group.forEach(({type}) => requestedTypes.add(type));
+        });
+        const blockTag = /<[/]?block\b[^>]*>/g;
+        const blocksToMove = new Map();
+        const removalRanges = [];
+        let depth = 0;
+        let blockStart = -1;
+        let blockType = null;
+        let match;
+
+        while ((match = blockTag.exec(categoryXML))) {
+            const tag = match[0];
+            if (tag.startsWith('</')) {
+                depth--;
+                if (depth === 0 && requestedTypes.has(blockType)) {
+                    const xml = categoryXML.slice(blockStart, blockTag.lastIndex);
+                    if (!blocksToMove.has(blockType)) blocksToMove.set(blockType, xml);
+                    removalRanges.push([blockStart, blockTag.lastIndex]);
+                }
+                continue;
+            }
+
+            if (depth === 0) {
+                blockStart = match.index;
+                const typeMatch = tag.match(/\btype="([^"]+)"/);
+                blockType = typeMatch ? typeMatch[1] : null;
+            }
+            if (!/\/\s*>$/.test(tag)) {
+                depth++;
+            } else if (depth === 0 && requestedTypes.has(blockType)) {
+                if (!blocksToMove.has(blockType)) blocksToMove.set(blockType, tag);
+                removalRanges.push([blockStart, blockTag.lastIndex]);
+            }
+        }
+
+        let remainingXML = '';
+        let cursor = 0;
+        for (const [start, end] of removalRanges) {
+            remainingXML += categoryXML.slice(cursor, start);
+            cursor = end;
+        }
+        remainingXML += categoryXML.slice(cursor);
+
+        const updatedClosingTag = remainingXML.lastIndexOf('</category>');
+        if (updatedClosingTag < 0) return categoryXML;
+        const movedGroups = blockGroups.map(group => {
+            const groupXML = group.map(({type, xml}) => blocksToMove.get(type) || xml).join('');
+            return groupXML ? `${blockSeparator}${groupXML}` : '';
+        }).join('');
+        const categoryContents = remainingXML.slice(remainingXML.indexOf('>') + 1, updatedClosingTag)
+            .replace(/(?:\s*<sep\b[^>]*\/>\s*){2,}/g, blockSeparator)
+            .replace(/^(?:\s*<sep\b[^>]*\/>\s*)+/, '')
+            .replace(/(?:\s*<sep\b[^>]*\/>\s*)+$/, '');
+        const openingTagEnd = remainingXML.indexOf('>');
+        return `${remainingXML.slice(0, openingTagEnd + 1)}${categoryContents}${movedGroups}${remainingXML.slice(updatedClosingTag)}`;
     };
     const defineBlock = (type, xml) => ({type, xml: xml.trim()});
 
     const motionXML = mergeCategory('motion') || motion(isInitialSetup, isStage, targetId);
-    const looksXML = appendMissingBlocks(
+    const looksXML = moveBlocksToEnd(
         mergeCategory('looks') || looks(isInitialSetup, isStage, targetId, costumeName, backdropName),
         !isStage ? [[
             defineBlock('looks_whisper', `
@@ -1799,7 +1846,7 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
         ]] : []
     );
     const soundXML = mergeCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
-    const eventsXML = appendMissingBlocks(
+    const eventsXML = moveBlocksToEnd(
         mergeCategory('event') || events(isInitialSetup, isStage, targetId),
         [
             [
@@ -1813,7 +1860,7 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
         ]
     );
 
-    const controlXML = appendMissingBlocks(
+    const controlXML = moveBlocksToEnd(
         mergeCategory('control') || control(isInitialSetup, isStage, targetId),
         [
             [
@@ -1839,7 +1886,7 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
             ]
         ]
     );
-    const sensingXML = appendMissingBlocks(
+    const sensingXML = moveBlocksToEnd(
         mergeCategory('sensing') || sensing(isInitialSetup, isStage, targetId),
         [
             [defineBlock('sensing_currentkeypressed', '<block type="sensing_currentkeypressed"/>')],
