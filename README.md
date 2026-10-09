@@ -18,8 +18,7 @@ so basically:
 
 ## Additional things
 
-yeah for some reason it added 5500 commits to my repo, to calculate the commits you just subtract 5500 to the commits ahead thing.
-example: it's 7823 commits ahead, 7823 - 5500 equals 2323 so 2323 commits ahead of upstream penguinmod.github.io.
+If you see the [Permafy/permafy-0-2](https://github.com/Permafy/permafy-0-2) repository, you can see really big numbers like "This branch is 5625 commits ahead of and 128 commits behind Permafy/permafy.github.io:develop." and it's because i got rid of the additional 5500 commits yay :D (horrible never doing it again bruh) and that means i also had to create like 127 new blank commits but uh yeah at least it's right i just hope everythings fine on my project.
 
 
 it's better to use Permafy on English as on other languages it just doesn't work very well and i am too lazy to fix it.

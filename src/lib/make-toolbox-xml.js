@@ -1750,46 +1750,116 @@ const makeToolboxXML = function (isInitialSetup, isStage = true, targetId, categ
             const openingTagEnd = categoryInfo.xml.indexOf('>');
             const closingTagStart = categoryInfo.xml.lastIndexOf('</category>');
             if (openingTagEnd < 0 || closingTagStart < openingTagEnd) return '';
-            return categoryInfo.xml.slice(openingTagEnd + 1, closingTagStart);
+            const contents = categoryInfo.xml.slice(openingTagEnd + 1, closingTagStart).trim();
+            return contents ? `${blockSeparator}${contents}` : '';
         }).join('');
         if (additionalContents) {
             mergedXML = mergedXML.replace('</category>', `${additionalContents}</category>`);
         }
         return mergedXML;
     };
-    const motionXML = moveCategory('motion') || motion(isInitialSetup, isStage, targetId);
-    const looksXML = moveCategory('looks') || looks(isInitialSetup, isStage, targetId, costumeName, backdropName);
-    const soundXML = moveCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
-    let eventsXML = moveCategory('event') || events(isInitialSetup, isStage, targetId);
-    const eventBlocks = [
-        'event_whenflagclicked',
-        'event_whenpausebuttonclicked',
-        'event_whenplaybuttonclicked'
-    ].filter(opcode => !new RegExp(`<block\\b[^>]*\\btype="${opcode}"`).test(eventsXML))
-        .map(opcode => `<block type="${opcode}"/>`)
-        .join('');
-    const eventsOpeningTagEnd = eventsXML.indexOf('>');
-    if (eventsOpeningTagEnd >= 0) {
-        const eventsOpeningTag = eventsXML.slice(0, eventsOpeningTagEnd + 1);
-        const eventsContents = eventsXML.slice(eventsOpeningTagEnd + 1);
-        eventsXML = `${eventsOpeningTag}${eventBlocks}${eventsContents}`;
-    }
-    let controlXML = mergeCategory('control') || control(isInitialSetup, isStage, targetId);
-    const controlBlocks = [
-        'control_pause',
-        'control_resume'
-    ].filter(opcode => !new RegExp(`<block\\b[^>]*\\btype="${opcode}"`).test(controlXML))
-        .map(opcode => `<block type="${opcode}"/>`)
-        .join('');
-    const controlOpeningTagEnd = controlXML.indexOf('>');
-    if (controlOpeningTagEnd >= 0) {
-        controlXML = `${controlXML.slice(0, controlOpeningTagEnd + 1)}${controlBlocks}${controlXML.slice(controlOpeningTagEnd + 1)}`;
-    }
-    const sensingXML = moveCategory('sensing') || sensing(isInitialSetup, isStage, targetId);
-    const operatorsXML = moveCategory('operators') || operators(isInitialSetup, isStage, targetId);
-    const variablesXML = moveCategory('variables') || variables(isInitialSetup, isStage, targetId);
-    const listsXML = moveCategory('lists') || lists(isInitialSetup, isStage, targetId);
-    const myBlocksXML = moveCategory('procedures') || myBlocks(isInitialSetup, isStage, targetId);
+    const appendMissingBlocks = (categoryXML, blockGroups) => {
+        const closingTag = categoryXML.lastIndexOf('</category>');
+        if (closingTag < 0) return categoryXML;
+        const contents = blockGroups.map(group => {
+            const missingBlocks = group.filter(({type}) =>
+                !new RegExp(`<block\\b[^>]*\\btype="${type}"`).test(categoryXML)
+            );
+            return missingBlocks.length > 0
+                ? `${blockSeparator}${missingBlocks.map(({xml}) => xml).join('')}`
+                : '';
+        })
+            .join('');
+        if (!contents) return categoryXML;
+        return `${categoryXML.slice(0, closingTag)}${contents}${categoryXML.slice(closingTag)}`;
+    };
+    const defineBlock = (type, xml) => ({type, xml: xml.trim()});
+
+    const motionXML = mergeCategory('motion') || motion(isInitialSetup, isStage, targetId);
+    const looksXML = appendMissingBlocks(
+        mergeCategory('looks') || looks(isInitialSetup, isStage, targetId, costumeName, backdropName),
+        !isStage ? [[
+            defineBlock('looks_whisper', `
+                <block type="looks_whisper">
+                    <value name="MESSAGE">
+                        <shadow type="text"><field name="TEXT">ssshhh</field></shadow>
+                    </value>
+                </block>
+            `),
+            defineBlock('looks_whisperforsecs', `
+                <block type="looks_whisperforsecs">
+                    <value name="MESSAGE">
+                        <shadow type="text"><field name="TEXT">ssshhh</field></shadow>
+                    </value>
+                    <value name="SECS">
+                        <shadow type="math_number"><field name="NUM">2</field></shadow>
+                    </value>
+                </block>
+            `)
+        ]] : []
+    );
+    const soundXML = mergeCategory('sound') || sound(isInitialSetup, isStage, targetId, soundName);
+    const eventsXML = appendMissingBlocks(
+        mergeCategory('event') || events(isInitialSetup, isStage, targetId),
+        [
+            [
+                defineBlock('event_whenflagclicked', '<block type="event_whenflagclicked"/>'),
+                defineBlock('event_whenpausebuttonclicked', '<block type="event_whenpausebuttonclicked"/>'),
+                defineBlock('event_whenplaybuttonclicked', '<block type="event_whenplaybuttonclicked"/>')
+            ],
+            ...(!isStage ? [[
+                defineBlock('event_whencostumeswitchesto', '<block type="event_whencostumeswitchesto"/>')
+            ]] : [])
+        ]
+    );
+
+    const controlXML = appendMissingBlocks(
+        mergeCategory('control') || control(isInitialSetup, isStage, targetId),
+        [
+            [
+                defineBlock('control_pause', '<block type="control_pause"/>'),
+                defineBlock('control_resume', '<block type="control_resume"/>')
+            ],
+            [defineBlock('control_backToGreenFlag', '<block type="control_backToGreenFlag"/>')],
+            [
+                defineBlock('control_waitunit', `
+                    <block type="control_waitunit">
+                        <value name="DURATION">
+                            <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
+                        </value>
+                    </block>
+                `),
+                defineBlock('control_repeatForSeconds', `
+                    <block type="control_repeatForSeconds">
+                        <value name="TIMES">
+                            <shadow type="math_positive_number"><field name="NUM">1</field></shadow>
+                        </value>
+                    </block>
+                `)
+            ]
+        ]
+    );
+    const sensingXML = appendMissingBlocks(
+        mergeCategory('sensing') || sensing(isInitialSetup, isStage, targetId),
+        [
+            [defineBlock('sensing_currentkeypressed', '<block type="sensing_currentkeypressed"/>')],
+            [defineBlock('sensing_userid', '<block type="sensing_userid"/>')],
+            [
+                defineBlock('sensing_dayssinceyear', `
+                    <block type="sensing_dayssinceyear">
+                        <value name="YEAR">
+                            <shadow type="math_integer"><field name="NUM">2030</field></shadow>
+                        </value>
+                    </block>
+                `),
+                defineBlock('sensing_isleapyear', '<block type="sensing_isleapyear"/>')
+            ]
+        ]
+    );
+    const operatorsXML = mergeCategory('operators') || operators(isInitialSetup, isStage, targetId);
+    const variablesXML = mergeCategory('variables') || variables(isInitialSetup, isStage, targetId);
+    const listsXML = mergeCategory('lists') || lists(isInitialSetup, isStage, targetId);
+    const myBlocksXML = mergeCategory('procedures') || myBlocks(isInitialSetup, isStage, targetId);
     const liveTestsXML = moveCategory('liveTests') || liveTests(isLiveTest);
 
     const everything = [

@@ -251,7 +251,7 @@ export default function (vm) {
                 flip_rtl: false
             }],
             category: ScratchBlocks.Categories.control,
-            extensions: ['colours_control', 'shape_statement']
+            extensions: ['colours_control', 'shape_end']
         });
     };
 
