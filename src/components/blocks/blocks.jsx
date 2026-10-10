@@ -14,13 +14,7 @@ const BlocksComponent = props => {
         ...componentProps
     } = props;
     return (
-        <Box
-            className={classNames(styles.blocks, {
-                [styles.dragOver]: dragOver
-            })}
-            {...componentProps}
-            componentRef={containerRef}
-        >
+        <div className={styles.blocksWrapper}>
             <input
                 aria-label={searchPlaceholder}
                 className={styles.search}
@@ -29,7 +23,14 @@ const BlocksComponent = props => {
                 type="search"
                 value={searchQuery}
             />
-        </Box>
+            <Box
+                className={classNames(styles.blocks, {
+                    [styles.dragOver]: dragOver
+                })}
+                {...componentProps}
+                componentRef={containerRef}
+            />
+        </div>
     );
 };
 BlocksComponent.propTypes = {

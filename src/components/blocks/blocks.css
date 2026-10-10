@@ -2,6 +2,11 @@
 @import "../../css/colors.css";
 @import "../../css/z-index.css";
 
+.blocksWrapper {
+    position: relative;
+    height: 100%;
+}
+
 .blocks {
     height: 100%;
     position: relative;
@@ -51,7 +56,7 @@
 
 .blocks :global(.injectionDiv){
     position: absolute;
-    top: 2.75rem;
+    top: 0;
     right: 0;
     bottom: 0;
     left: 0;
