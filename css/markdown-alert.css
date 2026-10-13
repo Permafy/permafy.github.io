@@ -1,0 +1,140 @@
+/*!
+Adjusted from
+https://github.com/bent10/marked-extensions/blob/main/packages/alert/index.html
+
+The MIT License (MIT)
+
+Copyright (c) 2023-2024 Stilearning (https://stilearning.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+.markdown-alert {
+    padding: 0.25em 1em;
+    margin-bottom: 16px;
+    color: inherit;
+    border-left: 0.25em solid #444c56;
+    border-radius: 4px;
+}
+.markdown-alert p {
+    margin-block: 4px;
+}
+
+.markdown-alert-title {
+    display: inline-flex;
+    align-items: center;
+}
+
+.markdown-alert-note {
+    border-left-color: #539bf5;
+    background: #539cf505;
+    fill: #539bf5;
+
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+.markdown-alert-note:hover {
+    background: #539cf511;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+
+.markdown-alert-tip {
+    border-left-color: #57ab5a;
+    background: #57ab5a05;
+    fill: #57ab5a;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+.markdown-alert-tip:hover {
+    background: #57ab5a11;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+
+.markdown-alert-important {
+    border-left-color: #986ee2;
+    background: #986ee205;
+    fill: #986ee2;
+
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+.markdown-alert-important:hover {
+    background: #986ee211;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+
+.markdown-alert-warning {
+    border-left-color: #c69026;
+    background: #c6902605;
+    fill: #c69026;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+.markdown-alert-warning:hover {
+    background: #c6902611;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+
+.markdown-alert-caution {
+    border-left-color: #e5534b;
+    background: #e5534b05;
+    fill: #e5534b;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+.markdown-alert-caution:hover {
+    background: #e5534b11;
+    
+    transition-duration: 0.1s;
+    transition-property: background;
+}
+
+.markdown-alert-note>.markdown-alert-title {
+    color: #539bf5;
+}
+
+.markdown-alert-tip>.markdown-alert-title {
+    color: #57ab5a;
+}
+
+.markdown-alert-important>.markdown-alert-title {
+    color: #986ee2;
+}
+
+.markdown-alert-warning>.markdown-alert-title {
+    color: #c69026;
+}
+
+.markdown-alert-caution>.markdown-alert-title {
+    color: #e5534b;
+}
+
+.markdown-alert .octicon {
+    margin-right: 0.5rem;
+}

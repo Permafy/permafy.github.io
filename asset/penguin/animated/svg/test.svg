@@ -1,0 +1,370 @@
+<svg height="400" inkscape:export-xdpi="96" inkscape:export-ydpi="96" style="fill:none;stroke:none;" version="1.1" viewBox="0 0 400 400" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Composition</title>
+    <defs/>
+    <sodipodi:namedview bordercolor="#666666" borderlayer="true" inkscape:document-units="px" inkscape:pagecheckerboard="true" pagecolor="#ffffff"/>
+    <metadata>
+        <rdf:RDF>
+            <cc:Work>
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/MovingImage"/>
+                <dc:title>Composition</dc:title>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <g id="Composition_aadb4bdab755466da8c68dc69f95f42e" inkscape:groupmode="layer" inkscape:label="Composition">
+        <g id="Layer_c99ca9153f9e4c1fa01c243f861c6bc8" inkscape:groupmode="layer" inkscape:label="Penguin" opacity="1" transform="matrix(3.04268, 0, 0, 3.04268, -623.674, -347.682)">
+            <g transform="translate(240.881 225.918)">
+                <g transform="rotate(-0.915966)">
+                    <g transform="scale(1 1)">
+                        <g transform="translate(-240.881 -225.918)">
+                            <g id="Group_334065476211416a8ac3818bc4a21d31" inkscape:label="PenguinGroup" opacity="1">
+                                <g id="Group_c97dd3a32b5d41c391fd5a9356ac1344" inkscape:label="FootLeft" opacity="1" sodipodi:insensitive="true" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <g id="Group_dfcafd8f73b744cbb4522ef1e16ea27e" inkscape:label="FootLeft2" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <g fill="#e3a066" fill-opacity="1" id="Fill_6ce39b7c2320422488f4e7d64e71ed60" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                            <path d="M 243.263,225.58 C 247.193,218.956 252.803,220.929 252.803,220.929 258.673,222.5 262.363,225.58 262.363,225.58 262.363,225.58 243.263,225.58 243.263,225.58" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                        </g>
+                                        <g id="Stroke_0b1b8c8c091f477e995d425682fe4b91" inkscape:label="Group" opacity="1" stroke="#8d6a4a" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                            <path d="M 252.462,220.836 C 258.332,222.406 262.363,225.58 262.363,225.58 262.363,225.58 242.904,225.58 242.904,225.58" sodipodi:nodetypes="ccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                        </g>
+                                    </g>
+                                    <g fill="#e3a066" fill-opacity="1" id="Fill_da07c5f3d5b1450d910e20cd407e4855" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <path d="M 249.389,225.651 C 252.326,219.027 256.409,221 256.409,221 260.684,222.571 263.351,225.651 263.351,225.651 263.351,225.651 249.389,225.651 249.389,225.651" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                    </g>
+                                    <g id="Stroke_bfb632a7e3624b888faba1f98d906bfa" inkscape:label="Group" opacity="1" stroke="#8d6a4a" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <path d="M 256.16,220.906 C 260.436,222.477 263.351,225.651 263.351,225.651 263.351,225.651 249.126,225.651 249.126,225.651" sodipodi:nodetypes="ccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                    </g>
+                                </g>
+                                <g id="Group_786237644258435d8fd7409f030296e7" inkscape:label="FootRight" opacity="1" sodipodi:insensitive="true" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <g fill="#e3a066" fill-opacity="1" id="Fill_41d6bd31c58b42fc9a01dba2dab6e725" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <path d="M 240.223,226.146 C 243.443,222.982 248.541,222.392 248.541,222.392 252.817,223.963 254.185,226.146 254.185,226.146 254.185,226.146 240.223,226.146 240.223,226.146" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                    </g>
+                                    <g id="Stroke_a84d486034be49f899fb19010e96a5a0" inkscape:label="Group" opacity="1" stroke="#8d6a4a" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <path d="M 248.541,222.392 C 252.817,223.963 254.185,226.146 254.185,226.146 254.185,226.146 239.96,226.146 239.96,226.146" sodipodi:nodetypes="ccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                    </g>
+                                </g>
+                                <g transform="translate(256.314 166.752)">
+                                    <g transform="rotate(-9.99902)">
+                                        <g transform="scale(1 1)">
+                                            <g transform="translate(-253.417 -165.527)">
+                                                <g id="Group_2cc0a5a5e9f34575a8bf222a2438f4f1" inkscape:label="ArmLeft" opacity="1">
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_464fcf0e17d04931ac00154695bc3f57" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 255.47,161.066 C 261.51,161.424 273.072,164.827 282.588,169.74 292.103,174.653 300.03,186.815 299.336,187.359 298.642,187.904 297.642,187.366 294.485,186.285 291.328,185.204 287.112,185.308 285.037,185.701 282.963,186.094 278.97,184.522 278.97,184.522 278.97,184.522 258.314,174.819 255.681,173.288 252.289,171.317 251.711,168.425 251.711,168.425" sodipodi:nodetypes="cccccccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Stroke_838d4705fdfc4127bf6714783612805d" inkscape:label="Group" opacity="1" stroke="#2e374a" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 255.47,161.066 C 261.51,161.424 273.072,164.827 282.588,169.74 292.103,174.653 300.03,186.815 299.336,187.359 298.642,187.904 297.642,187.366 294.485,186.285 291.328,185.204 287.112,185.308 285.037,185.701 282.963,186.094 278.97,184.522 278.97,184.522 278.97,184.522 258.314,174.819 255.681,173.288 252.289,171.317 251.711,168.425 251.711,168.425" sodipodi:nodetypes="cccccccc" style="stroke:none;"/>
+                                                        <path d="M 255.47,161.066 C 261.51,161.424 273.072,164.827 282.588,169.74 292.103,174.653 300.03,186.815 299.336,187.359 298.642,187.904 297.642,187.366 294.485,186.285 291.328,185.204 287.112,185.308 285.037,185.701 282.963,186.094 278.97,184.522 278.97,184.522 278.97,184.522 258.314,174.819 255.681,173.288 252.289,171.317 251.711,168.425 251.711,168.425" sodipodi:nodetypes="cccccccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <animateTransform attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 1.000000 1.000000" keyTimes="0.000000; 0.500000; 0.994444; 1" repeatCount="indefinite" type="rotate" values="0; -11.6369; 0; 0"/>
+                                    </g>
+                                    <animateMotion attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000" keyTimes="0.000000; 0.500000; 0.994444" path="M 253.417,165.527 C 253.417,165.527 256.788,166.953 256.788,166.953 256.788,166.953 253.417,165.527 253.417,165.527" repeatCount="indefinite" values="; ; "/>
+                                </g>
+                                <g fill="#3e5766" fill-opacity="1" id="Fill_63a3532a440642bc9e3038be402f19c1" inkscape:label="Body" opacity="1" sodipodi:insensitive="true" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <path d="M 255.171,137.335 C 255.391,137.594 255.576,137.856 255.73,138.121 255.796,138.418 255.926,138.691 256.106,138.923 257.337,142.338 254.133,145.815 254.133,145.815 254.133,145.815 252.561,148.631 254.319,149.44 253.595,162.912 251.386,190.868 251.36,191.338 251.322,192.013 251.303,219.521 251.42,220.049 251.615,220.923 252.44,221.715 252.44,221.715 251.086,221.546 250.069,220.217 250.069,220.217 250.339,221.398 251.491,222.179 251.491,222.179 250.47,222.055 249.437,222.133 248.976,222.137 248.556,222.138 243.11,223.486 240.876,225.934 240.876,225.934 228.204,225.934 228.204,225.934 227.952,225.934 217.918,214.711 218.319,201.464 218.72,188.216 223.052,175.453 226.137,169.534 229.72,162.661 235.794,149.62 236.258,148.069 236.722,146.519 236.709,140.214 239.307,137.081 241.112,134.904 244.465,133.854 246.647,133.854 248.829,133.854 253.367,135.208 255.171,137.335 255.171,137.335 255.171,137.335 255.171,137.335 Z" sodipodi:nodetypes="ccccccccccccccccccc" style="stroke:none;"/>
+                                </g>
+                                <g id="Stroke_fcce5ba4877b4f68b9f5b0a60db9cc1f" inkscape:label="BodyOutline" opacity="1" sodipodi:insensitive="true" stroke="#2e374a" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <path d="M 251.421,220.049 C 251.56,220.936 252.44,221.715 252.44,221.715 251.086,221.546 250.068,220.217 250.068,220.217 250.339,221.398 251.491,222.179 251.491,222.179 250.47,222.055 249.437,222.133 248.976,222.137 248.556,222.138 243.11,223.486 240.876,225.934 240.876,225.934 228.204,225.934 228.204,225.934 227.952,225.934 217.918,214.711 218.319,201.464 218.721,188.216 223.052,175.453 226.137,169.534 229.72,162.661 235.794,149.62 236.258,148.069 236.722,146.519 236.709,140.214 239.307,137.081 241.112,134.904 244.465,133.854 246.647,133.854 248.829,133.854 253.447,135.141 255.171,137.335" sodipodi:nodetypes="ccccccccccccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                </g>
+                                <g id="Group_1f30bbc5fd054ae0826b5ac55a481f44" inkscape:label="Tummy" opacity="1" sodipodi:insensitive="true" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <g id="Stroke_164a586736ab440f9e4b2bc2901ff893" inkscape:label="Group" opacity="1" stroke="#d1c1b5" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <path d="M 253.614,147.038 C 253.614,147.038 253.105,148.031 253.651,148.642 254.329,149.401 264.681,160.679 261.092,188.385 258.15,211.083 254.129,215.691 253.653,216.625 253.336,217.246 252.793,218.213 254.761,219.225 254.761,219.225 253.503,219.381 252.802,219.329 252.802,219.329 253.223,220.28 254.552,220.702 254.552,220.702 253.831,221.616 251.602,220.941" sodipodi:nodetypes="cccccccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                    </g>
+                                    <g id="Group_8b034bbb9920492eb997d5ace84fa661" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <g fill="#fbf8ea" fill-opacity="1" id="Fill_814f826a701342358ff23fc69e1fbe5a" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                            <path d="M 254.864,150.172 C 254.864,150.172 256.815,153.035 258.231,156.447 261.321,164.252 262.943,175.834 260.918,189.694 259.049,202.478 257.502,210.682 253.404,217.189 252.842,218.081 254.761,219.226 254.761,219.226 253.921,219.226 252.802,219.329 252.802,219.329 252.827,220.384 254.553,220.702 254.553,220.702 252.074,221.884 251.454,220.208 251.454,220.208 251.798,221.189 252.332,221.697 252.332,221.697 251.658,221.739 250.068,220.218 250.068,220.218 250.005,221.357 251.491,222.179 251.491,222.179 241.511,222.244 237.478,210.071 238.426,206.611 239.373,203.152 248.202,169.652 249.063,162.227 249.924,154.802 254.864,150.172 254.864,150.172" sodipodi:nodetypes="cccccccccccccc" style="stroke:none;"/>
+                                        </g>
+                                        <g fill="#f0c579" fill-opacity="1" id="Fill_2000fc7ad56f4302843159a1da558922" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                            <path d="M 249.351,160.124 C 250.208,150.751 254.319,149.44 254.319,149.44 254.319,149.44 255.866,151.699 255.866,151.699 252.667,152.111 249.341,160.237 249.351,160.124" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                        </g>
+                                    </g>
+                                </g>
+                                <g transform="translate(292.475 177.525)">
+                                    <g transform="rotate(-12.1567)">
+                                        <g transform="scale(1 1)">
+                                            <g transform="translate(-286.459 -182.204)">
+                                                <g id="Group_1500b3d4e41647baa5a5718a079fd41d" inkscape:label="Laptop" opacity="1">
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_513aeac6642047ccb9ee7e4cb6f34b47" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 259.477,177.718 C 259.477,177.718 260.148,173.269 260.148,173.269 260.148,173.269 316.148,181.715 316.148,181.715 316.148,181.715 315.477,186.165 315.477,186.165 315.477,186.165 263.857,181.312 263.857,181.312 263.857,181.312 259.477,177.718 259.477,177.718 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_db4438d7cf9a48f5b45a8a93d00ee7aa" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 308.336,181.211 C 308.336,181.211 314.575,139.845 314.575,139.845 314.575,139.845 319.025,140.517 319.025,140.517 319.025,140.517 323.328,144.166 323.328,144.166 323.328,144.166 314.034,185.003 314.034,185.003 314.034,185.003 308.336,181.211 308.336,181.211 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_aaf9bbd4320541ef9c50095676450e39" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 312.668,184.898 C 312.668,184.898 318.907,143.533 318.907,143.533 318.907,143.533 323.356,144.204 323.356,144.204 323.356,144.204 317.117,185.569 317.117,185.569 317.117,185.569 312.668,184.898 312.668,184.898 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_1b432edf1d054d0d8c7f2f855bc66ca8" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 263.809,181.406 C 263.809,181.406 264.48,176.956 264.48,176.956 264.48,176.956 317.217,184.91 317.217,184.91 317.217,184.91 316.546,189.36 316.546,189.36 316.546,189.36 263.809,181.406 263.809,181.406 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_6a4c20e666d44d8fafb799f0183f71a7" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 309.423,179.588 C 309.423,179.588 314.837,143.694 314.837,143.694 314.837,143.694 317.785,145.605 317.785,145.605 317.785,145.605 312.371,181.499 312.371,181.499 312.371,181.499 309.423,179.588 309.423,179.588 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g id="Group_1f80f12993ba4f8cb7b76fa72be17a5e" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_a8166ed4580849f49718dd639a68545f" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 297.364,180.304 C 297.364,180.304 297.132,180.192 297.132,180.192 297.132,180.192 299.54,180.559 299.54,180.559 299.54,180.559 299.762,180.665 299.762,180.665 299.762,180.665 297.364,180.304 297.364,180.304 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_0d0fad9301e8447faaa6e7ba33f8e6fc" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 296.192,179.74 C 296.192,179.74 298.633,180.123 298.633,180.123 298.633,180.123 299.01,180.304 299.01,180.304 299.01,180.304 296.586,179.93 296.586,179.93 296.586,179.93 296.192,179.74 296.192,179.74 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_06ff8373d4b9454fb5830c5d78a2e294" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 305.304,182.002 C 305.304,182.002 303.278,181.713 303.278,181.713 303.278,181.713 302.945,181.553 302.945,181.553 302.945,181.553 304.984,181.848 304.984,181.848 304.984,181.848 305.304,182.002 305.304,182.002 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_d274c0d1f4514925bb20cfe8a234c1e8" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 298.14,180.676 C 298.14,180.676 297.712,180.471 297.712,180.471 297.712,180.471 300.1,180.827 300.1,180.827 300.1,180.827 300.511,181.025 300.511,181.025 300.511,181.025 298.14,180.676 298.14,180.676 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_46f0360ef1cf45968b2300d5a5a09351" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 297.655,180.443 C 297.655,180.443 297.42,180.331 297.42,180.331 297.42,180.331 299.818,180.692 299.818,180.692 299.818,180.692 300.043,180.8 300.043,180.8 300.043,180.8 297.655,180.443 297.655,180.443 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_26a9f03675794f8e8fcde0ec0273ec41" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 289.802,178.883 C 289.802,178.883 287.087,178.464 287.087,178.464 287.087,178.464 286.626,178.242 286.626,178.242 286.626,178.242 289.36,178.67 289.36,178.67 289.36,178.67 289.802,178.883 289.802,178.883 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_124f9e3acd76449997f05a459b10cc5c" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 299.042,181.11 C 299.042,181.11 298.681,180.937 298.681,180.937 298.681,180.937 301.035,181.277 301.035,181.277 301.035,181.277 301.38,181.443 301.38,181.443 301.38,181.443 299.042,181.11 299.042,181.11 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_e6eeaf02ccf14e28b0a184cf97634a1d" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 298.614,180.904 C 298.614,180.904 298.201,180.706 298.201,180.706 298.201,180.706 300.571,181.054 300.571,181.054 300.571,181.054 300.968,181.245 300.968,181.245 300.968,181.245 298.614,180.904 298.614,180.904 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_5296667a67bc44828c8414f286abf84e" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 296.646,179.959 C 296.646,179.959 299.07,180.333 299.07,180.333 299.07,180.333 299.483,180.531 299.483,180.531 299.483,180.531 297.076,180.165 297.076,180.165 297.076,180.165 296.646,179.959 296.646,179.959 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_9d626cbf8f0b4fdcbada4a2b40de97c8" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 290.654,179.292 C 290.654,179.292 287.969,178.887 287.969,178.887 287.969,178.887 287.698,178.757 287.698,178.757 287.698,178.757 290.394,179.167 290.394,179.167 290.394,179.167 290.654,179.292 290.654,179.292 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_a9a420f1fd4d409895adc3359f516bc2" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 302.435,181.308 C 302.435,181.308 302.037,181.117 302.037,181.117 302.037,181.117 304.106,181.426 304.106,181.426 304.106,181.426 304.488,181.61 304.488,181.61 304.488,181.61 302.435,181.308 302.435,181.308 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_5c58a47990f44ad695ad5160798057ba" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 288.298,179.046 C 288.298,179.046 288.025,178.914 288.025,178.914 288.025,178.914 290.71,179.319 290.71,179.319 290.71,179.319 290.972,179.445 290.972,179.445 290.972,179.445 288.298,179.046 288.298,179.046 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_1a29fb4c79ca438296ece47971cde299" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 301.981,181.09 C 301.981,181.09 301.764,180.985 301.764,180.985 301.764,180.985 303.841,181.298 303.841,181.298 303.841,181.298 304.049,181.399 304.049,181.399 304.049,181.399 301.981,181.09 301.981,181.09 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_341ebd41222d40c7b22cad833650a509" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 302.729,180.764 C 302.729,180.764 303.078,180.932 303.078,180.932 303.078,180.932 300.978,180.608 300.978,180.608 300.978,180.608 300.614,180.433 300.614,180.433 300.614,180.433 302.729,180.764 302.729,180.764 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_cb6c4b9648494944ba3eabfecba1f1a5" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 295.698,179.503 C 295.698,179.503 295.364,179.343 295.364,179.343 295.364,179.343 297.835,179.739 297.835,179.739 297.835,179.739 298.154,179.892 298.154,179.892 298.154,179.892 295.698,179.503 295.698,179.503 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_bdf74ea695ea4fc9b6b4738b55178c09" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 302.878,181.521 C 302.878,181.521 302.495,181.337 302.495,181.337 302.495,181.337 304.549,181.639 304.549,181.639 304.549,181.639 304.918,181.816 304.918,181.816 304.918,181.816 302.878,181.521 302.878,181.521 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_c6ba916a15374ae0a08e16d2ace1e101" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 287.641,178.73 C 287.641,178.73 287.147,178.492 287.147,178.492 287.147,178.492 289.862,178.911 289.862,178.911 289.862,178.911 290.337,179.14 290.337,179.14 290.337,179.14 287.641,178.73 287.641,178.73 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_491ba439e11941cd9812c6062d827120" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 302.348,180.581 C 302.348,180.581 302.663,180.732 302.663,180.732 302.663,180.732 300.548,180.401 300.548,180.401 300.548,180.401 300.22,180.243 300.22,180.243 300.22,180.243 302.348,180.581 302.348,180.581 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ddb4f0c4a8de466895a4d24b569a3e97" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 293.429,179.984 C 293.429,179.984 292.967,179.762 292.967,179.762 292.967,179.762 295.774,180.181 295.774,180.181 295.774,180.181 296.216,180.394 296.216,180.394 296.216,180.394 293.429,179.984 293.429,179.984 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_aeac4524be0145eea5f7106433246b44" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 293.937,180.228 C 293.937,180.228 293.49,180.013 293.49,180.013 293.49,180.013 296.277,180.423 296.277,180.423 296.277,180.423 296.704,180.628 296.704,180.628 296.704,180.628 293.937,180.228 293.937,180.228 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_312530d6b6dd428aa8ff825532c2d3b9" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 305.378,182.037 C 305.378,182.037 305.667,182.176 305.667,182.176 305.667,182.176 303.653,181.893 303.653,181.893 303.653,181.893 303.352,181.749 303.352,181.749 303.352,181.749 305.378,182.037 305.378,182.037 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_90f2072e65da486aad435bf3748d9f1e" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 294.395,180.448 C 294.395,180.448 294.004,180.26 294.004,180.26 294.004,180.26 296.771,180.66 296.771,180.66 296.771,180.66 297.144,180.84 297.144,180.84 297.144,180.84 294.395,180.448 294.395,180.448 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_dc42e4ba173847d3b447e7736ebaf64a" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 288.824,178.412 C 288.824,178.412 286.073,177.976 286.073,177.976 286.073,177.976 285.683,177.789 285.683,177.789 285.683,177.789 288.45,178.233 288.45,178.233 288.45,178.233 288.824,178.412 288.824,178.412 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_8f23f14575b543c2809a3b95c42ad305" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 300.147,180.208 C 300.147,180.208 299.84,180.061 299.84,180.061 299.84,180.061 301.98,180.404 301.98,180.404 301.98,180.404 302.275,180.546 302.275,180.546 302.275,180.546 300.147,180.208 300.147,180.208 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_3c0e964864f041f79af06d6b26da2204" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 290.817,178.729 C 290.817,178.729 290.455,178.555 290.455,178.555 290.455,178.555 293.359,179.021 293.359,179.021 293.359,179.021 293.704,179.187 293.704,179.187 293.704,179.187 290.817,178.729 290.817,178.729 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_605e890741754f72831fe3aac83a15a3" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 301.455,181.479 C 301.455,181.479 301.767,181.629 301.767,181.629 301.767,181.629 299.443,181.302 299.443,181.302 299.443,181.302 299.116,181.146 299.116,181.146 299.116,181.146 301.455,181.479 301.455,181.479 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_e402b44b96074338b8e01a009e7c9096" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 295.771,179.538 C 295.771,179.538 298.227,179.927 298.227,179.927 298.227,179.927 298.567,180.091 298.567,180.091 298.567,180.091 296.126,179.708 296.126,179.708 296.126,179.708 295.771,179.538 295.771,179.538 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_9268cd540edb4c60b185cf7e35dfa24c" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 289.294,178.638 C 289.294,178.638 286.56,178.21 286.56,178.21 286.56,178.21 286.147,178.011 286.147,178.011 286.147,178.011 288.897,178.448 288.897,178.448 288.897,178.448 289.294,178.638 289.294,178.638 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_9e162346ef034f68b66757afd74b7ed0" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 292.91,179.735 C 292.91,179.735 292.656,179.612 292.656,179.612 292.656,179.612 295.475,180.037 295.475,180.037 295.475,180.037 295.717,180.154 295.717,180.154 295.717,180.154 292.91,179.735 292.91,179.735 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_fdb33ad30443405fbdef391a8c9fd1c0" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 290.89,178.764 C 290.89,178.764 293.778,179.222 293.778,179.222 293.778,179.222 294.145,179.398 294.145,179.398 294.145,179.398 291.275,178.949 291.275,178.949 291.275,178.949 290.89,178.764 290.89,178.764 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_3760266019ce47688273cd7c6a24cf74" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 292.6,179.585 C 292.6,179.585 292.348,179.464 292.348,179.464 292.348,179.464 295.179,179.895 295.179,179.895 295.179,179.895 295.419,180.01 295.419,180.01 295.419,180.01 292.6,179.585 292.6,179.585 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ad573abc19d64eb182a1959ecaf3c956" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 291.769,179.186 C 291.769,179.186 291.341,178.98 291.341,178.98 291.341,178.98 294.211,179.43 294.211,179.43 294.211,179.43 294.619,179.626 294.619,179.626 294.619,179.626 291.769,179.186 291.769,179.186 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_1affd84d3b4f47f4a2d3cbda36f430f0" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 291.829,179.215 C 291.829,179.215 294.679,179.655 294.679,179.655 294.679,179.655 295.122,179.868 295.122,179.868 295.122,179.868 292.291,179.437 292.291,179.437 292.291,179.437 291.829,179.215 291.829,179.215 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_c4babfd072174e12a343d5e4f24af754" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 301.708,180.958 C 301.708,180.958 301.494,180.856 301.494,180.856 301.494,180.856 303.58,181.173 303.58,181.173 303.58,181.173 303.785,181.271 303.785,181.271 303.785,181.271 301.708,180.958 301.708,180.958 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_b27bf3b6f386457f8bdacabd1c42ffb3" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 285.602,177.75 C 285.602,177.75 285.243,177.577 285.243,177.577 285.243,177.577 288.024,178.028 288.024,178.028 288.024,178.028 288.369,178.194 288.369,178.194 288.369,178.194 285.602,177.75 285.602,177.75 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_5f4c1afb6a05486b9ae16736bf320b3e" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 285.122,178.16 C 285.122,178.16 281.392,177.584 281.392,177.584 281.392,177.584 280.891,177.344 280.891,177.344 280.891,177.344 284.647,177.932 284.647,177.932 284.647,177.932 285.122,178.16 285.122,178.16 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_b0734f18634b442398b001eda73750b1" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 297.639,181.077 C 297.639,181.077 297.957,181.23 297.957,181.23 297.957,181.23 295.24,180.854 295.24,180.854 295.24,180.854 294.906,180.694 294.906,180.694 294.906,180.694 297.639,181.077 297.639,181.077 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_3153788462ca447bbfb7afc36cf83f3f" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 291.506,179.701 C 291.506,179.701 288.851,179.311 288.851,179.311 288.851,179.311 288.355,179.073 288.355,179.073 288.355,179.073 291.029,179.472 291.029,179.472 291.029,179.472 291.506,179.701 291.506,179.701 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_a17231f79a2f430db18fd5aaaa29c818" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 288.533,179.799 C 288.533,179.799 288.904,179.978 288.904,179.978 288.904,179.978 285.348,179.486 285.348,179.486 285.348,179.486 284.956,179.298 284.956,179.298 284.956,179.298 288.533,179.799 288.533,179.799 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_37e5b6565ece440d8c5bc68addd2a32b" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 282.336,178.038 C 282.336,178.038 281.476,177.625 281.476,177.625 281.476,177.625 281.452,177.613 281.452,177.613 281.452,177.613 285.182,178.189 285.182,178.189 285.182,178.189 286.026,178.594 286.026,178.594 286.026,178.594 282.336,178.038 282.336,178.038 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_0f012bfad347410eb3abc1b7332e73ef" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 290.374,178.516 C 290.374,178.516 290.039,178.355 290.039,178.355 290.039,178.355 292.959,178.828 292.959,178.828 292.959,178.828 293.278,178.982 293.278,178.982 293.278,178.982 290.374,178.516 290.374,178.516 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_f54c6affdc5a4519ae156606761cb4ed" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 293.02,180.429 C 293.02,180.429 293.365,180.595 293.365,180.595 293.365,180.595 290.777,180.237 290.777,180.237 290.777,180.237 290.417,180.064 290.417,180.064 290.417,180.064 293.02,180.429 293.02,180.429 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_fe416b96a5d1441985476b780f74d565" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 299.759,180.022 C 299.759,180.022 299.474,179.885 299.474,179.885 299.474,179.885 301.626,180.234 301.626,180.234 301.626,180.234 301.899,180.365 301.899,180.365 301.899,180.365 299.759,180.022 299.759,180.022 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_b6ccdeb752594af0abd1e7adedefbe1c" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 283.281,178.492 C 283.281,178.492 282.392,178.065 282.392,178.065 282.392,178.065 286.082,178.621 286.082,178.621 286.082,178.621 286.929,179.029 286.929,179.029 286.929,179.029 283.281,178.492 283.281,178.492 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_dfe8464aa120433bae15e796d47eb072" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 295.283,179.303 C 295.283,179.303 294.975,179.155 294.975,179.155 294.975,179.155 297.458,179.558 297.458,179.558 297.458,179.558 297.754,179.7 297.754,179.7 297.754,179.7 295.283,179.303 295.283,179.303 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_f112de3f11634ab9b22603ccd66a044d" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 284.874,179.258 C 284.874,179.258 284.458,179.058 284.458,179.058 284.458,179.058 288.057,179.571 288.057,179.571 288.057,179.571 288.451,179.76 288.451,179.76 288.451,179.76 284.874,179.258 284.874,179.258 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_c9ec37cace4e4a27bb1106b697362d56" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 301.849,181.668 C 301.849,181.668 302.143,181.81 302.143,181.81 302.143,181.81 299.833,181.49 299.833,181.49 299.833,181.49 299.525,181.342 299.525,181.342 299.525,181.342 301.849,181.668 301.849,181.668 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_3a1a293c67a0420e89ea8304f83aa975" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 303.735,181.933 C 303.735,181.933 305.749,182.215 305.749,182.215 305.749,182.215 306.021,182.346 306.021,182.346 306.021,182.346 304.019,182.069 304.019,182.069 304.019,182.069 303.735,181.933 303.735,181.933 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_47e66ac03266499299fa4ed87d975e12" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 292.027,179.952 C 292.027,179.952 289.391,179.571 289.391,179.571 289.391,179.571 288.911,179.34 288.911,179.34 288.911,179.34 291.566,179.73 291.566,179.73 291.566,179.73 292.027,179.952 292.027,179.952 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_7ccf7f0252334b7d93483832105c6c3e" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 292.571,180.213 C 292.571,180.213 292.938,180.39 292.938,180.39 292.938,180.39 290.335,180.024 290.335,180.024 290.335,180.024 289.953,179.841 289.953,179.841 289.953,179.841 292.571,180.213 292.571,180.213 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_e5cd6bb8d2ba4608a6dcc838e3522b35" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 284.581,177.9 C 284.581,177.9 280.825,177.312 280.825,177.312 280.825,177.312 280.376,177.096 280.376,177.096 280.376,177.096 284.156,177.696 284.156,177.696 284.156,177.696 284.581,177.9 284.581,177.9 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ab858d78602c4c34b9a00cd54eedd8c6" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 287.983,179.535 C 287.983,179.535 284.384,179.022 284.384,179.022 284.384,179.022 283.928,178.803 283.928,178.803 283.928,178.803 287.55,179.327 287.55,179.327 287.55,179.327 287.983,179.535 287.983,179.535 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ebde15161d1a4995b2efc5d54567196b" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 297.218,180.875 C 297.218,180.875 297.556,181.038 297.556,181.038 297.556,181.038 294.824,180.654 294.824,180.654 294.824,180.654 294.469,180.484 294.469,180.484 294.469,180.484 297.218,180.875 297.218,180.875 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ef3e97cb7b3d4c299ef4d056d9f42a2b" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 301.038,180.636 C 301.038,180.636 303.138,180.961 303.138,180.961 303.138,180.961 303.162,180.972 303.162,180.972 303.162,180.972 303.524,181.146 303.524,181.146 303.524,181.146 301.437,180.829 301.437,180.829 301.437,180.829 301.038,180.636 301.038,180.636 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_b494ee79a04540bb9884d83467c7be56" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 287.483,179.295 C 287.483,179.295 283.861,178.771 283.861,178.771 283.861,178.771 283.342,178.522 283.342,178.522 283.342,178.522 286.99,179.058 286.99,179.058 286.99,179.058 287.483,179.295 287.483,179.295 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_1c244b7b82df4f28811e2668975c4806" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 292.497,180.178 C 292.497,180.178 289.878,179.805 289.878,179.805 289.878,179.805 289.458,179.603 289.458,179.603 289.458,179.603 292.094,179.984 292.094,179.984 292.094,179.984 292.497,180.178 292.497,180.178 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_9f210980fef44da69c14f5bbea28112b" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 283.599,177.428 C 283.599,177.428 279.797,176.818 279.797,176.818 279.797,176.818 279.407,176.631 279.407,176.631 279.407,176.631 283.229,177.25 283.229,177.25 283.229,177.25 283.599,177.428 283.599,177.428 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ba4d6d6e3eda41869dd095f3a051dc45" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 284.082,177.66 C 284.082,177.66 280.303,177.061 280.303,177.061 280.303,177.061 279.879,176.857 279.879,176.857 279.879,176.857 283.681,177.467 283.681,177.467 283.681,177.467 284.082,177.66 284.082,177.66 Z" sodipodi:nodetypes="cccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_f65ce32283f0488e84f2fa219ac0e39f" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 274.931,176.922 C 274.931,176.922 273.964,176.458 273.964,176.458 273.964,176.458 279.44,177.303 279.44,177.303 279.448,177.307 279.456,177.31 279.464,177.314 279.797,177.474 280.092,177.616 280.349,177.739 280.349,177.739 274.931,176.922 274.931,176.922 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_9a3019f4e88f4b76b146ec4fa86bc1a7" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 274.035,177.133 C 274.035,177.133 270.533,176.619 270.533,176.619 270.533,176.619 268.435,175.612 268.435,175.612 268.435,175.612 268.411,175.6 268.411,175.6 268.411,175.6 271.997,176.154 271.997,176.154 271.997,176.154 274.035,177.133 274.035,177.133 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                        </g>
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Fill_ce98c9598e9f48d1838280236bf62a2f" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                            <path d="M 281.329,178.206 C 281.329,178.206 275.959,177.416 275.959,177.416 275.959,177.416 274.987,176.949 274.987,176.949 274.987,176.949 280.405,177.766 280.405,177.766 280.832,177.97 281.143,178.118 281.329,178.206 281.329,178.206 281.329,178.206 281.329,178.206 Z" sodipodi:nodetypes="ccccc" style="stroke:none;"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <animateTransform attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 1.000000 1.000000" keyTimes="0.000000; 0.500000; 0.994444; 1" repeatCount="indefinite" type="rotate" values="0; -14.148; 0; 0"/>
+                                    </g>
+                                    <animateMotion attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000" keyTimes="0.000000; 0.500000; 0.994444" path="M 286.459,182.204 C 286.459,182.204 293.46,176.759 293.46,176.759 293.46,176.759 286.459,182.204 286.459,182.204" repeatCount="indefinite" values="; ; "/>
+                                </g>
+                                <g transform="translate(241.223 171.898)">
+                                    <g transform="rotate(-7.36939)">
+                                        <g transform="scale(1 1)">
+                                            <g transform="translate(-235.653 -170.115)">
+                                                <g id="Group_b239f21044c4409db99b44377cf83c31" inkscape:label="ArmRight" opacity="1">
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Fill_38c33b6fd8384b198079bcaa6f7ba3b5" inkscape:label="Group" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 235.879,164.993 C 241.59,163.975 253.589,165.477 264.295,169.396 275,173.315 287.09,186.824 286.664,187.685 286.238,188.546 285.105,188.106 281.769,187.503 278.433,186.9 274.585,188.06 272.827,189.065 271.069,190.07 266.769,189.048 266.769,189.048 266.769,189.048 243.908,181.762 240.878,180.461 236.976,178.785 235.306,175.254 235.306,175.254" sodipodi:nodetypes="cccccccc" style="stroke:none;"/>
+                                                    </g>
+                                                    <g fill="#00b7ff" fill-opacity="1" id="Stroke_dcdd130ae76f46fd9a2062c074f4d92a" inkscape:label="Group" opacity="1" stroke="#2e374a" stroke-opacity="1" stroke-width="0.5" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                        <path d="M 235.879,164.993 C 241.59,163.975 253.589,165.477 264.295,169.396 275,173.315 287.09,186.824 286.664,187.685 286.238,188.546 285.105,188.106 281.769,187.503 278.433,186.9 274.585,188.06 272.827,189.065 271.069,190.07 266.769,189.048 266.769,189.048 266.769,189.048 243.908,181.762 240.878,180.461 236.976,178.785 235.306,175.254 235.306,175.254" sodipodi:nodetypes="cccccccc" style="stroke:none;"/>
+                                                        <path d="M 235.879,164.993 C 241.59,163.975 253.589,165.477 264.295,169.396 275,173.315 287.09,186.824 286.664,187.685 286.238,188.546 285.105,188.106 281.769,187.503 278.433,186.9 274.585,188.06 272.827,189.065 271.069,190.07 266.769,189.048 266.769,189.048 266.769,189.048 243.908,181.762 240.878,180.461 236.976,178.785 235.306,175.254 235.306,175.254" sodipodi:nodetypes="cccccccc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <animateTransform attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 1.000000 1.000000" keyTimes="0.000000; 0.500000; 0.994444; 1" repeatCount="indefinite" type="rotate" values="0; -8.57655; 0; 0"/>
+                                    </g>
+                                    <animateMotion attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000" keyTimes="0.000000; 0.500000; 0.994444" path="M 235.653,170.115 C 235.653,170.115 242.135,172.19 242.135,172.19 242.135,172.19 235.653,170.115 235.653,170.115" repeatCount="indefinite" values="; ; "/>
+                                </g>
+                                <g id="Group_663af4646f8e4841873c0e2633e47010" inkscape:label="EyeLeft" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <g transform="translate(256.034 139.738)">
+                                        <g transform="rotate(0)">
+                                            <g transform="scale(1 1)">
+                                                <g transform="translate(-255.565 -139.679)">
+                                                    <g id="Group_23886851b2934c69b7ff46e471496ce7" inkscape:label="Pupil" opacity="1">
+                                                        <g fill="#00b7ff" fill-opacity="1" id="Stroke_c1971ed8fce24ff39bc6002ddeae4991" inkscape:label="Path 2" opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="4" transform="matrix(0.328604, 0.00593952, -0.00593952, 0.328604, 206.528, 113.598)">
+                                                            <path d="M 149.503,73.5864 C 149.503,73.5864 152.088,79.08 152.088,79.08" sodipodi:nodetypes="cc" style="stroke:none;"/>
+                                                            <path d="M 149.503,73.5864 C 149.503,73.5864 152.088,79.08 152.088,79.08" sodipodi:nodetypes="cc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <animateMotion attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000" keyTimes="0.000000; 0.500000; 0.994444" path="M 256.015,139.881 C 256.015,139.881 256.037,139.714 256.037,139.714 256.037,139.714 256.015,139.881 256.015,139.881" repeatCount="indefinite" values="; ; "/>
+                                    </g>
+                                </g>
+                                <g id="Group_48378bc8de464ed9b14675db0f89e5b0" inkscape:label="EyeRight" opacity="1" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                    <g transform="translate(250.625 140.525)">
+                                        <g transform="rotate(0)">
+                                            <g transform="scale(0.851546 0.809469)">
+                                                <g transform="translate(-250.595 -140.674)">
+                                                    <g id="Group_55d12d13908b4d82ac78e23036e8f973" inkscape:label="EyeRightPupil" opacity="1">
+                                                        <g fill="#ffffff" fill-opacity="1" id="Stroke_40ca1475bef441ad8b9af04d3e25b9ab" inkscape:label="Path 1" opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="4" transform="matrix(0.328658, 0, 0, 0.328658, 204.975, 114.268)">
+                                                            <path d="M 137.708,74.879 C 137.708,74.879 137.223,83.6042 137.223,83.6042" sodipodi:nodetypes="cc" style="stroke:none;"/>
+                                                            <path d="M 137.708,74.879 C 137.708,74.879 137.223,83.6042 137.223,83.6042" sodipodi:nodetypes="cc" style="fill:none;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <animateMotion attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000" keyTimes="0.000000; 0.500000; 0.994444" path="M 250.595,140.674 C 250.595,140.674 250.63,140.5 250.63,140.5 250.63,140.5 250.595,140.674 250.595,140.674" repeatCount="indefinite" values="; ; "/>
+                                    </g>
+                                </g>
+                                <g transform="translate(250.784 146.014)">
+                                    <g transform="rotate(-11.9363)">
+                                        <g transform="scale(1 1)">
+                                            <g transform="translate(-250.784 -146.014)">
+                                                <g id="Group_c7942f394a21462888b208d74ee4d18b" inkscape:label="BeakBottom" opacity="1">
+                                                    <g id="Stroke_c46c7607bb8246ef93e9afda5ee65e08" inkscape:label="Path" opacity="1" stroke="#000000" stroke-opacity="1" stroke-width="3" transform="matrix(0.328658, 0, 0, 0.328658, 202.426, 113.791)">
+                                                        <path d="M 142.878,93.7837 C 146.18,104.195 149.227,97.0835 162.752,98.9542 171.041,100.101 171.316,94.9147 171.316,94.9147" sodipodi:nodetypes="ssc" style="fill:none;stroke-dasharray:none;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <animateTransform attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 1.000000 1.000000" keyTimes="0.000000; 0.500000; 0.994444; 1" repeatCount="indefinite" type="rotate" values="0; -13.8916; 0; 0"/>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <animateTransform attributeName="transform" begin="0.000000" calcMode="spline" dur="3.000000" keySplines="0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 0.666667 1.000000; 0.333333 0.000000 1.000000 1.000000" keyTimes="0.000000; 0.500000; 0.994444; 1" repeatCount="indefinite" type="rotate" values="0; -1.06601; 0; 0"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
