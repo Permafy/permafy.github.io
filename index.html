@@ -53,6 +53,24 @@
 		<link href="./_app/immutable/assets/2.Dm2PJLeJ.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/LoadingSpinner.DwUP3A9q.css" rel="stylesheet">
 		<link href="./recent-commits.css" rel="stylesheet">
+		<script>
+			(() => {
+				const hidePenguinNews = () => {
+					document.querySelectorAll('[data-penguinmodsvelteui-category="true"]').forEach((category) => {
+						const heading = category.querySelector('[data-penguinmodsvelteui-category-headertext="true"]');
+						if (heading && heading.textContent.trim() === 'PenguinNews') {
+							category.classList.add('recent-commits-pending');
+						}
+					});
+				};
+				new MutationObserver(hidePenguinNews).observe(document.documentElement, {
+					childList: true,
+					characterData: true,
+					subtree: true
+				});
+				hidePenguinNews();
+			})();
+		</script>
 
         <style>
             body {

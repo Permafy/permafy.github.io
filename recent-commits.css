@@ -7,6 +7,10 @@
     --commits-link: #f4f5f6;
 }
 
+.recent-commits-pending {
+    visibility: hidden !important;
+}
+
 .recent-commits-category .category-header {
     border-color: var(--commits-border) !important;
 }

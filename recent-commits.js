@@ -4,6 +4,16 @@
     const organization = 'Permafy';
     const api = 'https://api.github.com';
     const categorySelector = '[data-penguinmodsvelteui-category="true"]';
+    const cacheDuration = 5 * 60 * 1000;
+    const feedCacheKey = 'permafy:recent-commits:v1';
+    const repositoryCacheKey = 'permafy:recent-commit-repositories:v1';
+    const fallbackRepositoryNames = [
+        'projects', 'compiler', 'extensions', 'docs', 'decompiler', 'scratch-flash',
+        'blockder', 'permafy-0-2', 'bin2fix', 'backend-api', 'Lithium-scratchMod',
+        'scratch-flashz',
+        'studio', 'permafy.github.io'
+    ];
+    let feedPromise;
     const stateLabels = {
         deploying: 'Deploying',
         progress: 'In progress',
@@ -31,6 +41,43 @@
             }
             return response.json();
         });
+    }
+
+    function readCache(key) {
+        try {
+            const cached = JSON.parse(localStorage.getItem(key) || 'null');
+            return cached && Array.isArray(cached.items) ? cached : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    function writeCache(key, items) {
+        try {
+            localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), items }));
+        } catch (error) {
+            // Storage can be disabled or full; the live feed still works without it.
+        }
+    }
+
+    function fallbackRepositories() {
+        return fallbackRepositoryNames.map((name) => ({
+            name,
+            full_name: `${organization}/${name}`,
+            html_url: `https://github.com/${organization}/${encodeURIComponent(name)}`
+        }));
+    }
+
+    async function getRepositories() {
+        try {
+            const repositories = await requestJSON(`${api}/orgs/${organization}/repos?per_page=100&type=public`);
+            if (!Array.isArray(repositories)) throw new Error('Unexpected repositories response');
+            writeCache(repositoryCacheKey, repositories);
+            return repositories;
+        } catch (error) {
+            const cached = readCache(repositoryCacheKey);
+            return cached?.items?.length ? cached.items : fallbackRepositories();
+        }
     }
 
     async function mapLimit(items, limit, callback) {
@@ -156,25 +203,22 @@
         return card;
     }
 
-    function render(category, items, error) {
+    function render(category, items) {
         const container = category.querySelector('[data-penguinmodsvelteui-category-container="true"]');
         if (!container) return;
 
         const list = makeElement('div', 'recent-commits-list');
-        if (error) {
-            list.append(makeElement('p', 'recent-commits-message', 'GitHub commits are temporarily unavailable. Please try again later.'));
-        } else {
-            items
-                .sort((a, b) => new Date(b.commit?.commit.author.date || 0) - new Date(a.commit?.commit.author.date || 0))
-                .forEach((item) => list.append(makeCard(item)));
-        }
+        items
+            .sort((a, b) => new Date(b.commit?.commit.author.date || 0) - new Date(a.commit?.commit.author.date || 0))
+            .forEach((item) => list.append(makeCard(item)));
         container.replaceChildren(list);
     }
 
     async function initialize(category) {
         const title = category.querySelector('[data-penguinmodsvelteui-category-headertext="true"]');
         const container = category.querySelector('[data-penguinmodsvelteui-category-container="true"]');
-        if (!title || !container || category.dataset.recentCommitsReady) return;
+        if (!title || !container) return;
+        const alreadyReady = category.dataset.recentCommitsReady === 'true';
         category.dataset.recentCommitsReady = 'true';
         category.classList.add('recent-commits-category');
         title.textContent = 'Recent Commits';
@@ -186,31 +230,46 @@
             more.setAttribute('aria-label', 'See all Permafy repositories on GitHub');
         }
 
-        render(category, []);
-        const list = container.querySelector('.recent-commits-list');
-        list.append(makeElement('p', 'recent-commits-message', 'Loading recent commits…'));
+        const cachedFeed = readCache(feedCacheKey);
+        if (!container.querySelector('.recent-commits-list')) {
+            if (cachedFeed?.items?.length) {
+                render(category, cachedFeed.items);
+            } else {
+                render(category, []);
+                container.querySelector('.recent-commits-list').append(
+                    makeElement('p', 'recent-commits-message', 'Loading recent commits…')
+                );
+            }
+        }
+        category.classList.remove('recent-commits-pending');
+        if (alreadyReady) return;
 
-        try {
-            const repositories = await requestJSON(`${api}/orgs/${organization}/repos?per_page=100&type=public`);
-            const items = await mapLimit(repositories, 5, loadRepository);
-            render(category, items);
-        } catch (error) {
-            render(category, [], error);
+        if (!cachedFeed || Date.now() - cachedFeed.savedAt >= cacheDuration) {
+            feedPromise = (async () => {
+                const repositories = await getRepositories();
+                return mapLimit(repositories, 4, loadRepository);
+            })();
+        }
+
+        if (feedPromise) {
+            try {
+                const items = await feedPromise;
+                render(category, items);
+                writeCache(feedCacheKey, items);
+            } catch (error) {
+                if (!cachedFeed?.items?.length) {
+                    render(category, fallbackRepositories().map((repo) => ({ repo, error })));
+                }
+            }
         }
     }
 
-    let timer;
     const observer = new MutationObserver(() => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            const category = findCategory();
-            if (category) initialize(category);
-        }, 500);
+        const category = findCategory();
+        if (category) initialize(category);
     });
 
     observer.observe(document.documentElement, { childList: true, characterData: true, subtree: true });
-    timer = setTimeout(() => {
-        const category = findCategory();
-        if (category) initialize(category);
-    }, 500);
+    const category = findCategory();
+    if (category) initialize(category);
 })();
