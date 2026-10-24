@@ -4,15 +4,8 @@
     const organization = 'Permafy';
     const api = 'https://api.github.com';
     const categorySelector = '[data-penguinmodsvelteui-category="true"]';
-    const cacheDuration = 5 * 60 * 1000;
+    const refreshInterval = 5 * 60 * 1000;
     const feedCacheKey = 'permafy:recent-commits:v1';
-    const repositoryCacheKey = 'permafy:recent-commit-repositories:v1';
-    const fallbackRepositoryNames = [
-        'projects', 'compiler', 'extensions', 'docs', 'decompiler', 'scratch-flash',
-        'blockder', 'permafy-0-2', 'bin2fix', 'backend-api', 'Lithium-scratchMod',
-        'scratch-flashz',
-        'studio', 'permafy.github.io'
-    ];
     let feedPromise;
     const stateLabels = {
         deploying: 'Deploying',
@@ -58,31 +51,11 @@
         }
     }
 
-    function writeCache(key, items) {
+    function writeCache(key, items, extra = {}) {
         try {
-            localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), items }));
+            localStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), items, ...extra }));
         } catch (error) {
             // Storage can be disabled or full; the live feed still works without it.
-        }
-    }
-
-    function fallbackRepositories() {
-        return fallbackRepositoryNames.map((name) => ({
-            name,
-            full_name: `${organization}/${name}`,
-            html_url: `https://github.com/${organization}/${encodeURIComponent(name)}`
-        }));
-    }
-
-    async function getRepositories() {
-        try {
-            const repositories = await requestJSON(`${api}/orgs/${organization}/repos?per_page=100&type=public`);
-            if (!Array.isArray(repositories)) throw new Error('Unexpected repositories response');
-            writeCache(repositoryCacheKey, repositories);
-            return repositories;
-        } catch (error) {
-            const cached = readCache(repositoryCacheKey);
-            return cached?.items?.length ? cached.items : fallbackRepositories();
         }
     }
 
@@ -139,18 +112,26 @@
         return getCommitState(checks, statuses);
     }
 
-    async function loadRepository(repo) {
-        const commits = await requestJSON(`${api}/repos/${repo.full_name}/commits?per_page=1`);
-        const commit = commits[0];
-        if (!commit) return { repo, empty: true };
-
-        let state;
-        try {
-            state = await getStatus(repo, commit.sha);
-        } catch (error) {
-            state = 'unavailable';
-        }
-        return { repo, commit, state };
+    async function loadPushEvent(event) {
+        const fullName = event.repo.name;
+        const repo = {
+            name: fullName.split('/').pop(),
+            full_name: fullName,
+            html_url: `https://github.com/${fullName}`
+        };
+        const { before, head, ref } = event.payload;
+        const compare = await requestJSON(
+            `${api}/repos/${fullName}/compare/${before}...${head}`
+        );
+        const items = (compare.commits || []).map((commit) => ({
+            repo,
+            commit,
+            actor: event.actor,
+            branch: ref?.replace(/^refs\/heads\//, ''),
+            pushedAt: event.created_at,
+            state: 'unavailable'
+        }));
+        return { pushId: String(event.payload.push_id), items };
     }
 
     function makeElement(tag, className, text) {
@@ -162,8 +143,8 @@
 
     function makeCard(item) {
         const card = makeElement('article', 'recent-commit-card');
-        const avatarUrl = item.commit && item.commit.author && item.commit.author.avatar_url;
-        const author = item.commit && (item.commit.author?.login || item.commit.commit.author.name) || 'Unknown author';
+        const avatarUrl = item.commit?.author?.avatar_url || item.actor?.avatar_url;
+        const author = item.commit?.author?.login || item.actor?.login || item.commit?.commit.author.name || 'Unknown author';
         const subject = item.commit && item.commit.commit.message.split('\n')[0] || 'Could not load latest commit';
         const head = makeElement('div', 'recent-commit-head');
         const identity = makeElement('div', 'recent-commit-identity');
@@ -209,15 +190,76 @@
         return card;
     }
 
-    function render(category, items) {
+    function render(category, items, emptyMessage = 'No recent commits found.') {
         const container = category.querySelector('[data-penguinmodsvelteui-category-container="true"]');
         if (!container) return;
 
         const list = makeElement('div', 'recent-commits-list');
-        items
-            .sort((a, b) => new Date(b.commit?.commit.author.date || 0) - new Date(a.commit?.commit.author.date || 0))
-            .forEach((item) => list.append(makeCard(item)));
+        if (items.length) {
+            items
+                .sort((a, b) => new Date(b.commit?.commit.author.date || 0) - new Date(a.commit?.commit.author.date || 0))
+                .forEach((item) => list.append(makeCard(item)));
+        } else {
+            list.append(makeElement('p', 'recent-commits-message', emptyMessage));
+        }
         container.replaceChildren(list);
+    }
+
+    function refreshFeed(category) {
+        if (feedPromise) return feedPromise;
+
+        feedPromise = (async () => {
+            const cached = readCache(feedCacheKey);
+            const seenPushIds = new Set(cached?.seenPushIds || []);
+            const events = await requestJSON(`${api}/orgs/${organization}/events?per_page=100`);
+            if (!Array.isArray(events)) throw new Error('Unexpected events response');
+
+            const recentPushes = events
+                .filter((event) => event.type === 'PushEvent' && event.payload?.head && event.payload?.before && event.payload?.push_id)
+                .slice(0, 10);
+            const newPushes = recentPushes.filter((event) => !seenPushIds.has(String(event.payload.push_id)));
+            const results = await mapLimit(newPushes, 4, loadPushEvent);
+            const discovered = [];
+
+            results.forEach((result) => {
+                if (result.error) return;
+                seenPushIds.add(result.pushId);
+                discovered.push(...result.items);
+            });
+
+            const uniqueDiscovered = Array.from(new Map(discovered.map((item) => [item.commit.sha, item])).values())
+                .sort((a, b) => new Date(b.commit.commit.author.date) - new Date(a.commit.commit.author.date));
+            render(category, [...uniqueDiscovered, ...(cached?.items || [])]
+                .filter((item, index, all) => all.findIndex((candidate) => candidate.commit.sha === item.commit.sha) === index)
+                .sort((a, b) => new Date(b.commit.commit.author.date) - new Date(a.commit.commit.author.date))
+                .slice(0, 30));
+
+            const commitsToCheck = uniqueDiscovered.slice(0, 12);
+            const checkedCommits = await mapLimit(commitsToCheck, 4, async (item) => ({
+                ...item,
+                state: await getStatus(item.repo, item.commit.sha).catch(() => 'unavailable')
+            }));
+            const checkedBySha = new Map(checkedCommits.map((item) => [item.commit.sha, item]));
+            const items = [...uniqueDiscovered, ...(cached?.items || [])]
+                .map((item) => checkedBySha.get(item.commit.sha) || item)
+                .filter((item, index, all) => all.findIndex((candidate) => candidate.commit.sha === item.commit.sha) === index)
+                .sort((a, b) => new Date(b.commit.commit.author.date) - new Date(a.commit.commit.author.date))
+                .slice(0, 30);
+
+            writeCache(feedCacheKey, items, { seenPushIds: Array.from(seenPushIds).slice(-100) });
+            render(category, items);
+        })().catch(() => {
+            const cached = readCache(feedCacheKey);
+            if (cached?.items?.length) {
+                render(category, cached.items);
+            } else {
+                render(category, [], 'Could not load recent commits. Retrying shortly.');
+            }
+        }).finally(() => {
+            feedPromise = null;
+        });
+
+        return feedPromise;
     }
 
     async function initialize(category) {
@@ -241,36 +283,11 @@
 
         const cachedFeed = readCache(feedCacheKey);
         if (!container.querySelector('.recent-commits-list')) {
-            if (cachedFeed?.items?.length) {
-                render(category, cachedFeed.items);
-            } else {
-                render(category, []);
-                container.querySelector('.recent-commits-list').append(
-                    makeElement('p', 'recent-commits-message', 'Loading recent commits…')
-                );
-            }
+            render(category, cachedFeed?.items || [], 'Loading recent commits…');
         }
         category.classList.remove('recent-commits-pending');
         if (alreadyReady) return;
-
-        if (!cachedFeed || Date.now() - cachedFeed.savedAt >= cacheDuration) {
-            feedPromise = (async () => {
-                const repositories = await getRepositories();
-                return mapLimit(repositories, 4, loadRepository);
-            })();
-        }
-
-        if (feedPromise) {
-            try {
-                const items = await feedPromise;
-                render(category, items);
-                writeCache(feedCacheKey, items);
-            } catch (error) {
-                if (!cachedFeed?.items?.length) {
-                    render(category, fallbackRepositories().map((repo) => ({ repo, error })));
-                }
-            }
-        }
+        refreshFeed(category);
     }
 
     const observer = new MutationObserver(() => {
@@ -281,4 +298,8 @@
     observer.observe(document.documentElement, { childList: true, characterData: true, subtree: true });
     const category = findCategory();
     if (category) initialize(category);
+    setInterval(() => {
+        const currentCategory = findCategory();
+        if (currentCategory) refreshFeed(currentCategory);
+    }, refreshInterval);
 })();
