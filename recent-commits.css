@@ -1,0 +1,172 @@
+.recent-commits-category {
+    --commits-panel: #17191d;
+    --commits-card: #202328;
+    --commits-border: #42464d;
+    --commits-text: #f4f5f6;
+    --commits-muted: #bbc0c7;
+    --commits-link: #f4f5f6;
+}
+
+.recent-commits-category .category-header {
+    border-color: var(--commits-border) !important;
+}
+
+.recent-commits-category .category-header-text,
+.recent-commits-category .category-header-secondary,
+.recent-commits-category .category-header-secondary a {
+    color: var(--commits-text) !important;
+}
+
+.recent-commits-category .category-container {
+    max-height: min(680px, 70vh);
+    overflow: auto;
+    padding: 4px;
+    border: 1px solid var(--commits-border);
+    border-radius: 8px;
+    background: var(--commits-panel);
+    scrollbar-color: #696f78 var(--commits-panel);
+}
+
+.recent-commits-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    color: var(--commits-text);
+}
+
+.recent-commit-card {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--commits-border);
+    border-radius: 6px;
+    background: var(--commits-card);
+    color: var(--commits-text);
+}
+
+.recent-commit-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+}
+
+.recent-commit-avatar {
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--commits-border);
+    border-radius: 5px;
+    background: #30343a;
+    object-fit: cover;
+}
+
+.recent-commit-avatar-placeholder {
+    display: grid;
+    place-items: center;
+    color: var(--commits-text);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.recent-commit-identity {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+    gap: 2px;
+}
+
+.recent-commit-repo,
+.recent-commit-message,
+.recent-commit-sha {
+    color: var(--commits-link) !important;
+    text-decoration: none;
+}
+
+.recent-commit-repo {
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recent-commit-author {
+    overflow: hidden;
+    color: var(--commits-muted);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recent-commit-state {
+    flex: 0 0 auto;
+    padding: 3px 7px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.recent-commit-state.is-deploying,
+.recent-commit-state.is-progress {
+    color: #f2c66d;
+}
+
+.recent-commit-state.is-failed {
+    color: #ff8585;
+}
+
+.recent-commit-state.is-passed {
+    color: #83d6a3;
+}
+
+.recent-commit-state.is-cancelled,
+.recent-commit-state.is-none,
+.recent-commit-state.is-unavailable {
+    color: var(--commits-muted);
+}
+
+.recent-commit-message {
+    display: -webkit-box;
+    min-height: 2.7em;
+    margin-top: 9px;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.recent-commit-sha {
+    display: inline-block;
+    margin-top: 6px;
+    color: var(--commits-muted) !important;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 12px;
+}
+
+.recent-commit-repo:hover,
+.recent-commit-message:hover,
+.recent-commit-sha:hover,
+.recent-commits-category .category-header-secondary a:hover {
+    text-decoration: underline;
+}
+
+.recent-commits-message {
+    grid-column: 1 / -1;
+    margin: 4px;
+    color: var(--commits-text);
+}
+
+@media (max-width: 640px) {
+    .recent-commits-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .recent-commits-category .category-container {
+        max-height: 65vh;
+    }
+}
