@@ -31,16 +31,22 @@
         });
     }
 
-    function requestJSON(url) {
-        return fetch(url, {
-            headers: { Accept: 'application/vnd.github+json' },
-            cache: 'default'
-        }).then((response) => {
+    async function requestJSON(url) {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        try {
+            const response = await fetch(url, {
+                headers: { Accept: 'application/vnd.github+json' },
+                cache: 'default',
+                signal: controller.signal
+            });
             if (!response.ok) {
                 throw new Error(`GitHub API returned ${response.status}`);
             }
-            return response.json();
-        });
+            return await response.json();
+        } finally {
+            clearTimeout(timeout);
+        }
     }
 
     function readCache(key) {
@@ -221,13 +227,16 @@
         const alreadyReady = category.dataset.recentCommitsReady === 'true';
         category.dataset.recentCommitsReady = 'true';
         category.classList.add('recent-commits-category');
-        title.textContent = 'Recent Commits';
+        if (title.textContent !== 'Recent Commits') title.textContent = 'Recent Commits';
 
         const more = category.querySelector('[data-penguinmodsvelteui-category-headersecondary="true"] a');
         if (more) {
-            more.href = `https://github.com/orgs/${organization}/repositories`;
-            more.textContent = 'See all repositories';
-            more.setAttribute('aria-label', 'See all Permafy repositories on GitHub');
+            const repositoriesUrl = `https://github.com/orgs/${organization}/repositories`;
+            if (more.href !== repositoriesUrl) more.href = repositoriesUrl;
+            if (more.textContent !== 'See all repositories') more.textContent = 'See all repositories';
+            if (more.getAttribute('aria-label') !== 'See all Permafy repositories on GitHub') {
+                more.setAttribute('aria-label', 'See all Permafy repositories on GitHub');
+            }
         }
 
         const cachedFeed = readCache(feedCacheKey);
